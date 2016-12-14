@@ -16,3 +16,7 @@ System contains
 
 The goal of this project is to use a VGA connector to display a 640x480 image on a monitor
 
+
+First, run the TCL script pin\_assignment\_DE0\_Nano\_SoC\_VGA_extension.tcl to get the pin assignment
+Then run the TCL script system/synthesis/submodules/hps\_sdram\_p0\_pin\_assignments.tcl
+
