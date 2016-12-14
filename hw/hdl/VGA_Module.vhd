@@ -44,9 +44,9 @@ begin
                         vga_b <= X"00";
                 elsif rising_edge(pixel_clk_25MHz) then
                         if (enable = '1') then
-                                vga_r <= "0001000";
-                                vga_g <= "0001111";
-                                vga_b <= "0001000";
+                                vga_r <= "00010000";
+                                vga_g <= "00011110";
+                                vga_b <= "00010000";
                         else
                                 vga_r <= X"00";
                                 vga_g <= X"00";
