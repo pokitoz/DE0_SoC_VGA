@@ -59,9 +59,9 @@ begin
                         if(as_write = '1') then
                                 case as_addr is
                                         when "000" => 
-                                                vga_red_reg <= as_wrdata(23 downto 16);
-                                                vga_red_reg <= as_wrdata(15 downto 8);
-                                                vga_red_reg <= as_wrdata(7 downto 0);
+                                                vga_red_reg   <= as_wrdata(23 downto 16);
+                                                vga_green_reg <= as_wrdata(15 downto 8);
+                                                vga_blue_reg  <= as_wrdata(7 downto 0);
                                         when "001" => 
                                                 null;
                                         when "010" => 
