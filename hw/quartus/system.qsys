@@ -54,6 +54,14 @@
          type = "int";
       }
    }
+   element dc_fifo_0
+   {
+      datum _sortIndex
+      {
+         value = "9";
+         type = "int";
+      }
+   }
    element hps_0
    {
       datum _sortIndex
@@ -253,7 +261,7 @@
    internal="VGA_module_0.vga_signal"
    type="conduit"
    dir="end" />
- <module name="VGA_module_0" kind="VGA_module" version="1.1" enabled="1" />
+ <module name="VGA_module_0" kind="VGA_module" version="1.2" enabled="1" />
  <module
    name="address_span_extender_0"
    kind="altera_address_span_extender"
@@ -273,6 +281,25 @@
   <parameter name="clockFrequencyKnown" value="true" />
   <parameter name="inputClockFrequency" value="0" />
   <parameter name="resetSynchronousEdges" value="NONE" />
+ </module>
+ <module
+   name="dc_fifo_0"
+   kind="altera_avalon_dc_fifo"
+   version="15.1"
+   enabled="1">
+  <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone V" />
+  <parameter name="BITS_PER_SYMBOL" value="8" />
+  <parameter name="CHANNEL_WIDTH" value="0" />
+  <parameter name="ENABLE_EXPLICIT_MAXCHANNEL" value="false" />
+  <parameter name="ERROR_WIDTH" value="0" />
+  <parameter name="EXPLICIT_MAXCHANNEL" value="0" />
+  <parameter name="FIFO_DEPTH" value="1024" />
+  <parameter name="RD_SYNC_DEPTH" value="3" />
+  <parameter name="SYMBOLS_PER_BEAT" value="1" />
+  <parameter name="USE_IN_FILL_LEVEL" value="0" />
+  <parameter name="USE_OUT_FILL_LEVEL" value="0" />
+  <parameter name="USE_PACKETS" value="0" />
+  <parameter name="WR_SYNC_DEPTH" value="3" />
  </module>
  <module name="hps_0" kind="altera_hps" version="15.1" enabled="1">
   <parameter name="ABSTRACT_REAL_COMPARE_TEST" value="false" />
@@ -835,8 +862,8 @@
   <parameter name="AUTO_DEVICE_SPEEDGRADE" value="6" />
   <parameter name="AUTO_MM_READ_ADDRESS_MAP"><![CDATA[<address-map><slave name='hps_0_bridges.f2h_sdram0_data' start='0x0' end='0x40000' /><slave name='onchip_memory2_0.s1' start='0x10100000' end='0x10104000' /></address-map>]]></parameter>
   <parameter name="AUTO_MM_READ_ADDRESS_WIDTH" value="AddressWidth = 29" />
-  <parameter name="AUTO_MM_WRITE_ADDRESS_MAP"><![CDATA[<address-map><slave name='hps_0_bridges.f2h_sdram0_data' start='0x0' end='0x40000' /><slave name='onchip_memory2_0.s1' start='0x10100000' end='0x10104000' /></address-map>]]></parameter>
-  <parameter name="AUTO_MM_WRITE_ADDRESS_WIDTH" value="AddressWidth = 29" />
+  <parameter name="AUTO_MM_WRITE_ADDRESS_MAP" value="" />
+  <parameter name="AUTO_MM_WRITE_ADDRESS_WIDTH" value="AddressWidth = -1" />
   <parameter name="BURST_ENABLE" value="1" />
   <parameter name="BURST_WRAPPING_SUPPORT" value="0" />
   <parameter name="CHANNEL_ENABLE" value="0" />
@@ -851,7 +878,7 @@
   <parameter name="MAX_BURST_COUNT" value="8" />
   <parameter name="MAX_BYTE" value="4096" />
   <parameter name="MAX_STRIDE" value="1" />
-  <parameter name="MODE" value="0" />
+  <parameter name="MODE" value="1" />
   <parameter name="PACKET_ENABLE" value="0" />
   <parameter name="PREFETCHER_DATA_WIDTH" value="32" />
   <parameter name="PREFETCHER_ENABLE" value="0" />
@@ -933,7 +960,7 @@
   <parameter name="instruction_master_high_performance_paddr_size" value="0" />
   <parameter name="instruction_master_paddr_base" value="0" />
   <parameter name="instruction_master_paddr_size" value="0" />
-  <parameter name="internalIrqMaskSystemInfo" value="3" />
+  <parameter name="internalIrqMaskSystemInfo" value="15" />
   <parameter name="io_regionbase" value="0" />
   <parameter name="io_regionsize" value="0" />
   <parameter name="master_addr_map" value="false" />
@@ -1393,23 +1420,15 @@
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
-   kind="avalon"
+   kind="avalon_streaming"
    version="15.1"
-   start="msgdma_0.mm_write"
-   end="onchip_memory2_0.s1">
-  <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x10100000" />
-  <parameter name="defaultConnection" value="false" />
- </connection>
+   start="dc_fifo_0.out"
+   end="VGA_module_0.avalon_streaming_sink" />
  <connection
-   kind="avalon"
+   kind="avalon_streaming"
    version="15.1"
-   start="msgdma_0.mm_write"
-   end="address_span_extender_0.windowed_slave">
-  <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x0000" />
-  <parameter name="defaultConnection" value="false" />
- </connection>
+   start="msgdma_0.st_source"
+   end="dc_fifo_0.in" />
  <connection kind="clock" version="15.1" start="clk_0.clk" end="nios2_gen2_0.clk" />
  <connection kind="clock" version="15.1" start="clk_0.clk" end="jtag_uart_0.clk" />
  <connection
@@ -1433,12 +1452,18 @@
    version="15.1"
    start="clk_0.clk"
    end="hps_0.f2h_sdram0_clock" />
+ <connection kind="clock" version="15.1" start="clk_0.clk" end="dc_fifo_0.in_clk" />
  <connection kind="clock" version="15.1" start="clk_0.clk" end="pll_0.refclk" />
  <connection
    kind="clock"
    version="15.1"
    start="pll_0.outclk0"
    end="VGA_module_0.clock_sink" />
+ <connection
+   kind="clock"
+   version="15.1"
+   start="pll_0.outclk0"
+   end="dc_fifo_0.out_clk" />
  <connection
    kind="interrupt"
    version="15.1"
@@ -1450,9 +1475,33 @@
    kind="interrupt"
    version="15.1"
    start="nios2_gen2_0.irq"
+   end="VGA_module_0.h_irq">
+  <parameter name="irqNumber" value="3" />
+ </connection>
+ <connection
+   kind="interrupt"
+   version="15.1"
+   start="nios2_gen2_0.irq"
    end="jtag_uart_0.irq">
   <parameter name="irqNumber" value="1" />
  </connection>
+ <connection
+   kind="interrupt"
+   version="15.1"
+   start="nios2_gen2_0.irq"
+   end="VGA_module_0.v_irq">
+  <parameter name="irqNumber" value="2" />
+ </connection>
+ <connection
+   kind="reset"
+   version="15.1"
+   start="clk_0.clk_reset"
+   end="dc_fifo_0.in_clk_reset" />
+ <connection
+   kind="reset"
+   version="15.1"
+   start="clk_0.clk_reset"
+   end="dc_fifo_0.out_clk_reset" />
  <connection
    kind="reset"
    version="15.1"
