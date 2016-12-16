@@ -5,12 +5,20 @@ use ieee.numeric_std.all;
 entity vga_module is
         port(
 
+                system_clk      : in  std_logic;                
+                rst_n           : in  std_logic;
+
                 -- 25 MHz pixel clock in
                 pixel_clk_25MHz : in  std_logic;
-                rst_n           : in  std_logic;
                 
                 vga_irq         : out std_logic;
 
+
+                -- Avalon Slave signals
+                as_wrdata       : in  std_logic_vector(31 downto 0);
+                as_write        : in  std_logic;
+                as_addr         : in std_logic_vector(2 downto 0);
+                
                 -- Output to VGA board
                 vga_r           : out std_logic_vector(7 downto 0);
                 vga_g           : out std_logic_vector(7 downto 0);
@@ -34,7 +42,41 @@ signal enable : std_logic;
 signal videoh : std_logic;
 signal videov : std_logic;
 
+signal vga_red_reg   : std_logic_vector(7 downto 0);
+signal vga_green_reg : std_logic_vector(7 downto 0);
+signal vga_blue_reg  : std_logic_vector(7 downto 0);
+
 begin
+        
+        
+        as_write_process: process(system_clk, rst_n) is
+        begin
+                if rst_n = '0' then
+                        vga_red_reg   <= X"00";
+                        vga_green_reg <= X"00";
+                        vga_blue_reg  <= X"00";
+                elsif rising_edge(system_clk) then
+                        if(as_write = '1') then
+                                case as_addr is
+                                        when "00" => 
+                                                vga_red_reg <= as_wrdata(23 downto 16);
+                                                vga_red_reg <= as_wrdata(15 downto 8);
+                                                vga_red_reg <= as_wrdata(7 downto 0);
+                                        when "01" => 
+                                                null;
+                                        when "10" => 
+                                                null;
+                                        when "11" => 
+                                                null;
+                                        when others =>
+                                                null;
+                                end case;
+                        end if;
+                end if;
+
+        end process;
+
+     
 
         p_pixel_value: process(pixel_clk_25MHz, rst_n) is
         begin
@@ -44,9 +86,9 @@ begin
                         vga_b <= X"00";
                 elsif rising_edge(pixel_clk_25MHz) then
                         if (enable = '1') then
-                                vga_r <= "00010000";
-                                vga_g <= "00011110";
-                                vga_b <= "00010000";
+                                vga_r <= vga_red_reg;
+                                vga_g <= vga_green_reg;
+                                vga_b <= vga_blue_reg;
                         else
                                 vga_r <= X"00";
                                 vga_g <= X"00";
