@@ -5,6 +5,8 @@ hw/quartus/hps_isw_handoff/
 hw/quartus/incremental_db/
 hw/quartus/output_files/
 hw/quartus/system/
+hw/quartus/hps_sdram_p0_summary.csv
+.*/
 
 
 # Object files
