@@ -16,7 +16,7 @@ entity vga_module is
                 vga_v_irq       : out std_logic;
 
                 -- Avalon Stream Source Signals
-                ss_data         : in std_logic_vector(24 downto 0);
+                ss_data         : in std_logic_vector(23 downto 0);
                 ss_ready        : out std_logic;
                 ss_valid        : in std_logic;
 
@@ -105,11 +105,11 @@ begin
 
 
 
-        read_new_data: process(pixel_clk, rst_n) is
+        read_new_data: process(pixel_clk_25MHz, rst_n) is
         begin
                 if rst_n = '0' then
                         ss_ready <= '0';
-                elsif rising_edge(pixel_clk) then
+                elsif rising_edge(pixel_clk_25MHz) then
 	                  
                         ss_ready <= '0';
                         if(v_pos < 480) then
