@@ -1,3 +1,12 @@
+hw/quartus/.qsys_edit/
+hw/quartus/*.txt
+hw/quartus/db/
+hw/quartus/hps_isw_handoff/
+hw/quartus/incremental_db/
+hw/quartus/output_files/
+hw/quartus/system/
+
+
 # Object files
 *.o
 *.ko
