@@ -58,15 +58,15 @@ begin
                 elsif rising_edge(system_clk) then
                         if(as_write = '1') then
                                 case as_addr is
-                                        when "00" => 
+                                        when "000" => 
                                                 vga_red_reg <= as_wrdata(23 downto 16);
                                                 vga_red_reg <= as_wrdata(15 downto 8);
                                                 vga_red_reg <= as_wrdata(7 downto 0);
-                                        when "01" => 
+                                        when "001" => 
                                                 null;
-                                        when "10" => 
+                                        when "010" => 
                                                 null;
-                                        when "11" => 
+                                        when "011" => 
                                                 null;
                                         when others =>
                                                 null;
