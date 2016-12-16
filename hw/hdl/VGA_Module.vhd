@@ -11,12 +11,18 @@ entity vga_module is
                 -- 25 MHz pixel clock in
                 pixel_clk_25MHz : in  std_logic;
                 
-                vga_irq         : out std_logic;
+                -- horizontal and vertical synchro
+                vga_h_irq       : out std_logic;
+                vga_v_irq       : out std_logic;
 
+                -- Avalon Stream Source Signals
+                ss_data         : in std_logic_vector(24 downto 0);
+                ss_ready        : out std_logic;
+                ss_valid        : in std_logic;
 
                 -- Avalon Slave signals
-                as_wrdata       : in  std_logic_vector(31 downto 0);
-                as_write        : in  std_logic;
+                as_wrdata       : in std_logic_vector(31 downto 0);
+                as_write        : in std_logic;
                 as_addr         : in std_logic_vector(2 downto 0);
                 
                 -- Output to VGA board
@@ -86,13 +92,34 @@ begin
                         vga_b <= X"00";
                 elsif rising_edge(pixel_clk_25MHz) then
                         if (enable = '1') then
+                                vga_r <= ss_data(24 downto 16);
+                                vga_g <= ss_data(15 downto 8);
+                                vga_b <= ss_data(7 downto 0);
+                        else
                                 vga_r <= vga_red_reg;
                                 vga_g <= vga_green_reg;
                                 vga_b <= vga_blue_reg;
-                        else
-                                vga_r <= X"00";
-                                vga_g <= X"00";
-                                vga_b <= X"00";
+                        end if;
+                end if;
+        end process;
+
+
+
+        read_new_data: process(pixel_clk, rst_n) is
+        begin
+                if rst_n = '0' then
+                        ss_ready <= '0';
+                elsif rising_edge(pixel_clk) then
+	                  
+                        ss_ready <= '0';
+                        if(v_pos < 480) then
+                                if(h_pos < 639 or h_pos = 799) then
+                                        ss_ready <= '1';
+                                end if;
+                        end if;
+			
+                        if(v_pos = 524 and h_pos >= 798) then
+                                ss_ready <= '1';
                         end if;
                 end if;
         end process;
@@ -118,7 +145,8 @@ begin
                         h_pos  <= 0;
                         vga_hsync <= '0';
                         vga_vsync <= '0';
-                        vga_irq   <= '0';
+                        vga_v_irq   <= '0';     
+                        vga_h_irq <= '0';
                 elsif (rising_edge(pixel_clk_25MHz)) then
                         -- Each clock cycle increases h_pos.
                         -- if hpos is at the end of the line increase vpos
@@ -150,9 +178,9 @@ begin
 
                 ------ VSYNC irq
                 if (481 <= v_pos and v_pos <= 482) then
-                        vga_irq  <= '1';
+                        vga_v_irq  <= '1';
                 else
-                        vga_irq  <= '0';
+                        vga_v_irq  <= '0';
                 end if;
 
                 end if;
