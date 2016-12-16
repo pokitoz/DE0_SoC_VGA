@@ -138,7 +138,11 @@ BSP_CFLAGS_DEBUG = -g
 # compiler optimization can remove variables and produce non-sequential 
 # execution of code while debugging. This setting defines the value of 
 # BSP_CFLAGS_OPTIMIZATION in Makefile. 
-BSP_CFLAGS_OPTIMIZATION = -Os
+BSP_CFLAGS_OPTIMIZATION = -O0
+
+# Custom flags passed to the compiler when compiling C, C++, and .S files. This 
+# setting defines the value of BSP_CFLAGS_USER_FLAGS in Makefile. 
+BSP_CFLAGS_USER_FLAGS = -ffunction-sections -fdata-sections
 
 # C/C++ compiler warning level. "-Wall" is commonly used.This setting defines 
 # the value of BSP_CFLAGS_WARNINGS in Makefile. 

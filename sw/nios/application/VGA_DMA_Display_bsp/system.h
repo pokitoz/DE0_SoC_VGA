@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_gen2_0' in SOPC Builder design 'system'
  * SOPC Builder design path: /home/pokitoz/Dropbox/DE0_SoC_VGA/hw/quartus/system.sopcinfo
  *
- * Generated: Thu Dec 15 13:51:06 CET 2016
+ * Generated: Fri Dec 16 20:59:58 CET 2016
  */
 
 /*
@@ -146,6 +146,7 @@
 #define __ALTERA_MSGDMA
 #define __ALTERA_NIOS2_GEN2
 #define __HPS_BRIDGE_AVALON
+#define __VGA_MODULE
 
 
 /*
@@ -185,6 +186,20 @@
 
 
 /*
+ * VGA_module_0 configuration
+ *
+ */
+
+#define ALT_MODULE_CLASS_VGA_module_0 VGA_module
+#define VGA_MODULE_0_BASE 0x10000820
+#define VGA_MODULE_0_IRQ -1
+#define VGA_MODULE_0_IRQ_INTERRUPT_CONTROLLER_ID -1
+#define VGA_MODULE_0_NAME "/dev/VGA_module_0"
+#define VGA_MODULE_0_SPAN 32
+#define VGA_MODULE_0_TYPE "VGA_module"
+
+
+/*
  * hal configuration
  *
  */
@@ -205,7 +220,7 @@
 #define HPS_0_BRIDGES_IRQ -1
 #define HPS_0_BRIDGES_IRQ_INTERRUPT_CONTROLLER_ID -1
 #define HPS_0_BRIDGES_NAME "/dev/hps_0_bridges"
-#define HPS_0_BRIDGES_SPAN 4194304
+#define HPS_0_BRIDGES_SPAN 262144
 #define HPS_0_BRIDGES_TYPE "hps_bridge_avalon"
 
 
@@ -216,7 +231,7 @@
 
 #define ALT_MODULE_CLASS_jtag_uart_0 altera_avalon_jtag_uart
 #define JTAG_UART_0_BASE 0x10000800
-#define JTAG_UART_0_IRQ 0
+#define JTAG_UART_0_IRQ 1
 #define JTAG_UART_0_IRQ_INTERRUPT_CONTROLLER_ID 0
 #define JTAG_UART_0_NAME "/dev/jtag_uart_0"
 #define JTAG_UART_0_READ_DEPTH 64
@@ -233,7 +248,7 @@
  */
 
 #define ALT_MODULE_CLASS_msgdma_0_csr altera_msgdma
-#define MSGDMA_0_CSR_BASE 0x10000820
+#define MSGDMA_0_CSR_BASE 0x10000840
 #define MSGDMA_0_CSR_BURST_ENABLE 1
 #define MSGDMA_0_CSR_BURST_WRAPPING_SUPPORT 0
 #define MSGDMA_0_CSR_CHANNEL_ENABLE 0
@@ -247,7 +262,7 @@
 #define MSGDMA_0_CSR_ERROR_ENABLE 0
 #define MSGDMA_0_CSR_ERROR_ENABLE_DERIVED 0
 #define MSGDMA_0_CSR_ERROR_WIDTH 8
-#define MSGDMA_0_CSR_IRQ 1
+#define MSGDMA_0_CSR_IRQ 0
 #define MSGDMA_0_CSR_IRQ_INTERRUPT_CONTROLLER_ID 0
 #define MSGDMA_0_CSR_MAX_BURST_COUNT 8
 #define MSGDMA_0_CSR_MAX_BYTE 4096

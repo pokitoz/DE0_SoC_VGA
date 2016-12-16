@@ -6,7 +6,7 @@
 		</buildSystem>
 		<cconfiguration id="preference.org.eclipse.cdt.managedbuilder.core.configurationDataProvider.1063093489">
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration buildProperties="" description="" id="preference.org.eclipse.cdt.managedbuilder.core.configurationDataProvider.1063093489" name="Nios II" parent="org.eclipse.cdt.build.core.prefbase.cfg">
+				<configuration artifactName="VGA_DMA_Display" buildProperties="" description="" id="preference.org.eclipse.cdt.managedbuilder.core.configurationDataProvider.1063093489" name="Nios II" parent="org.eclipse.cdt.build.core.prefbase.cfg">
 					<folderInfo id="preference.org.eclipse.cdt.managedbuilder.core.configurationDataProvider.1063093489." name="/" resourcePath="">
 						<toolChain id="altera.nios2.linux.gcc4.2033061230" name="Linux Nios II GCC4" superClass="altera.nios2.linux.gcc4">
 							<targetPlatform id="altera.nios2.linux.gcc4.687311653" name="Nios II" osList="linux" superClass="altera.nios2.linux.gcc4"/>
@@ -87,4 +87,5 @@
 			</target>
 		</buildTargets>
 	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 </cproject>

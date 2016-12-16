@@ -16,16 +16,16 @@
 <td width="20%" bgcolor="#77BBFF">CPU:</td><td>nios2_gen2_0</td>
 </tr>
 <tr mode="wrap">
-<td width="20%" bgcolor="#77BBFF">BSP Settings File:</td><td>./settings.bsp</td>
+<td width="20%" bgcolor="#77BBFF">BSP Settings File:</td><td>settings.bsp</td>
 </tr>
 <tr mode="wrap">
 <td width="20%" bgcolor="#77BBFF">BSP Version:</td><td>default</td>
 </tr>
 <tr mode="wrap">
-<td width="20%" bgcolor="#77BBFF">BSP Generated On:</td><td>Dec 15, 2016 1:51:05 PM</td>
+<td width="20%" bgcolor="#77BBFF">BSP Generated On:</td><td>Dec 16, 2016 9:31:47 PM</td>
 </tr>
 <tr mode="wrap">
-<td width="20%" bgcolor="#77BBFF">BSP Generated Timestamp:</td><td>1481806265569</td>
+<td width="20%" bgcolor="#77BBFF">BSP Generated Timestamp:</td><td>1481920307763</td>
 </tr>
 <tr mode="wrap">
 <td width="20%" bgcolor="#77BBFF">BSP Generated Location:</td><td>/home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_DMA_Display_bsp</td>
@@ -41,7 +41,10 @@
 <td>onchip_memory2_0</td><td>0x10100000 - 0x10103FFF</td><td>16384</td><td class="listing">memory</td>
 </tr>
 <tr mode="wrap" STYLE="display: 'block'; font-family: 'courier'; color: '#000000'; font-weight: '500'; font-size: '14'; margin-top: '10pt'; text-align: 'left'">
-<td>msgdma_0_csr</td><td>0x10000820 - 0x1000083F</td><td>32</td><td class="listing">&nbsp;</td>
+<td>msgdma_0_csr</td><td>0x10000840 - 0x1000085F</td><td>32</td><td class="listing">&nbsp;</td>
+</tr>
+<tr mode="wrap" STYLE="display: 'block'; font-family: 'courier'; color: '#000000'; font-weight: '500'; font-size: '14'; margin-top: '10pt'; text-align: 'left'">
+<td>VGA_module_0</td><td>0x10000820 - 0x1000083F</td><td>32</td><td class="listing">&nbsp;</td>
 </tr>
 <tr mode="wrap" STYLE="display: 'block'; font-family: 'courier'; color: '#000000'; font-weight: '500'; font-size: '14'; margin-top: '10pt'; text-align: 'left'">
 <td>msgdma_0_descriptor_slave</td><td>0x10000810 - 0x1000081F</td><td>16</td><td class="listing">&nbsp;</td>
@@ -50,7 +53,7 @@
 <td>jtag_uart_0</td><td>0x10000800 - 0x10000807</td><td>8</td><td class="listing">printable</td>
 </tr>
 <tr mode="wrap" STYLE="display: 'block'; font-family: 'courier'; color: '#000000'; font-weight: '500'; font-size: '14'; margin-top: '10pt'; text-align: 'left'">
-<td>hps_0_bridges</td><td>0x00000000 - 0x003FFFFF</td><td>4194304</td><td class="listing">&nbsp;</td>
+<td>hps_0_bridges</td><td>0x00000000 - 0x0003FFFF</td><td>262144</td><td class="listing">&nbsp;</td>
 </tr>
 </table>
 <br>
@@ -1125,7 +1128,7 @@
 <td width="20%">Default Value:</td><td>-O0</td>
 </tr>
 <tr>
-<td width="20%">Value:</td><td>-Os</td>
+<td width="20%">Value:</td><td>-O0</td>
 </tr>
 <tr>
 <td width="20%">Type:</td><td>UnquotedString</td>
@@ -1179,7 +1182,7 @@
 <td width="20%">Default Value:</td><td>none</td>
 </tr>
 <tr>
-<td width="20%">Value:</td><td>none</td>
+<td width="20%">Value:</td><td>-ffunction-sections -fdata-sections</td>
 </tr>
 <tr>
 <td width="20%">Type:</td><td>UnquotedString</td>
