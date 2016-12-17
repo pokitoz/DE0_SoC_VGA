@@ -231,6 +231,30 @@
          type = "String";
       }
    }
+   element system
+   {
+      datum _originalDeviceFamily
+      {
+         value = "Cyclone V";
+         type = "String";
+      }
+   }
+   element system
+   {
+      datum _originalDeviceFamily
+      {
+         value = "Cyclone V";
+         type = "String";
+      }
+   }
+   element system
+   {
+      datum _originalDeviceFamily
+      {
+         value = "Cyclone V";
+         type = "String";
+      }
+   }
 }
 ]]></parameter>
  <parameter name="clockCrossingAdapter" value="HANDSHAKE" />
@@ -261,7 +285,7 @@
    internal="VGA_module_0.vga_signal"
    type="conduit"
    dir="end" />
- <module name="VGA_module_0" kind="VGA_module" version="1.3" enabled="1" />
+ <module name="VGA_module_0" kind="VGA_module" version="1.4" enabled="1" />
  <module
    name="address_span_extender_0"
    kind="altera_address_span_extender"

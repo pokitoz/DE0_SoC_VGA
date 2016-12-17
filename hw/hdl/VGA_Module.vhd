@@ -12,8 +12,7 @@ entity vga_module is
                 pixel_clk_25MHz : in  std_logic;
                 
                 -- horizontal and vertical synchro
-                vga_h_irq       : out std_logic;
-                vga_v_irq       : out std_logic;
+                vga_irq         : out std_logic;
 
                 -- Avalon Stream Source Signals
                 ss_data         : in std_logic_vector(23 downto 0);
@@ -24,7 +23,9 @@ entity vga_module is
                 as_wrdata       : in std_logic_vector(31 downto 0);
                 as_write        : in std_logic;
                 as_addr         : in std_logic_vector(2 downto 0);
-                
+                as_read         : in std_logic;
+                as_rddata       : out std_logic_vector(31 downto 0);
+
                 -- Output to VGA board
                 vga_r           : out std_logic_vector(7 downto 0);
                 vga_g           : out std_logic_vector(7 downto 0);
@@ -41,6 +42,9 @@ architecture rtl of vga_module is
 constant RESOLUTION_ROW : integer := 480;
 constant RESOLUTION_COL : integer := 640;
 
+constant MIN_PIXEL_VALUE   : std_logic_vector(7 downto 0) := X"00";
+constant MAX_PIXEL_VALUE   : std_logic_vector(7 downto 0) := X"FF";
+
 signal h_pos : integer;
 signal v_pos : integer;
 
@@ -52,15 +56,24 @@ signal vga_red_reg   : std_logic_vector(7 downto 0);
 signal vga_green_reg : std_logic_vector(7 downto 0);
 signal vga_blue_reg  : std_logic_vector(7 downto 0);
 
+signal source_fifo   : std_logic;
+signal vga_h_irq     : std_logic;
+signal vga_v_irq     : std_logic;
+
 begin
-        
+       
+        vga_irq <= vga_h_irq or vga_v_irq;
         
         as_write_process: process(system_clk, rst_n) is
         begin
                 if rst_n = '0' then
-                        vga_red_reg   <= X"00";
-                        vga_green_reg <= X"00";
-                        vga_blue_reg  <= X"00";
+                        vga_red_reg   <= MIN_PIXEL_VALUE;
+                        vga_green_reg <= MIN_PIXEL_VALUE;
+                        vga_blue_reg  <= MIN_PIXEL_VALUE;
+
+                        source_fifo   <= '1';
+                        
+
                 elsif rising_edge(system_clk) then
                         if(as_write = '1') then
                                 case as_addr is
@@ -68,8 +81,8 @@ begin
                                                 vga_red_reg   <= as_wrdata(23 downto 16);
                                                 vga_green_reg <= as_wrdata(15 downto 8);
                                                 vga_blue_reg  <= as_wrdata(7 downto 0);
-                                        when "001" => 
-                                                null;
+                                        when "001" =>
+                                                source_fifo <= as_wrdata(0);
                                         when "010" => 
                                                 null;
                                         when "011" => 
@@ -87,18 +100,24 @@ begin
         p_pixel_value: process(pixel_clk_25MHz, rst_n) is
         begin
                 if rst_n = '0' then
-                        vga_r <= X"00";
-                        vga_g <= X"00";
-                        vga_b <= X"00";
+                        vga_r <= MIN_PIXEL_VALUE;
+                        vga_g <= MIN_PIXEL_VALUE;
+                        vga_b <= MIN_PIXEL_VALUE;
                 elsif rising_edge(pixel_clk_25MHz) then
                         if (enable = '1') then
-                                vga_r <= ss_data(23 downto 16);
-                                vga_g <= ss_data(15 downto 8);
-                                vga_b <= ss_data(7 downto 0);
+                                if(source_fifo = '1') then
+                                        vga_r <= ss_data(23 downto 16);
+                                        vga_g <= ss_data(15 downto 8);
+                                        vga_b <= ss_data(7 downto 0);
+                                else
+                                        vga_r <= vga_red_reg;
+                                        vga_g <= vga_green_reg;
+                                        vga_b <= vga_blue_reg;
+                                end if;
                         else
-                                vga_r <= vga_red_reg;
-                                vga_g <= vga_green_reg;
-                                vga_b <= vga_blue_reg;
+                                vga_r <= MAX_PIXEL_VALUE;
+                                vga_g <= MAX_PIXEL_VALUE;
+                                vga_b <= MAX_PIXEL_VALUE;
                         end if;
                 end if;
         end process;
@@ -177,7 +196,7 @@ begin
                 end if;
 
                 ------ VSYNC irq
-                if (481 <= v_pos and v_pos <= 482) then
+                if (481 = v_pos) then
                         vga_v_irq  <= '1';
                 else
                         vga_v_irq  <= '0';
