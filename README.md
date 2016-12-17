@@ -27,10 +27,29 @@ Supported resolution:
 The image is on the Nios-II processor and send through the DMA to the VGA controller.
 
 
-Generate the QSYS
+Generate the QSYS (open Qsys, open system.qsys, refresh usinf F5)
+
 Run the TCL script _system/synthesis/submodules/hps\_sdram\_p0\_pin\_assignments.tcl_ for the SDRAM assignement
 Run the _TCL script pin\_assignment\_DE0\_Nano\_SoC\_VGA_extension.tcl_ to get the pin assignment
 
 The FPGA cannot access the HPS memory if the HPS did not configure it. So a SD card must be flashed and plugged in to the board.
 
+
+
+
+Fixes:
+* If the IRQ numbers are set to '-1' in the system.h file, it means that the _set\_interface\_property\ <irq source> associatedAddressablePoint_ is not set.
+This can be fixed in the GUI when you edit the _tcl_ component. 
+ * Select the Interrupt Sender
+ * In "Parameter", "Associated addressable interface" field should be set. (i.e. not NONE)
+Note; Only one IRQ can be done per components. Otherwise you get the following error during the BSP generation in ECLIPSE NIOS II
+
+SEVERE: Can only have at most one IRQ associated with the following slaves of module <NAME>
+SEVERE: Can only have at most one IRQ associated with the following slaves of module <NAME>
+SEVERE: nios2-bsp-generate-files failed.
+
+
+Interesting links:
+http://www-ug.eecg.toronto.edu/msl/nios_interrupts.html
+http://www-ug.eecg.toronto.edu/msl/manuals/n2sw_nii52006.pdf
 
