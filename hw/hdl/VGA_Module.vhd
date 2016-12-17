@@ -92,7 +92,7 @@ begin
                         vga_b <= X"00";
                 elsif rising_edge(pixel_clk_25MHz) then
                         if (enable = '1') then
-                                vga_r <= ss_data(24 downto 16);
+                                vga_r <= ss_data(23 downto 16);
                                 vga_g <= ss_data(15 downto 8);
                                 vga_b <= ss_data(7 downto 0);
                         else
