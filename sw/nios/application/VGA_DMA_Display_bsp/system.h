@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_gen2_0' in SOPC Builder design 'system'
  * SOPC Builder design path: /home/pokitoz/Dropbox/DE0_SoC_VGA/hw/quartus/system.sopcinfo
  *
- * Generated: Sat Dec 17 14:26:00 CET 2016
+ * Generated: Sat Dec 17 17:28:23 CET 2016
  */
 
 /*
@@ -193,7 +193,7 @@
 #define ALT_MODULE_CLASS_VGA_module_0 VGA_module
 #define VGA_MODULE_0_BASE 0x10000820
 #define VGA_MODULE_0_IRQ 2
-#define VGA_MODULE_0_IRQ_INTERRUPT_CONTROLLER_ID -1
+#define VGA_MODULE_0_IRQ_INTERRUPT_CONTROLLER_ID 0
 #define VGA_MODULE_0_NAME "/dev/VGA_module_0"
 #define VGA_MODULE_0_SPAN 32
 #define VGA_MODULE_0_TYPE "VGA_module"

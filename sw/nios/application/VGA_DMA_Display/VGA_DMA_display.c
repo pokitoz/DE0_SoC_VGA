@@ -9,12 +9,7 @@
 
 #define VGA_DISPLAY_ADDRESS_DST_IMAGE (void*)(HPS_0_BRIDGES_BASE + 0x1000)
 
-uint32_t hsync = 0;
 uint32_t vsync = 0;
-
-void irq_hsync(void* args){
-	hsync++;
-}
 
 void irq_vsync(void* args){
 	vsync++;
@@ -26,7 +21,7 @@ int main(void) {
 	alt_putstr("Hello from VGA_DMA project!\n");
 
 
-	VGA_Display_set_irq(irq_vsync, irq_hsync);
+	VGA_Display_set_irq(irq_vsync);
 
 	VGA_Display_changeScreenColor(VGA_MODULE_0_BASE, 0x00FF000F);
 
@@ -53,7 +48,7 @@ int main(void) {
 	*/
 
 	while(1){
-		alt_printf("h: 0x%x, v: 0x%x", hsync, vsync);
+		alt_printf("h: 0x%x,\n", vsync);
 		usleep(100000);
 
 	}
