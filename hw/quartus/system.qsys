@@ -255,6 +255,14 @@
          type = "String";
       }
    }
+   element system
+   {
+      datum _originalDeviceFamily
+      {
+         value = "Cyclone V";
+         type = "String";
+      }
+   }
 }
 ]]></parameter>
  <parameter name="clockCrossingAdapter" value="HANDSHAKE" />
@@ -285,7 +293,7 @@
    internal="VGA_module_0.vga_signal"
    type="conduit"
    dir="end" />
- <module name="VGA_module_0" kind="VGA_module" version="1.4" enabled="1" />
+ <module name="VGA_module_0" kind="VGA_module" version="1.5" enabled="1" />
  <module
    name="address_span_extender_0"
    kind="altera_address_span_extender"
@@ -984,7 +992,7 @@
   <parameter name="instruction_master_high_performance_paddr_size" value="0" />
   <parameter name="instruction_master_paddr_base" value="0" />
   <parameter name="instruction_master_paddr_size" value="0" />
-  <parameter name="internalIrqMaskSystemInfo" value="15" />
+  <parameter name="internalIrqMaskSystemInfo" value="7" />
   <parameter name="io_regionbase" value="0" />
   <parameter name="io_regionsize" value="0" />
   <parameter name="master_addr_map" value="false" />
@@ -1506,14 +1514,7 @@
    kind="interrupt"
    version="15.1"
    start="nios2_gen2_0.irq"
-   end="VGA_module_0.vga_h_irq">
-  <parameter name="irqNumber" value="3" />
- </connection>
- <connection
-   kind="interrupt"
-   version="15.1"
-   start="nios2_gen2_0.irq"
-   end="VGA_module_0.vga_v_irq">
+   end="VGA_module_0.vga_irq">
   <parameter name="irqNumber" value="2" />
  </connection>
  <connection
