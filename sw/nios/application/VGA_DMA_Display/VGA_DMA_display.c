@@ -5,35 +5,40 @@
 #include <sys/alt_cache.h>
 #include "msgDMA.h"
 #include "io.h"
+#include "VGA_Display.h"
 
 #define VGA_DISPLAY_ADDRESS_DST_IMAGE (void*)(HPS_0_BRIDGES_BASE + 0x1000)
+
+uint32_t hsync = 0;
+uint32_t vsync = 0;
+
+void irq_hsync(void* args){
+	hsync++;
+}
+
+void irq_vsync(void* args){
+	vsync++;
+}
 
 
 int main(void) {
 
-	int i = 0;
-
 	alt_putstr("Hello from VGA_DMA project!\n");
+
+
+	VGA_Display_set_irq(irq_vsync, irq_hsync);
+
+	VGA_Display_changeScreenColor(VGA_MODULE_0_BASE, 0x00FF000F);
+
+	/*
 	ALTERA_MSGDMA_CSR_DESCRIPTOR_SLAVE_INSTANCE(MSGDMA_0, MSGDMA_0_CSR,
 			MSGDMA_0_DESCRIPTOR_SLAVE, msgdma);
-
-	const uint32_t c = 64;
-	uint8_t src[c];
-
-	//uint8_t dest[c];
-
-	for (i = 0; i < c; ++i) {
-		src[i] = 10;
-		IOWR_8DIRECT(VGA_DISPLAY_ADDRESS_DST_IMAGE, i, 0);
-	}
-
-	alt_dcache_flush_all();
 
 	alt_msgdma_init(&msgdma, MSGDMA_0_CSR_IRQ_INTERRUPT_CONTROLLER_ID,
 	MSGDMA_0_CSR_IRQ);
 
 	alt_msgdma_standard_descriptor msgdma_desc[10];
-	uint32_t descriptor_number = msgdma_create_descriptor_list(&msgdma,
+	uint32_t descriptor_number = msgdma_create_mm_to_mm_descriptor_list(&msgdma,
 			msgdma_desc, src, VGA_DISPLAY_ADDRESS_DST_IMAGE, c);
 
 	if (msgdma_desc == NULL) {
@@ -41,18 +46,17 @@ int main(void) {
 		return 0;
 	}
 
+
+
 	msgdma_transfer(&msgdma, msgdma_desc, descriptor_number);
 
-	for (i = 0; i < c; ++i) {
-		uint32_t d = IORD_8DIRECT(VGA_DISPLAY_ADDRESS_DST_IMAGE, i);
-		if (d == src[i]) {
-			alt_printf("Ok\n");
-		} else {
-			alt_printf("No %x %x\n", d, src[i]);
-		}
+	*/
+
+	while(1){
+		alt_printf("h: 0x%x, v: 0x%x", hsync, vsync);
+		usleep(100000);
+
 	}
-
-
 
 	return 0;
 }
