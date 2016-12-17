@@ -153,7 +153,7 @@ begin
                         if (h_pos < 799) then
                                 h_pos <= h_pos + 1;
                         else
-                        -- Restart h_pos when end of line
+                                -- Restart h_pos when end of line
                                 h_pos <= 0;
                         if (v_pos < 524) then
                                 v_pos <= v_pos + 1;
