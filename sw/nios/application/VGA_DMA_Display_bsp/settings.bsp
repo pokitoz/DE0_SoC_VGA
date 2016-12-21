@@ -2,8 +2,8 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>hal</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Dec 17, 2016 5:28:22 PM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1481992102342</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>Dec 17, 2016 8:17:23 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1482002243916</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>/home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_DMA_Display_bsp</BspGeneratedLocation>
         <BspSettingsFile>settings.bsp</BspSettingsFile>
         <SopcDesignFile>/home/pokitoz/Dropbox/DE0_SoC_VGA/hw/quartus/system.sopcinfo</SopcDesignFile>

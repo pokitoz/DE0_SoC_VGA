@@ -18,4 +18,8 @@ void msgdma_transfer(alt_msgdma_dev* msgdma,
 uint32_t msgdma_create_mm_to_mm_descriptor_list(alt_msgdma_dev* msgdma,
 		alt_msgdma_standard_descriptor* msgdma_desc, void* address_source,
 		void* address_dest, uint32_t length);
+
+uint32_t msgdma_create_mm_to_st_descriptor_list(alt_msgdma_dev* msgdma,
+		alt_msgdma_standard_descriptor* msgdma_desc, void* address_source,
+		uint32_t length);
 #endif /* MSGDMA_H_ */
