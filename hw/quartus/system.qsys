@@ -325,7 +325,7 @@
   <parameter name="ENABLE_EXPLICIT_MAXCHANNEL" value="false" />
   <parameter name="ERROR_WIDTH" value="0" />
   <parameter name="EXPLICIT_MAXCHANNEL" value="0" />
-  <parameter name="FIFO_DEPTH" value="1024" />
+  <parameter name="FIFO_DEPTH" value="8192" />
   <parameter name="RD_SYNC_DEPTH" value="3" />
   <parameter name="SYMBOLS_PER_BEAT" value="1" />
   <parameter name="USE_IN_FILL_LEVEL" value="0" />
@@ -900,15 +900,15 @@
   <parameter name="BURST_WRAPPING_SUPPORT" value="0" />
   <parameter name="CHANNEL_ENABLE" value="0" />
   <parameter name="CHANNEL_WIDTH" value="8" />
-  <parameter name="DATA_FIFO_DEPTH" value="32" />
+  <parameter name="DATA_FIFO_DEPTH" value="4096" />
   <parameter name="DATA_WIDTH" value="32" />
-  <parameter name="DESCRIPTOR_FIFO_DEPTH" value="128" />
+  <parameter name="DESCRIPTOR_FIFO_DEPTH" value="64" />
   <parameter name="ENHANCED_FEATURES" value="0" />
   <parameter name="ERROR_ENABLE" value="0" />
   <parameter name="ERROR_WIDTH" value="8" />
   <parameter name="FIX_ADDRESS_WIDTH" value="32" />
   <parameter name="MAX_BURST_COUNT" value="8" />
-  <parameter name="MAX_BYTE" value="4096" />
+  <parameter name="MAX_BYTE" value="262144" />
   <parameter name="MAX_STRIDE" value="1" />
   <parameter name="MODE" value="1" />
   <parameter name="PACKET_ENABLE" value="0" />
@@ -1468,12 +1468,12 @@
    version="15.1"
    start="clk_0.clk"
    end="onchip_memory2_0.clk1" />
- <connection kind="clock" version="15.1" start="clk_0.clk" end="msgdma_0.clock" />
  <connection
    kind="clock"
    version="15.1"
    start="clk_0.clk"
    end="address_span_extender_0.clock" />
+ <connection kind="clock" version="15.1" start="clk_0.clk" end="msgdma_0.clock" />
  <connection
    kind="clock"
    version="15.1"

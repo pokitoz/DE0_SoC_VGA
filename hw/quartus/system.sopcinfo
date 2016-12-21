@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="system" kind="system" version="1.0" fabric="QSYS">
  <!-- Format version 15.1 185 (Future versions may contain additional information.) -->
- <!-- 2016.12.17.17:33:09 -->
+ <!-- 2016.12.17.20:13:14 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1481992388</value>
+  <value>1482001993</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -2170,15 +2170,15 @@ parameters are a RESULT of the module parameters. -->
    </clockDomainMember>
    <clockDomainMember>
     <isBridge>false</isBridge>
-    <moduleName>msgdma_0</moduleName>
-    <slaveName>clock</slaveName>
-    <name>msgdma_0.clock</name>
-   </clockDomainMember>
-   <clockDomainMember>
-    <isBridge>false</isBridge>
     <moduleName>address_span_extender_0</moduleName>
     <slaveName>clock</slaveName>
     <name>address_span_extender_0.clock</name>
+   </clockDomainMember>
+   <clockDomainMember>
+    <isBridge>false</isBridge>
+    <moduleName>msgdma_0</moduleName>
+    <slaveName>clock</slaveName>
+    <name>msgdma_0.clock</name>
    </clockDomainMember>
    <clockDomainMember>
     <isBridge>false</isBridge>
@@ -2292,7 +2292,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="FIFO_DEPTH">
    <type>int</type>
-   <value>1024</value>
+   <value>8192</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -74652,7 +74652,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.DATA_FIFO_DEPTH</name>
-   <value>32</value>
+   <value>4096</value>
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.DATA_WIDTH</name>
@@ -74660,7 +74660,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.DESCRIPTOR_FIFO_DEPTH</name>
-   <value>128</value>
+   <value>64</value>
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.DMA_MODE</name>
@@ -74688,7 +74688,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.MAX_BYTE</name>
-   <value>4096</value>
+   <value>262144</value>
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.MAX_STRIDE</name>
@@ -74776,7 +74776,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="DATA_FIFO_DEPTH">
    <type>int</type>
-   <value>32</value>
+   <value>4096</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -74784,7 +74784,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="DESCRIPTOR_FIFO_DEPTH">
    <type>int</type>
-   <value>128</value>
+   <value>64</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -74800,7 +74800,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="MAX_BYTE">
    <type>int</type>
-   <value>4096</value>
+   <value>262144</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -93240,33 +93240,6 @@ parameters are a RESULT of the module parameters. -->
   <endConnectionPoint>clk1</endConnectionPoint>
  </connection>
  <connection
-   name="clk_0.clk/msgdma_0.clock"
-   kind="clock"
-   version="15.1"
-   start="clk_0.clk"
-   end="msgdma_0.clock">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>clk_0</startModule>
-  <startConnectionPoint>clk</startConnectionPoint>
-  <endModule>msgdma_0</endModule>
-  <endConnectionPoint>clock</endConnectionPoint>
- </connection>
- <connection
    name="clk_0.clk/address_span_extender_0.clock"
    kind="clock"
    version="15.1"
@@ -93291,6 +93264,33 @@ parameters are a RESULT of the module parameters. -->
   <startModule>clk_0</startModule>
   <startConnectionPoint>clk</startConnectionPoint>
   <endModule>address_span_extender_0</endModule>
+  <endConnectionPoint>clock</endConnectionPoint>
+ </connection>
+ <connection
+   name="clk_0.clk/msgdma_0.clock"
+   kind="clock"
+   version="15.1"
+   start="clk_0.clk"
+   end="msgdma_0.clock">
+  <parameter name="deviceFamily">
+   <type>java.lang.String</type>
+   <value>UNKNOWN</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="generateLegacySim">
+   <type>boolean</type>
+   <value>false</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <startModule>clk_0</startModule>
+  <startConnectionPoint>clk</startConnectionPoint>
+  <endModule>msgdma_0</endModule>
   <endConnectionPoint>clock</endConnectionPoint>
  </connection>
  <connection
