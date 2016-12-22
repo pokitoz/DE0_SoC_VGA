@@ -39,18 +39,49 @@ end entity vga_module;
 
 architecture rtl of vga_module is
 
-constant RESOLUTION_ROW : integer := 480;
-constant RESOLUTION_COL : integer := 640;
+
+constant WHOLE_FRAME_640x480_DEFAULT    : integer := 525;
+constant VISIBLE_AREA_V_640x480_DEFAULT : integer := 480;
+constant FRONT_PORCH_V_640x480_DEFAULT  : integer := 10;
+constant SYNC_PULSE_V_640x480_DEFAULT   : integer := 2;
+constant BACK_PORCH_V_640x480_DEFAULT   : integer := 33;
+
+constant WHOLE_LINE_640x480_DEFAULT     : integer := 800;
+constant VISIBLE_AREA_H_640x480_DEFAULT : integer := 640;
+constant FRONT_PORCH_H_640x480_DEFAULT  : integer := 16;
+constant SYNC_PULSE_H_640x480_DEFAULT   : integer := 96;
+constant BACK_PORCH_H_640x480_DEFAULT   : integer := 48;
 
 constant MIN_PIXEL_VALUE   : std_logic_vector(7 downto 0) := X"00";
 constant MAX_PIXEL_VALUE   : std_logic_vector(7 downto 0) := X"FF";
 
+constant DEFAULT_RED_PIXEL_VALUE    : std_logic_vector(7 downto 0) := X"FF";
+constant DEFAULT_GREEN_PIXEL_VALUE  : std_logic_vector(7 downto 0) := X"00";
+constant DEFAULT_BLUE_PIXEL_VALUE   : std_logic_vector(7 downto 0) := X"FF";
+
+
+-------------------------------------------------
+-- Signals
+-------------------------------------------------
+signal WHOLE_FRAME    : integer := 525;
+signal VISIBLE_AREA_V : integer := 480;
+signal FRONT_PORCH_V  : integer := 10;
+signal SYNC_PULSE_V   : integer := 2;
+signal BACK_PORCH_V   : integer := 33;
+
+signal WHOLE_LINE     : integer := 800;
+signal VISIBLE_AREA_H : integer := 640;
+signal FRONT_PORCH_H  : integer := 16;
+signal SYNC_PULSE_H   : integer := 96;
+signal BACK_PORCH_H   : integer := 48;
+
+
 signal h_pos : integer;
 signal v_pos : integer;
 
-signal enable : std_logic;
-signal videoh : std_logic;
-signal videov : std_logic;
+signal en_display : std_logic;
+signal is_h_visible : std_logic;
+signal is_v_visible : std_logic;
 
 signal vga_red_reg   : std_logic_vector(7 downto 0);
 signal vga_green_reg : std_logic_vector(7 downto 0);
@@ -71,9 +102,20 @@ begin
                         vga_green_reg <= MIN_PIXEL_VALUE;
                         vga_blue_reg  <= MIN_PIXEL_VALUE;
 
-                        source_fifo   <= '1';
-                        
+                        source_fifo   <= '0';
 
+                        WHOLE_FRAME    <= WHOLE_FRAME_640x480_DEFAULT;
+                        VISIBLE_AREA_V <= VISIBLE_AREA_V_640x480_DEFAULT;
+                        FRONT_PORCH_V  <= FRONT_PORCH_V_640x480_DEFAULT;
+                        SYNC_PULSE_V   <= SYNC_PULSE_V_640x480_DEFAULT;
+                        BACK_PORCH_V   <= BACK_PORCH_V_640x480_DEFAULT;
+
+                        WHOLE_LINE     <= WHOLE_LINE_640x480_DEFAULT;
+                        VISIBLE_AREA_H <= VISIBLE_AREA_H_640x480_DEFAULT;
+                        FRONT_PORCH_H  <= FRONT_PORCH_H_640x480_DEFAULT;
+                        SYNC_PULSE_H   <= SYNC_PULSE_H_640x480_DEFAULT;
+                        BACK_PORCH_H   <= BACK_PORCH_H_640x480_DEFAULT;
+                        
                 elsif rising_edge(system_clk) then
                         if(as_write = '1') then
                                 case as_addr is
@@ -104,7 +146,7 @@ begin
                         vga_g <= MIN_PIXEL_VALUE;
                         vga_b <= MIN_PIXEL_VALUE;
                 elsif rising_edge(pixel_clk_25MHz) then
-                        if (enable = '1') then
+                        if (en_display = '1') then
                                 if(source_fifo = '1') then
                                         vga_r <= ss_data(23 downto 16);
                                         vga_g <= ss_data(15 downto 8);
@@ -115,9 +157,9 @@ begin
                                         vga_b <= vga_blue_reg;
                                 end if;
                         else
-                                vga_r <= MAX_PIXEL_VALUE;
-                                vga_g <= MAX_PIXEL_VALUE;
-                                vga_b <= MAX_PIXEL_VALUE;
+                                vga_r <= DEFAULT_RED_PIXEL_VALUE;
+                                vga_g <= DEFAULT_GREEN_PIXEL_VALUE;
+                                vga_b <= DEFAULT_BLUE_PIXEL_VALUE;
                         end if;
                 end if;
         end process;
@@ -131,86 +173,108 @@ begin
                 elsif rising_edge(pixel_clk_25MHz) then
 	                  
                         ss_ready <= '0';
-                        if(v_pos < 480) then
-                                if(h_pos < 639 or h_pos = 799) then
+                        -- If v_pos is in the visible area
+                        if(v_pos < VISIBLE_AREA_V) then
+                                -- If h_pos is in the visible area
+                                if(h_pos < VISIBLE_AREA_H) then
+                                        -- Set that new pixels can come
+                                        ss_ready <= '1';
+                                -- If h_pos is ready to start a new line
+                                elsif  (h_pos = WHOLE_LINE-1) then
                                         ss_ready <= '1';
                                 end if;
                         end if;
-			
-                        if(v_pos = 524 and h_pos >= 798) then
-                                ss_ready <= '1';
-                        end if;
                 end if;
         end process;
 
+
+        -- Indicate when v and h are in the visible area
         p_v_h_video: process(h_pos, v_pos)
         begin
-                videov <= '1';
-                videoh <= '1';
+                is_v_visible <= '1';
+                is_h_visible <= '1';
 
-                if (h_pos >= RESOLUTION_COL) then
-                        videoh <= '0';
+                -- If h_pos is outside the visible area
+                if (h_pos >= VISIBLE_AREA_H) then
+                        is_h_visible <= '0';
                 end if;
-                
-                if (v_pos >= RESOLUTION_ROW) then
-                        videov <= '0';
+
+                -- If v_pos is outside the visible area
+                if (v_pos >= VISIBLE_AREA_V) then
+                        is_v_visible <= '0';
                 end if;
         end process;
 
-        process(pixel_clk_25MHz, rst_n)
+
+        -- Increase h_pos and v_pos
+        process(pixel_clk_25MHz, rst_n)             
         begin
                 if (rst_n = '0') then
-                        v_pos  <= 0;
-                        h_pos  <= 0;
-                        vga_hsync <= '0';
-                        vga_vsync <= '0';
-                        vga_v_irq   <= '0';     
-                        vga_h_irq <= '0';
+                        v_pos       <=  0 ;
+                        h_pos       <=  0 ;
                 elsif (rising_edge(pixel_clk_25MHz)) then
                         -- Each clock cycle increases h_pos.
-                        -- if hpos is at the end of the line increase vpos
-                        if (h_pos < 799) then
+                        -- if h_pos is at the end of the line increase v_pos
+                        -- Restart h_pos when end of line
+                        if (h_pos < WHOLE_LINE - 1) then
                                 h_pos <= h_pos + 1;
                         else
-                                -- Restart h_pos when end of line
                                 h_pos <= 0;
-                        if (v_pos < 524) then
+                        end if;
+
+                        -- Restart v_pos when end of frame
+                        if (v_pos < WHOLE_FRAME - 1) then
                                 v_pos <= v_pos + 1;
                         else
                                 v_pos <= 0;
                         end if;
                 end if;
 
-                ------ Generate HSYNC
-                if (659 <= h_pos and h_pos <= 755) then
+        end process;
+
+
+        -- Generate H and V sync        
+        process(h_pos, v_pos)
+                variable h_sync_offset : integer := 0;
+                variable v_sync_offset : integer := 0;                
+        begin
+                
+                h_sync_offset := VISIBLE_AREA_H+FRONT_PORCH_H;
+
+                ------ Generate HSYNC Sync pulse
+                if (h_sync_offset <= h_pos and h_pos < h_sync_offset+SYNC_PULSE_H) then
                         vga_hsync <= '0';
                 else
                         vga_hsync <= '1';
                 end if;
 
-                ------ Generate VSYNC
-                if (493 <= v_pos and v_pos <= 494) then
+
+                v_sync_offset := VISIBLE_AREA_V+FRONT_PORCH_V;
+
+                ------ Generate VSYNC Sync pulse
+                if (v_sync_offset <= v_pos and v_pos < v_sync_offset+SYNC_PULSE_V) then
                         vga_vsync <= '0';
                 else
                         vga_vsync <= '1';
                 end if;
 
+
                 ------ VSYNC irq
-                if (481 = v_pos) then
+                if (v_pos = VISIBLE_AREA_V) then
                         vga_v_irq  <= '1';
                 else
                         vga_v_irq  <= '0';
                 end if;
 
-                end if;
         end process;
 
-        process(videoh, videov, h_pos, v_pos)
+
+        process(is_h_visible, is_v_visible)
         begin
-                if ((videoh = '1' and videov = '1') or (h_pos=799 and  v_pos=524)) then
-                        enable  <= '1';
+                if ((is_h_visible = '1' and is_v_visible = '1')) then --or (h_pos=799 and v_pos=524)) then
+                        en_display  <= '1';
                 else
-                        enable  <= '0';
+                        en_display  <= '0';
                 end if;
         end process;
         
