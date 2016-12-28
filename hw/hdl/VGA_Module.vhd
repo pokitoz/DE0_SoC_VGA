@@ -60,17 +60,17 @@ constant MAX_PIXEL_VALUE   : std_logic_vector(7 downto 0) := X"FF";
 -------------------------------------------------
 -- Signals
 -------------------------------------------------
-signal WHOLE_FRAME    : integer := 525;
-signal VISIBLE_AREA_V : integer := 480;
-signal FRONT_PORCH_V  : integer := 10;
-signal SYNC_PULSE_V   : integer := 2;
-signal BACK_PORCH_V   : integer := 33;
+signal whole_frame_reg    : integer := 525;
+signal visible_area_v_reg : integer := 480;
+signal front_porch_v_reg  : integer := 10;
+signal sync_pulse_v_reg   : integer := 2;
+signal back_porch_v_reg   : integer := 33;
 
-signal WHOLE_LINE     : integer := 800;
-signal VISIBLE_AREA_H : integer := 640;
-signal FRONT_PORCH_H  : integer := 16;
-signal SYNC_PULSE_H   : integer := 96;
-signal BACK_PORCH_H   : integer := 48;
+signal whole_line_reg     : integer := 800;
+signal visible_area_h_reg : integer := 640;
+signal front_porch_h_reg  : integer := 16;
+signal sync_pulse_h_reg   : integer := 96;
+signal back_porch_h_reg   : integer := 48;
 
 -- Current position of (h)orizontal cursor
 signal h_pos : integer;
@@ -98,14 +98,40 @@ signal vga_v_irq     : std_logic;
 -- Disable IRQ for this module
 signal disable_irq   : std_logic;
 
+signal vga_irq_en    : std_logic;
+signal vga_irq_reset : std_logic;
+
 begin
+
+        as_read_process: process(system_clk, rst_n) is
+
+        begin
+                if rst_n = '0' then
+                        vga_irq_reset <= '0';
+                elsif rising_edge(system_clk) then
+                        if(as_read = '1') then
+                                vga_irq_reset <= '0';
+                                case as_addr is
+                                        when "000"  => 
+                                                vga_irq_reset <= '1';
+                                        when "001"  => null;
+                                        when "010"  => null;
+                                        when "011"  => null;
+                                        when "100"  => null;
+                                        when "101"  => null;
+                                        when "110"  => null;
+                                        when "111"  => null;
+                                        when others => null;
+                                end case;
+                        end if;
+                end if;
+
+        end process;
        
        
         as_write_process: process(system_clk, rst_n) is
-                variable visible_area_int : integer;
-                variable front_porch_int  : integer;
-                variable sync_pulse_int   : integer;
-                variable back_porch_int   : integer;
+                variable var_int_15_to_0  : integer;
+                variable var_int_31_to_16 : integer;
         begin
                 if rst_n = '0' then
                         vga_red_reg    <= MIN_PIXEL_VALUE;
@@ -115,28 +141,24 @@ begin
                         source_fifo    <= '0';
                         disable_irq    <= '0';
 
-                        WHOLE_FRAME    <= WHOLE_FRAME_DEFAULT;
-                        VISIBLE_AREA_V <= VISIBLE_AREA_V_DEFAULT;
-                        FRONT_PORCH_V  <= FRONT_PORCH_V_DEFAULT;
-                        SYNC_PULSE_V   <= SYNC_PULSE_V_DEFAULT;
-                        BACK_PORCH_V   <= BACK_PORCH_V_DEFAULT;
+                        WHOLE_FRAME_reg    <= WHOLE_FRAME_DEFAULT;
+                        visible_area_v_reg <= VISIBLE_AREA_V_DEFAULT;
+                        front_porch_v_reg  <= FRONT_PORCH_V_DEFAULT;
+                        sync_pulse_v_reg   <= SYNC_PULSE_V_DEFAULT;
+                        back_porch_v_reg   <= BACK_PORCH_V_DEFAULT;
 
-                        WHOLE_LINE     <= WHOLE_LINE_DEFAULT;
-                        VISIBLE_AREA_H <= VISIBLE_AREA_H_DEFAULT;
-                        FRONT_PORCH_H  <= FRONT_PORCH_H_DEFAULT;
-                        SYNC_PULSE_H   <= SYNC_PULSE_H_DEFAULT;
-                        BACK_PORCH_H   <= BACK_PORCH_H_DEFAULT;
+                        whole_line_reg     <= WHOLE_LINE_DEFAULT;
+                        visible_area_h_reg <= VISIBLE_AREA_H_DEFAULT;
+                        front_porch_h_reg  <= FRONT_PORCH_H_DEFAULT;
+                        sync_pulse_h_reg   <= SYNC_PULSE_H_DEFAULT;
+                        back_porch_h_reg   <= BACK_PORCH_H_DEFAULT;
                         
                 elsif rising_edge(system_clk) then
                         if(as_write = '1') then
 
-                                visible_area_int := to_integer(unsigned(as_wrdata(15 downto  0)));
-
-                                sync_pulse_int   := to_integer(unsigned(as_wrdata(15 downto  0)));
-
-                                front_porch_int  := to_integer(unsigned(as_wrdata(15 downto  0)));
-                                back_porch_int   := to_integer(unsigned(as_wrdata(31 downto 16)));
-
+                                var_int_15_to_0  := to_integer(unsigned(as_wrdata(15 downto  0)));
+                                var_int_31_to_16 := to_integer(unsigned(as_wrdata(31 downto 16)));
+                               
                                 case as_addr is
                                         when "000" => 
                                                 vga_red_reg    <= as_wrdata(23 downto 16);
@@ -146,19 +168,21 @@ begin
                                                 source_fifo    <= as_wrdata(0);
                                                 disable_irq    <= as_wrdata(1);
                                         when "010" =>
-                                                FRONT_PORCH_V  <= front_porch_int;
-                                                BACK_PORCH_V   <= back_porch_int;
+                                                front_porch_v_reg  <= var_int_15_to_0;
+                                                back_porch_v_reg   <= var_int_31_to_16;
                                         when "011" => 
-                                                FRONT_PORCH_H  <= front_porch_int;
-                                                BACK_PORCH_H   <= back_porch_int;
+                                                front_porch_h_reg  <= var_int_15_to_0;
+                                                back_porch_h_reg   <= var_int_31_to_16;
                                         when "100" =>
-                                                VISIBLE_AREA_V <= visible_area_int;
+                                                visible_area_v_reg  <= var_int_15_to_0;
+                                                sync_pulse_v_reg    <= var_int_31_to_16;
                                         when "101" =>
-                                                VISIBLE_AREA_H <= visible_area_int;
+                                                visible_area_h_reg  <= var_int_15_to_0;
+                                                sync_pulse_h_reg    <= var_int_31_to_16;
                                         when "110" =>
-                                                SYNC_PULSE_V   <= sync_pulse_int;
+                                                WHOLE_FRAME_reg     <= var_int_15_to_0;
+                                                whole_line_reg      <= var_int_31_to_16;
                                         when "111" =>
-                                                SYNC_PULSE_H   <= sync_pulse_int;
                                         when others =>
                                                 null;
                                 end case;
@@ -204,13 +228,13 @@ begin
 	                  
                         ss_ready <= '1';
                         -- If v_pos is in the visible area
-                        if(v_pos < VISIBLE_AREA_V) then
+                        if(v_pos < visible_area_v_reg) then
                                 -- If h_pos is in the visible area
-                                if(h_pos < VISIBLE_AREA_H) then
+                                if(h_pos < visible_area_h_reg) then
                                         -- Set that new pixels can come
                                         ss_ready <= '1';
                                 -- If h_pos is ready to start a new line
-                                elsif  (h_pos = WHOLE_LINE-1) then
+                                elsif  (h_pos = whole_line_reg-1) then
                                         ss_ready <= '1';
                                 end if;
                         end if;
@@ -219,25 +243,25 @@ begin
 
 
         -- Indicate when v and h are in the visible area
-        p_v_h_video: process(h_pos, v_pos)
+        p_v_h_video: process(h_pos, v_pos) is
         begin
                 is_v_visible <= '1';
                 is_h_visible <= '1';
 
                 -- If h_pos is outside the visible area
-                if (h_pos >= VISIBLE_AREA_H) then
+                if (h_pos >= visible_area_h_reg) then
                         is_h_visible <= '0';
                 end if;
 
                 -- If v_pos is outside the visible area
-                if (v_pos >= VISIBLE_AREA_V) then
+                if (v_pos >= visible_area_v_reg) then
                         is_v_visible <= '0';
                 end if;
         end process;
 
 
         -- Increase h_pos and v_pos
-        process(pixel_clk_25MHz, rst_n)             
+        process(pixel_clk_25MHz, rst_n) is          
         begin
                 if (rst_n = '0') then
                         v_pos       <=  0 ;
@@ -246,12 +270,12 @@ begin
                         -- Each clock cycle increases h_pos.
                         -- if h_pos is at the end of the line increase v_pos
                         -- Restart h_pos when end of line
-                        if (h_pos < WHOLE_LINE-1) then
+                        if (h_pos < whole_line_reg-1) then
                                 h_pos <= h_pos + 1;
                         else
                                 h_pos <= 0;
                                 -- Restart v_pos when end of frame
-                                if (v_pos < WHOLE_FRAME-1) then
+                                if (v_pos < WHOLE_FRAME_reg-1) then
                                         v_pos <= v_pos + 1;
                                 else
                                         v_pos <= 0;
@@ -263,25 +287,25 @@ begin
 
 
         -- Generate H and V sync        
-        process(h_pos, v_pos)
+        process(h_pos, v_pos, visible_area_h_reg, front_porch_h_reg, visible_area_v_reg, front_porch_v_reg, sync_pulse_h_reg, sync_pulse_v_reg) is
                 variable h_sync_offset : integer := 0;
                 variable v_sync_offset : integer := 0;                
         begin
                 
-                h_sync_offset := VISIBLE_AREA_H+FRONT_PORCH_H;
+                h_sync_offset := visible_area_h_reg + front_porch_h_reg;
 
                 ------ Generate HSYNC Sync pulse
-                if (h_sync_offset <= h_pos and h_pos < h_sync_offset+SYNC_PULSE_H) then
+                if (h_sync_offset <= h_pos and h_pos < h_sync_offset+sync_pulse_h_reg) then
                         vga_hsync <= '0';
                 else
                         vga_hsync <= '1';
                 end if;
 
 
-                v_sync_offset := VISIBLE_AREA_V+FRONT_PORCH_V;
+                v_sync_offset := visible_area_v_reg + front_porch_v_reg;
 
                 ------ Generate VSYNC Sync pulse
-                if (v_sync_offset <= v_pos and v_pos < v_sync_offset+SYNC_PULSE_V) then
+                if (v_sync_offset <= v_pos and v_pos < v_sync_offset + sync_pulse_v_reg) then
                         vga_vsync <= '0';
                 else
                         vga_vsync <= '1';
@@ -290,7 +314,7 @@ begin
         end process;
 
         -- Generate H and V irq        
-        process(h_pos, v_pos, vga_v_irq, vga_h_irq, disable_irq)   
+        process(h_pos, v_pos, vga_v_irq, vga_h_irq, disable_irq) is
         begin
                 vga_v_irq  <= '0';
                 if (h_pos = VISIBLE_AREA_H) then
@@ -299,16 +323,26 @@ begin
                         vga_h_irq  <= '0';
                 end if;
 
-                vga_irq <= (vga_h_irq or vga_v_irq) and (not disable_irq);
+                vga_irq_en <= (vga_h_irq or vga_v_irq) and (not disable_irq);
         end process;
 
 
-        process(is_h_visible, is_v_visible)
+        process(is_h_visible, is_v_visible) is
         begin
                 if ((is_h_visible = '1' and is_v_visible = '1')) then --or (h_pos=799 and v_pos=524)) then
                         en_display  <= '1';
                 else
                         en_display  <= '0';
+                end if;
+        end process;
+
+        -- Latch to handle the irq.
+        process(rst_n, vga_irq_reset, vga_irq_en) is
+        begin
+                if(rst_n = '0' or vga_irq_reset = '1') then
+                        vga_irq <= '0';
+                elsif(vga_irq_en = '1') then
+                        vga_irq <= '1';
                 end if;
         end process;
         
