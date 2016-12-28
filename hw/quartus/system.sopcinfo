@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="system" kind="system" version="1.0" fabric="QSYS">
  <!-- Format version 15.1 185 (Future versions may contain additional information.) -->
- <!-- 2016.12.22.13:31:32 -->
+ <!-- 2016.12.24.12:45:07 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1482409890</value>
+  <value>1482579905</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -74688,7 +74688,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.MAX_BYTE</name>
-   <value>262144</value>
+   <value>4096</value>
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.MAX_STRIDE</name>
@@ -74800,7 +74800,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="MAX_BYTE">
    <type>int</type>
-   <value>262144</value>
+   <value>4096</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
