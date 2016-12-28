@@ -314,10 +314,10 @@ begin
         end process;
 
         -- Generate H and V irq        
-        process(h_pos, v_pos, vga_v_irq, vga_h_irq, disable_irq) is
+        process(h_pos, v_pos, vga_v_irq, vga_h_irq, disable_irq, visible_area_h_reg) is
         begin
-                vga_v_irq  <= '0';
-                if (h_pos = VISIBLE_AREA_H) then
+                vga_v_irq_en  <= '0';
+                if (h_pos = visible_area_h_reg) then
                         vga_h_irq  <= '1';
                 else
                         vga_h_irq  <= '0';
