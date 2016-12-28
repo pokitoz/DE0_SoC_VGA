@@ -46,7 +46,7 @@ void msgdma_transfer(alt_msgdma_dev* msgdma,
 
 	}
 
-	alt_printf("Transfer successful\n");
+	//alt_printf("Transfer successful\n");
 }
 
 uint32_t msgdma_create_mm_to_mm_descriptor_list(alt_msgdma_dev* msgdma,

@@ -1,25 +1,25 @@
 #include "sys/alt_stdio.h"
 #include "altera_msgdma.h"
-#include <stdint-gcc.h>
 #include "system.h"
 #include <unistd.h>
 #include <sys/alt_cache.h>
 #include "msgDMA.h"
 #include "io.h"
 #include "VGA_Display.h"
+#include "alt_types.h"
 
-#define VGA_DISPLAY_ADDRESS_DST_IMAGE (void*)(HPS_0_BRIDGES_BASE)
+#define VGA_DISPLAY_ADDRESS_DST_IMAGE (void*)(HPS_0_BRIDGES_BASE + 16384)
 
-uint32_t vsync = 0;
-uint32_t next_desc = 0;
+volatile alt_u32 vsync = 0;
+volatile alt_u32 next_desc = 0;
+
 alt_msgdma_standard_descriptor msgdma_desc[30];
 alt_msgdma_dev msgdma_dev;
-uint32_t descriptor_number;
+alt_u32 descriptor_number;
 
-void irq_vsync(void* args) {
+void irq_vsync(void* context, alt_u32 id){
 
-	alt_msgdma_standard_descriptor_async_transfer(&msgdma_dev,
-			&msgdma_desc[next_desc]);
+	//alt_msgdma_standard_descriptor_async_transfer(&msgdma_dev, &msgdma_desc[next_desc]);
 
 	// 640 x 24 byte per line: 15360
 	// FIFO is 2048 + 8192 bytes
@@ -35,6 +35,9 @@ void irq_vsync(void* args) {
 	if (next_desc == descriptor_number) {
 		next_desc = 0;
 	}
+
+	IOWR_32DIRECT(VGA_MODULE_0_BASE, VGA_DISPLAY_CONFIGURATION, 0x3);
+
 }
 
 int main(void) {
@@ -42,6 +45,9 @@ int main(void) {
 	alt_putstr("Hello from VGA_DMA project!\n");
 
 	VGA_Display_changeScreenColor(VGA_MODULE_0_BASE, 0x00FF00FF);
+
+	IOWR_32DIRECT(VGA_MODULE_0_BASE, VGA_DISPLAY_CONFIGURATION, 0x1);
+
 
 	ALTERA_MSGDMA_CSR_DESCRIPTOR_SLAVE_INSTANCE(MSGDMA_0, MSGDMA_0_CSR,
 			MSGDMA_0_DESCRIPTOR_SLAVE, msgdma);
@@ -51,7 +57,7 @@ int main(void) {
 	MSGDMA_0_CSR_IRQ);
 
 	descriptor_number = msgdma_create_mm_to_st_descriptor_list(&msgdma,
-			msgdma_desc, VGA_DISPLAY_ADDRESS_DST_IMAGE, 640*480*(3*8));
+			msgdma_desc, VGA_DISPLAY_ADDRESS_DST_IMAGE, 480);
 
 	if (msgdma_desc == NULL) {
 		alt_putstr("msgdma_desc is null");
@@ -61,10 +67,9 @@ int main(void) {
 	VGA_Display_set_irq(irq_vsync);
 
 	//msgdma_transfer(&msgdma_dev, msgdma_desc, descriptor_number);
-
 	while (1) {
-		alt_printf("v: 0x%x,\n", vsync);
-		usleep(10000000);
+		alt_printf("Next: 0x%x,\n", next_desc);
+		usleep(100);
 	}
 
 	return 0;
