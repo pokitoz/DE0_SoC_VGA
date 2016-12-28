@@ -2,8 +2,8 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>hal</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Dec 17, 2016 8:17:23 PM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1482002243916</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>Dec 28, 2016 1:08:52 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1482926932685</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>/home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_DMA_Display_bsp</BspGeneratedLocation>
         <BspSettingsFile>settings.bsp</BspSettingsFile>
         <SopcDesignFile>/home/pokitoz/Dropbox/DE0_SoC_VGA/hw/quartus/system.sopcinfo</SopcDesignFile>
@@ -886,6 +886,30 @@
                 <Enabled>false</Enabled>
                 <Group xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
         </Setting>
+        <LinkerRegion>
+                <regionName>data_hps_bridge</regionName>
+                <memoryName>hps_0_bridges</memoryName>
+                <offset>0</offset>
+                <size>16384</size>
+                <baseAddress>0x0</baseAddress>
+                <addressRange>0x00000000 - 0x00003FFF</addressRange>
+        </LinkerRegion>
+        <LinkerRegion>
+                <regionName>reset</regionName>
+                <memoryName>onchip_memory2_0</memoryName>
+                <offset>0</offset>
+                <size>32</size>
+                <baseAddress>0x10100000</baseAddress>
+                <addressRange>0x10100000 - 0x1010001F</addressRange>
+        </LinkerRegion>
+        <LinkerRegion>
+                <regionName>onchip_memory2_0</regionName>
+                <memoryName>onchip_memory2_0</memoryName>
+                <offset>32</offset>
+                <size>16352</size>
+                <baseAddress>0x10100020</baseAddress>
+                <addressRange>0x10100020 - 0x10103FFF</addressRange>
+        </LinkerRegion>
         <MemoryMap>
                 <slaveDescriptor>hps_0_bridges</slaveDescriptor>
                 <addressRange>0x00000000 - 0x0003FFFF</addressRange>
@@ -922,6 +946,11 @@
                 <addressSpan>16384</addressSpan>
                 <attributes>memory</attributes>
         </MemoryMap>
+        <MemoryDevice>
+                <slaveDescriptor>hps_0_bridges</slaveDescriptor>
+                <baseAddress>0x0</baseAddress>
+                <addressSpan>16384</addressSpan>
+        </MemoryDevice>
         <LinkerSection>
                 <sectionName>.text</sectionName>
                 <regionName>onchip_memory2_0</regionName>
@@ -940,7 +969,7 @@
         </LinkerSection>
         <LinkerSection>
                 <sectionName>.heap</sectionName>
-                <regionName>onchip_memory2_0</regionName>
+                <regionName>data_hps_bridge</regionName>
         </LinkerSection>
         <LinkerSection>
                 <sectionName>.stack</sectionName>

@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_gen2_0' in SOPC Builder design 'system'
  * SOPC Builder design path: /home/pokitoz/Dropbox/DE0_SoC_VGA/hw/quartus/system.sopcinfo
  *
- * Generated: Sat Dec 17 20:17:25 CET 2016
+ * Generated: Sat Dec 24 11:00:28 CET 2016
  */
 
 /*
@@ -265,7 +265,7 @@
 #define MSGDMA_0_CSR_IRQ 0
 #define MSGDMA_0_CSR_IRQ_INTERRUPT_CONTROLLER_ID 0
 #define MSGDMA_0_CSR_MAX_BURST_COUNT 8
-#define MSGDMA_0_CSR_MAX_BYTE 262144
+#define MSGDMA_0_CSR_MAX_BYTE 4096
 #define MSGDMA_0_CSR_MAX_STRIDE 1
 #define MSGDMA_0_CSR_NAME "/dev/msgdma_0_csr"
 #define MSGDMA_0_CSR_PACKET_ENABLE 0
@@ -303,7 +303,7 @@
 #define MSGDMA_0_DESCRIPTOR_SLAVE_IRQ -1
 #define MSGDMA_0_DESCRIPTOR_SLAVE_IRQ_INTERRUPT_CONTROLLER_ID -1
 #define MSGDMA_0_DESCRIPTOR_SLAVE_MAX_BURST_COUNT 8
-#define MSGDMA_0_DESCRIPTOR_SLAVE_MAX_BYTE 262144
+#define MSGDMA_0_DESCRIPTOR_SLAVE_MAX_BYTE 4096
 #define MSGDMA_0_DESCRIPTOR_SLAVE_MAX_STRIDE 1
 #define MSGDMA_0_DESCRIPTOR_SLAVE_NAME "/dev/msgdma_0_descriptor_slave"
 #define MSGDMA_0_DESCRIPTOR_SLAVE_PACKET_ENABLE 0

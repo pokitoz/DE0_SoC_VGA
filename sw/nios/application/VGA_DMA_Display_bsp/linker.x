@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_gen2_0' in SOPC Builder design 'system'
  * SOPC Builder design path: /home/pokitoz/Dropbox/DE0_SoC_VGA/hw/quartus/system.sopcinfo
  *
- * Generated: Thu Dec 15 13:51:06 CET 2016
+ * Generated: Wed Dec 28 13:08:53 CET 2016
  */
 
 /*
@@ -50,11 +50,13 @@
 
 MEMORY
 {
+    data_hps_bridge : ORIGIN = 0x0, LENGTH = 16384
     reset : ORIGIN = 0x10100000, LENGTH = 32
     onchip_memory2_0 : ORIGIN = 0x10100020, LENGTH = 16352
 }
 
 /* Define symbols for each memory base-address */
+__alt_mem_hps_0_bridges = 0x0;
 __alt_mem_onchip_memory2_0 = 0x10100000;
 
 OUTPUT_FORMAT( "elf32-littlenios2",
@@ -313,12 +315,20 @@ SECTIONS
         *(.onchip_memory2_0 .onchip_memory2_0. onchip_memory2_0.*)
         . = ALIGN(4);
         PROVIDE (_alt_partition_onchip_memory2_0_end = ABSOLUTE(.));
-        _end = ABSOLUTE(.);
-        end = ABSOLUTE(.);
         __alt_stack_base = ABSOLUTE(.);
     } > onchip_memory2_0
 
     PROVIDE (_alt_partition_onchip_memory2_0_load_addr = LOADADDR(.onchip_memory2_0));
+
+    /*
+     *
+     * The heap will start at the end of the .bss section
+     *
+     */
+    PROVIDE( _end = __bss_end );
+    _end = __bss_end;
+    PROVIDE( end = __bss_end );
+    end = __bss_end;
 
     /*
      * Stabs debugging sections.
@@ -383,4 +393,4 @@ PROVIDE( __alt_stack_limit   = __alt_stack_base );
  * Override this symbol to put the heap in a different memory.
  */
 PROVIDE( __alt_heap_start    = end );
-PROVIDE( __alt_heap_limit    = 0x10104000 );
+PROVIDE( __alt_heap_limit    = 0x4000 );

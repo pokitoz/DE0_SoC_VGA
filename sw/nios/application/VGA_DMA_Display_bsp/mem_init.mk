@@ -170,27 +170,45 @@ NIOS2_ELF_FORMAT ?= elf32-littlenios2
 # Pre-Initialized Memory Descriptions
 #-------------------------------------
 
-# Memory: onchip_memory2_0
-MEM_0 := system_onchip_memory2_0
-$(MEM_0)_NAME := onchip_memory2_0
+# Memory: hps_0_bridges
+MEM_0 := hps_0_bridges
+$(MEM_0)_NAME := hps_0_bridges
 $(MEM_0)_MEM_INIT_FILE_PARAM_NAME := INIT_FILE
 HEX_FILES += $(MEM_INIT_DIR)/$(MEM_0).hex
 MEM_INIT_INSTALL_FILES += $(MEM_INIT_INSTALL_DIR)/$(MEM_0).hex
-DAT_FILES += $(HDL_SIM_DIR)/$(MEM_0).dat
-HDL_SIM_INSTALL_FILES += $(HDL_SIM_INSTALL_DIR)/$(MEM_0).dat
-SYM_FILES += $(HDL_SIM_DIR)/$(MEM_0).sym
-HDL_SIM_INSTALL_FILES += $(HDL_SIM_INSTALL_DIR)/$(MEM_0).sym
-$(MEM_0)_START := 0x10100000
-$(MEM_0)_END := 0x10103fff
+$(MEM_0)_START := 0x00000000
+$(MEM_0)_END := 0x00003fff
 $(MEM_0)_SPAN := 0x00004000
-$(MEM_0)_HIERARCHICAL_PATH := onchip_memory2_0
+$(MEM_0)_HIERARCHICAL_PATH := hps_0_bridges
 $(MEM_0)_WIDTH := 32
 $(MEM_0)_HEX_DATA_WIDTH := 32
 $(MEM_0)_ENDIANNESS := --little-endian-mem
 $(MEM_0)_CREATE_LANES := 0
 
+.PHONY: hps_0_bridges
+hps_0_bridges: check_elf_exists $(MEM_INIT_DIR)/$(MEM_0).hex
+
+# Memory: onchip_memory2_0
+MEM_1 := system_onchip_memory2_0
+$(MEM_1)_NAME := onchip_memory2_0
+$(MEM_1)_MEM_INIT_FILE_PARAM_NAME := INIT_FILE
+HEX_FILES += $(MEM_INIT_DIR)/$(MEM_1).hex
+MEM_INIT_INSTALL_FILES += $(MEM_INIT_INSTALL_DIR)/$(MEM_1).hex
+DAT_FILES += $(HDL_SIM_DIR)/$(MEM_1).dat
+HDL_SIM_INSTALL_FILES += $(HDL_SIM_INSTALL_DIR)/$(MEM_1).dat
+SYM_FILES += $(HDL_SIM_DIR)/$(MEM_1).sym
+HDL_SIM_INSTALL_FILES += $(HDL_SIM_INSTALL_DIR)/$(MEM_1).sym
+$(MEM_1)_START := 0x10100000
+$(MEM_1)_END := 0x10103fff
+$(MEM_1)_SPAN := 0x00004000
+$(MEM_1)_HIERARCHICAL_PATH := onchip_memory2_0
+$(MEM_1)_WIDTH := 32
+$(MEM_1)_HEX_DATA_WIDTH := 32
+$(MEM_1)_ENDIANNESS := --little-endian-mem
+$(MEM_1)_CREATE_LANES := 0
+
 .PHONY: onchip_memory2_0
-onchip_memory2_0: check_elf_exists $(MEM_INIT_DIR)/$(MEM_0).hex $(HDL_SIM_DIR)/$(MEM_0).dat $(HDL_SIM_DIR)/$(MEM_0).sym
+onchip_memory2_0: check_elf_exists $(MEM_INIT_DIR)/$(MEM_1).hex $(HDL_SIM_DIR)/$(MEM_1).dat $(HDL_SIM_DIR)/$(MEM_1).sym
 
 
 #END OF BSP SPECIFIC

@@ -3,7 +3,7 @@
 # Machine generated for CPU 'nios2_gen2_0' in SOPC Builder design 'system'
 # SOPC Builder design path: /home/pokitoz/Dropbox/DE0_SoC_VGA/hw/quartus/system.sopcinfo
 #
-# Generated: Thu Dec 15 13:51:06 CET 2016
+# Generated: Wed Dec 28 13:08:53 CET 2016
 
 # DO NOT MODIFY THIS FILE
 #
@@ -45,6 +45,9 @@
 # Define memory regions for each memory connected to the CPU.
 # The cache attribute is specified which improves GDB performance
 # by allowing GDB to cache memory contents on the host.
+
+# hps_0_bridges
+memory 0x0 0x4000 cache
 
 # onchip_memory2_0
 memory 0x10100000 0x10104000 cache
