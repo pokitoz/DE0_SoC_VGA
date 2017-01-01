@@ -238,6 +238,9 @@ begin
 			vga_module_0_vga_signal_vsync     => VGA_VIDEO_VSYNC
         );
 
+		  
+		  LED <= "11100000";
+		  
 end;
 
 
