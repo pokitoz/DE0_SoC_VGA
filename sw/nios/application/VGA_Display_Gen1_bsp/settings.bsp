@@ -2,10 +2,10 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>hal</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Jan 1, 2017 2:42:56 PM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1483278176550</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>Jan 1, 2017 6:35:21 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1483292121065</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>/home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp</BspGeneratedLocation>
-        <BspSettingsFile>./settings.bsp</BspSettingsFile>
+        <BspSettingsFile>settings.bsp</BspSettingsFile>
         <SopcDesignFile>/home/pokitoz/Dropbox/DE0_SoC_VGA/hw/quartus/system.sopcinfo</SopcDesignFile>
         <JdiFile>default</JdiFile>
         <Cpu>nios2_qsys_0</Cpu>
