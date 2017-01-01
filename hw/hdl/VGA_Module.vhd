@@ -99,21 +99,17 @@ signal vga_v_irq     : std_logic;
 signal disable_irq   : std_logic;
 
 signal vga_irq_en    : std_logic;
-signal vga_irq_reset : std_logic;
+signal vga_irq_clear : std_logic;
 
 begin
 
         as_read_process: process(system_clk, rst_n) is
-
         begin
                 if rst_n = '0' then
-                        vga_irq_reset <= '0';
                 elsif rising_edge(system_clk) then
                         if(as_read = '1') then
-                                vga_irq_reset <= '0';
                                 case as_addr is
-                                        when "000"  => 
-                                                vga_irq_reset <= '1';
+                                        when "000"  => null;
                                         when "001"  => null;
                                         when "010"  => null;
                                         when "011"  => null;
@@ -141,6 +137,8 @@ begin
                         source_fifo    <= '0';
                         disable_irq    <= '0';
 
+                        vga_irq_clear  <= '0';
+
                         WHOLE_FRAME_reg    <= WHOLE_FRAME_DEFAULT;
                         visible_area_v_reg <= VISIBLE_AREA_V_DEFAULT;
                         front_porch_v_reg  <= FRONT_PORCH_V_DEFAULT;
@@ -154,35 +152,38 @@ begin
                         back_porch_h_reg   <= BACK_PORCH_H_DEFAULT;
                         
                 elsif rising_edge(system_clk) then
-                        if(as_write = '1') then
 
+                        vga_irq_clear <= '0';
+
+                        if(as_write = '1') then
                                 var_int_15_to_0  := to_integer(unsigned(as_wrdata(15 downto  0)));
                                 var_int_31_to_16 := to_integer(unsigned(as_wrdata(31 downto 16)));
                                
                                 case as_addr is
-                                        when "000" => 
-                                                vga_red_reg    <= as_wrdata(23 downto 16);
-                                                vga_green_reg  <= as_wrdata(15 downto  8);
-                                                vga_blue_reg   <= as_wrdata( 7 downto  0);
-                                        when "001" =>
-                                                source_fifo    <= as_wrdata(0);
-                                                disable_irq    <= as_wrdata(1);
-                                        when "010" =>
-                                                front_porch_v_reg  <= var_int_15_to_0;
-                                                back_porch_v_reg   <= var_int_31_to_16;
-                                        when "011" => 
-                                                front_porch_h_reg  <= var_int_15_to_0;
-                                                back_porch_h_reg   <= var_int_31_to_16;
-                                        when "100" =>
+                                        when "000"  => 
+                                                vga_red_reg         <= as_wrdata(23 downto 16);
+                                                vga_green_reg       <= as_wrdata(15 downto  8);
+                                                vga_blue_reg        <= as_wrdata( 7 downto  0);
+                                        when "001"  =>
+                                                source_fifo         <= as_wrdata(0);
+                                                disable_irq         <= as_wrdata(1);
+                                        when "010"  =>
+                                                front_porch_v_reg   <= var_int_15_to_0;
+                                                back_porch_v_reg    <= var_int_31_to_16;
+                                        when "011"  => 
+                                                front_porch_h_reg   <= var_int_15_to_0;
+                                                back_porch_h_reg    <= var_int_31_to_16;
+                                        when "100"  =>
                                                 visible_area_v_reg  <= var_int_15_to_0;
                                                 sync_pulse_v_reg    <= var_int_31_to_16;
-                                        when "101" =>
+                                        when "101"  =>
                                                 visible_area_h_reg  <= var_int_15_to_0;
                                                 sync_pulse_h_reg    <= var_int_31_to_16;
-                                        when "110" =>
+                                        when "110"  =>
                                                 WHOLE_FRAME_reg     <= var_int_15_to_0;
                                                 whole_line_reg      <= var_int_31_to_16;
-                                        when "111" =>
+                                        when "111"  =>
+                                                vga_irq_clear       <= as_wrdata(0);
                                         when others =>
                                                 null;
                                 end case;
@@ -191,7 +192,17 @@ begin
 
         end process;
 
-     
+
+        irq_handler: process(system_clk, rst_n, vga_irq_clear) is
+        begin
+                if (rst_n = '0') or (vga_irq_clear = '1') then
+                        vga_irq    <= '0';
+                elsif(rising_edge(vga_irq_en)) then
+                        -- Handle the irq.
+                        vga_irq <= '1';
+                end if;
+
+        end process;
 
         p_pixel_value: process(pixel_clk_25MHz, rst_n) is
         begin
@@ -314,13 +325,15 @@ begin
         end process;
 
         -- Generate H and V irq        
-        process(h_pos, v_pos, vga_v_irq, vga_h_irq, disable_irq, visible_area_h_reg) is
+        process(h_pos, v_pos, vga_v_irq, vga_h_irq, disable_irq, visible_area_h_reg, visible_area_v_reg) is
         begin
                 vga_v_irq  <= '0';
-                if (h_pos = visible_area_h_reg) then
-                        vga_h_irq  <= '1';
+                vga_h_irq  <= '0';
+
+                if (visible_area_v_reg <= v_pos and v_pos <= visible_area_v_reg+1) then
+                        vga_v_irq  <= '1';
                 else
-                        vga_h_irq  <= '0';
+                        vga_v_irq  <= '0';
                 end if;
 
                 vga_irq_en <= (vga_h_irq or vga_v_irq) and (not disable_irq);
@@ -333,16 +346,6 @@ begin
                         en_display  <= '1';
                 else
                         en_display  <= '0';
-                end if;
-        end process;
-
-        -- Latch to handle the irq.
-        process(rst_n, vga_irq_reset, vga_irq_en) is
-        begin
-                if(rst_n = '0' or vga_irq_reset = '1') then
-                        vga_irq <= '0';
-                elsif(vga_irq_en = '1') then
-                        vga_irq <= '1';
                 end if;
         end process;
         
