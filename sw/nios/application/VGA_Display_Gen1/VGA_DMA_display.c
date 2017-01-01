@@ -40,7 +40,7 @@ void irq_vsync(void* context, alt_u32 id) {
 	//alt_msgdma_standard_descriptor_async_transfer(&msgdma_dev, &msgdma_desc);
 
 	// Clean the IRQ
-	IOWR_32DIRECT(VGA_MODULE_0_BASE, VGA_CLEAN_IRQ_REG, 0x1);
+	IOWR_32DIRECT(VGA_MODULE_0_BASE, VGA_DISPLAY_CLEAN_IRQ_REG, 0x1);
 
 }
 
@@ -74,6 +74,7 @@ int main(void) {
 		//usleep(100000);
 		for(kk = 0; kk < 1000000; kk++){
 		}
+
 		alt_msgdma_standard_descriptor_async_transfer(&msgdma_dev, &msgdma_desc);
 
 	}

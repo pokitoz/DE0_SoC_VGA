@@ -139,7 +139,7 @@ begin
 
                         vga_irq_clear  <= '0';
 
-                        WHOLE_FRAME_reg    <= WHOLE_FRAME_DEFAULT;
+                        whole_frame_reg    <= WHOLE_FRAME_DEFAULT;
                         visible_area_v_reg <= VISIBLE_AREA_V_DEFAULT;
                         front_porch_v_reg  <= FRONT_PORCH_V_DEFAULT;
                         sync_pulse_v_reg   <= SYNC_PULSE_V_DEFAULT;
@@ -180,7 +180,7 @@ begin
                                                 visible_area_h_reg  <= var_int_15_to_0;
                                                 sync_pulse_h_reg    <= var_int_31_to_16;
                                         when "110"  =>
-                                                WHOLE_FRAME_reg     <= var_int_15_to_0;
+                                                whole_frame_reg     <= var_int_15_to_0;
                                                 whole_line_reg      <= var_int_31_to_16;
                                         when "111"  =>
                                                 vga_irq_clear       <= as_wrdata(0);
@@ -286,7 +286,7 @@ begin
                         else
                                 h_pos <= 0;
                                 -- Restart v_pos when end of frame
-                                if (v_pos < WHOLE_FRAME_reg-1) then
+                                if (v_pos < whole_frame_reg-1) then
                                         v_pos <= v_pos + 1;
                                 else
                                         v_pos <= 0;

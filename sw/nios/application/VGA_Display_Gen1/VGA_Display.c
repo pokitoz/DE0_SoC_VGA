@@ -11,22 +11,15 @@
 #include "system.h"
 #include "sys/alt_irq.h"
 
-void VGA_Display_changeSyncVertical(alt_u32 BASE, alt_u16 visible_area, alt_u16 front_porch,
-		alt_u16 sync_pulse, alt_u16 back_porch) {
-
-	alt_u32 concatenated = front_porch | (sync_pulse << 8) | (back_porch << 16);
-	IOWR_32DIRECT(BASE, VGA_DISPLAY_SYNC_V_REG, concatenated);
-	IOWR_32DIRECT(BASE, VGA_DISPLAY_VISIBLE_AREA_V_REG, visible_area);
+void VGA_Display_changeVerticalPorch(alt_u32 BASE, alt_u16 front_porch, alt_u16 back_porch) {
+	alt_u32 concatenated = front_porch | (back_porch << 16);
+	IOWR_32DIRECT(BASE, VGA_DISPLAY_PORCH_V_REG, concatenated);
 
 }
 
-void VGA_Display_changeSyncHorizontal(alt_u32 BASE, alt_u16 visible_area,
-		alt_u16 front_porch, alt_u16 sync_pulse, alt_u16 back_porch) {
-
-	alt_u32 concatenated = front_porch | (sync_pulse << 8) | (back_porch << 16);
-	IOWR_32DIRECT(BASE, VGA_DISPLAY_SYNC_H_REG, concatenated);
-	IOWR_32DIRECT(BASE, VGA_DISPLAY_VISIBLE_AREA_H_REG, visible_area);
-
+void VGA_Display_changeHorizontalPorch(alt_u32 BASE, alt_u16 front_porch, alt_u16 back_porch) {
+	alt_u32 concatenated = front_porch | (back_porch << 16);
+	IOWR_32DIRECT(BASE, VGA_DISPLAY_PORCH_H_REG, concatenated);
 }
 
 void VGA_Display_changeScreenColor(alt_u32 BASE, alt_u32 color) {
