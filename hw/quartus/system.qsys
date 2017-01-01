@@ -9,6 +9,22 @@
    categories="System" />
  <parameter name="bonusData"><![CDATA[bonusData 
 {
+   element DMA_Read_0
+   {
+      datum _sortIndex
+      {
+         value = "10";
+         type = "int";
+      }
+   }
+   element DMA_Read_0.as
+   {
+      datum baseAddress
+      {
+         value = "268437536";
+         type = "String";
+      }
+   }
    element VGA_module_0
    {
       datum _sortIndex
@@ -121,7 +137,7 @@
       }
       datum baseAddress
       {
-         value = "268437536";
+         value = "268437600";
          type = "String";
       }
    }
@@ -336,6 +352,7 @@
    internal="VGA_module_0.vga_signal"
    type="conduit"
    dir="end" />
+ <module name="DMA_Read_0" kind="DMA_Read" version="1.0" enabled="1" />
  <module name="VGA_module_0" kind="VGA_module" version="1.5" enabled="1" />
  <module
    name="address_span_extender_0"
@@ -979,7 +996,7 @@
   <parameter name="cpuReset" value="false" />
   <parameter name="customInstSlavesSystemInfo" value="&lt;info/&gt;" />
   <parameter name="dataAddrWidth" value="29" />
-  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='hps_0_bridges.f2h_sdram0_data' start='0x0' end='0x40000' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x10000800' end='0x10000808' /><slave name='msgdma_0.descriptor_slave' start='0x10000810' end='0x10000820' /><slave name='msgdma_0.csr' start='0x10000820' end='0x10000840' /><slave name='VGA_module_0.vga_as' start='0x10000840' end='0x10000860' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x10001800' end='0x10002000' /><slave name='onchip_memory2_0.s1' start='0x10100000' end='0x10104000' /></address-map>]]></parameter>
+  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='hps_0_bridges.f2h_sdram0_data' start='0x0' end='0x40000' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x10000800' end='0x10000808' /><slave name='msgdma_0.descriptor_slave' start='0x10000810' end='0x10000820' /><slave name='DMA_Read_0.as' start='0x10000820' end='0x10000840' /><slave name='VGA_module_0.vga_as' start='0x10000840' end='0x10000860' /><slave name='msgdma_0.csr' start='0x10000860' end='0x10000880' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x10001800' end='0x10002000' /><slave name='onchip_memory2_0.s1' start='0x10100000' end='0x10104000' /></address-map>]]></parameter>
   <parameter name="dcache_bursts" value="false" />
   <parameter name="dcache_lineSize" value="32" />
   <parameter name="dcache_numTCDM" value="0" />
@@ -1331,6 +1348,33 @@
  <connection
    kind="avalon"
    version="15.1"
+   start="DMA_Read_0.avalon_master"
+   end="onchip_memory2_0.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x10100000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="15.1"
+   start="DMA_Read_0.avalon_master"
+   end="address_span_extender_0.windowed_slave">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="15.1"
+   start="nios2_qsys_0.data_master"
+   end="DMA_Read_0.as">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x10000820" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="15.1"
    start="nios2_qsys_0.data_master"
    end="jtag_uart_0.avalon_jtag_slave">
   <parameter name="arbitrationPriority" value="1" />
@@ -1343,7 +1387,7 @@
    start="nios2_qsys_0.data_master"
    end="msgdma_0.csr">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x10000820" />
+  <parameter name="baseAddress" value="0x10000860" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -1448,13 +1492,13 @@
  <connection
    kind="avalon_streaming"
    version="15.1"
-   start="dc_fifo_0.out"
-   end="VGA_module_0.vga_avalon_streaming_sink" />
+   start="DMA_Read_0.avalon_streaming_source"
+   end="dc_fifo_0.in" />
  <connection
    kind="avalon_streaming"
    version="15.1"
-   start="msgdma_0.st_source"
-   end="dc_fifo_0.in" />
+   start="dc_fifo_0.out"
+   end="VGA_module_0.vga_avalon_streaming_sink" />
  <connection kind="clock" version="15.1" start="clk_0.clk" end="jtag_uart_0.clk" />
  <connection kind="clock" version="15.1" start="clk_0.clk" end="nios2_qsys_0.clk" />
  <connection
@@ -1468,6 +1512,11 @@
    start="clk_0.clk"
    end="address_span_extender_0.clock" />
  <connection kind="clock" version="15.1" start="clk_0.clk" end="msgdma_0.clock" />
+ <connection
+   kind="clock"
+   version="15.1"
+   start="clk_0.clk"
+   end="DMA_Read_0.clock_sink" />
  <connection
    kind="clock"
    version="15.1"
@@ -1542,6 +1591,11 @@
    version="15.1"
    start="clk_0.clk_reset"
    end="nios2_qsys_0.reset_n" />
+ <connection
+   kind="reset"
+   version="15.1"
+   start="clk_0.clk_reset"
+   end="DMA_Read_0.reset_sink" />
  <connection
    kind="reset"
    version="15.1"

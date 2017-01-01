@@ -6,9 +6,9 @@ entity DMA_Read is
 	port(
 
 		-- FIFO signals source
-		as_ready           : in  std_logic;
-		as_data            : out std_logic_vector(31 downto 0);
-		as_valid           : out std_logic;
+		asts_ready           : in  std_logic;
+		asts_data            : out std_logic_vector(31 downto 0);
+		asts_valid           : out std_logic;
 
                 -- Avalon Slave signals
                 as_wrdata          : in  std_logic_vector(31 downto 0);
@@ -51,7 +51,7 @@ architecture rtl of DMA_Read is
         type states is (IDLE, READ_REQUEST, READ_DATA);
 	signal state_reg, state_next         : states;
 	signal counter_reg, counter_next     : integer;
-
+        signal am_data_reg, am_data_next     : std_logic_vector(31 downto 0);
 begin 
 
 
@@ -118,17 +118,21 @@ begin
         end process;
 
 
-        fsm_dma_process : process(state_reg, counter_reg, dma_start, as_ready, 
-                                        buffer1_base_address, buffer2_base_address, 
-                                        am_readdata, am_waitrequest, transfer_length ) is
+        fsm_dma_process : process(state_reg, counter_reg, dma_start, asts_ready, 
+                                        buffer1_base_address, buffer2_base_address, am_data_reg,
+                                        am_readdata, am_waitrequest, transfer_length, dma_use_constant) is
                 variable new_address : unsigned(31 downto 0);
         begin
 		state_next   <= state_reg;
 		counter_next <= counter_reg;
-
-		am_addr    <= (others => '0');
+                am_data_next <= (others => '1');
+		
+                am_addr    <= (others => '0');
 		am_read       <= '0';
 		am_byteenable <= "1111";
+              
+                asts_valid   <= '0';
+                asts_data    <= (others => '1');
 
 		case state_reg is
 			when IDLE =>
@@ -137,7 +141,7 @@ begin
 				end if;
 
 			when READ_REQUEST =>
-				if (as_ready = '1') then
+				if (asts_ready = '1') then
                                         -- Increment the address
                                         if(buffer_selection = '0') then
                                                 new_address    := buffer1_base_address + 4*counter_reg;
@@ -148,9 +152,9 @@ begin
 					am_addr        <= std_logic_vector(new_address);
 					am_read        <= '1';
                                         if (dma_use_constant = '0') then
-					        as_data_reg    <= am_readdata;
+					        am_data_next    <= am_readdata;
                                         else
-                                                as_data_reg    <= counter_reg;
+                                                am_data_next    <= std_logic_vector(to_unsigned(counter_reg, am_data_next'length));
                                         end if;
 
 					if (am_waitrequest = '0' or dma_use_constant = '1') then
@@ -158,8 +162,8 @@ begin
 					end if;
 				end if;
 			when READ_DATA =>
-				as_valid   <= '1';
-				as_data    <= as_data_reg;
+				asts_valid   <= '1';
+				asts_data    <= am_data_reg;
 
 				if (counter_reg < transfer_length) then
 					state_next   <= READ_REQUEST;
@@ -180,10 +184,11 @@ begin
 		if rst_n = '0' then
 			state_reg       <= IDLE;
 			counter_reg     <= 0;
+                        am_data_reg <= (others => '0');
 		elsif rising_edge(system_clk) then
 			state_reg     <= state_next;
 			counter_reg   <= counter_next;
-			as_data       <= as_data_reg;
+			am_data_reg   <= am_data_next;
 		end if;
 	end process fsm_register_process;
 
