@@ -43,14 +43,10 @@ begin
                 elsif rising_edge(system_clk) then
                         if(as_read = '1') then
                                 case as_addr is
-                                        when "000"  => null;
-                                        when "001"  => null;
-                                        when "010"  => null;
-                                        when "011"  => null;
-                                        when "100"  => null;
-                                        when "101"  => null;
-                                        when "110"  => null;
-                                        when "111"  => null;
+                                        when "00"  => null;
+                                        when "01"  => null;
+                                        when "10"  => null;
+                                        when "11"  => null;
                                         when others => null;
                                 end case;
                         end if;
@@ -65,20 +61,14 @@ begin
                 elsif rising_edge(system_clk) then
                         if(as_write = '1') then
                                 case as_addr is
-                                        when "000"  => 
-                                        when "001"  =>
-                                        when "010"  =>
-                                        when "011"  => 
-                                        when "100"  =>
-                                        when "101"  =>
-                                        when "110"  =>
-                                        when "111"  =>
-                                        when others =>
-                                                null;
+                                        when "00"  => null;
+                                        when "01"  => null;
+                                        when "10"  => null;
+                                        when "11"  => null;
+                                        when others => null;
                                 end case;
                         end if;
                 end if;
-
         end process;
 
 
