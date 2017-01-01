@@ -4,10 +4,6 @@ use ieee.numeric_std.all;
 
 entity vga_module is
         port(
-
-                system_clk      : in  std_logic;                
-                rst_n           : in  std_logic;
-
                 -- 25 MHz pixel clock in
                 pixel_clk_25MHz : in  std_logic;
                 
@@ -32,7 +28,10 @@ entity vga_module is
                 vga_b           : out std_logic_vector(7 downto 0);
                 vga_clk         : out std_logic;
                 vga_vsync       : out std_logic;
-                vga_hsync       : out std_logic
+                vga_hsync       : out std_logic;
+
+                system_clk      : in  std_logic;                
+                rst_n           : in  std_logic
 
         );
 end entity vga_module;
