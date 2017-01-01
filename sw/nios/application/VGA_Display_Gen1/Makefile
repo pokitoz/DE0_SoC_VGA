@@ -145,6 +145,7 @@ ELF := VGA_Display_Gen1.elf
 C_SRCS += VGA_DMA_display.c
 C_SRCS += VGA_Display.c
 C_SRCS += msgDMA.c
+C_SRCS += DMA_Read.c
 CXX_SRCS :=
 ASM_SRCS :=
 

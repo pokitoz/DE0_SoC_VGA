@@ -8,6 +8,7 @@
 #include "VGA_Display.h"
 #include "alt_types.h"
 #include "sys/alt_irq.h"
+#include "DMA_Read.h"
 
 #define VGA_DISPLAY_ADDRESS_DST_IMAGE (void*)(HPS_0_BRIDGES_BASE + 16384)
 
@@ -50,7 +51,7 @@ int main(void) {
 
 	VGA_Display_changeScreenColor(VGA_MODULE_0_BASE, 0x00FF00FF);
 
-	IOWR_32DIRECT(VGA_MODULE_0_BASE, VGA_DISPLAY_CONFIGURATION, 0x0);
+	IOWR_32DIRECT(VGA_MODULE_0_BASE, VGA_DISPLAY_CONFIGURATION, 0x1);
 
 	ALTERA_MSGDMA_CSR_DESCRIPTOR_SLAVE_INSTANCE(MSGDMA_0, MSGDMA_0_CSR,
 			MSGDMA_0_DESCRIPTOR_SLAVE, msgdma);
@@ -59,13 +60,21 @@ int main(void) {
 	alt_msgdma_init(&msgdma_dev, MSGDMA_0_CSR_IRQ_INTERRUPT_CONTROLLER_ID,
 	MSGDMA_0_CSR_IRQ);
 
-	alt_ic_isr_register(VGA_MODULE_0_IRQ_INTERRUPT_CONTROLLER_ID,
-	VGA_MODULE_0_IRQ, (void*) irq_vsync, 0, 0);
+
+//	alt_ic_isr_register(VGA_MODULE_0_IRQ_INTERRUPT_CONTROLLER_ID,
+//	VGA_MODULE_0_IRQ, (void*) irq_vsync, 0, 0);
 
 	// Enable the interrupts
-	alt_ic_irq_enable(VGA_MODULE_0_IRQ_INTERRUPT_CONTROLLER_ID,
-	VGA_MODULE_0_IRQ);
+//	alt_ic_irq_enable(VGA_MODULE_0_IRQ_INTERRUPT_CONTROLLER_ID,
+//	VGA_MODULE_0_IRQ);
+	int ki = 0;
+	for(ki = 0; ki < 640*480*3; ki++){
+		IOWR(HPS_0_BRIDGES_BASE, 4*ki, 0x00);
+	}
 
+
+	DMA_Read_configureDMA(0x10000820, HPS_0_BRIDGES_BASE, HPS_0_BRIDGES_BASE, 640*480*3);
+	DMA_Read_setFlags(0x10000820, DMA_READ_BIT_DMA_CONSTANT | DMA_READ_BIT_CONSTANT |  DMA_READ_BIT_START | DMA_READ_BIT_CONTINUE);
 
 	volatile int kk = 0;
 	//msgdma_transfer(&msgdma_dev, msgdma_desc, descriptor_number);
@@ -74,9 +83,6 @@ int main(void) {
 		//usleep(100000);
 		for(kk = 0; kk < 1000000; kk++){
 		}
-
-		alt_msgdma_standard_descriptor_async_transfer(&msgdma_dev, &msgdma_desc);
-
 	}
 
 	return 0;

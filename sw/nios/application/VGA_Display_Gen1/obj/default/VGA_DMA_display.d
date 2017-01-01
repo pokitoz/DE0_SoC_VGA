@@ -19,7 +19,8 @@ obj/default/VGA_DMA_display.o: VGA_DMA_display.c \
  /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//HAL/inc/sys/alt_cache.h \
  msgDMA.h VGA_Display.h \
  /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//HAL/inc/sys/alt_irq.h \
- /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//HAL/inc/nios2.h
+ /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//HAL/inc/nios2.h \
+ DMA_Read.h
 
 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//HAL/inc/sys/alt_stdio.h:
 
@@ -64,3 +65,5 @@ VGA_Display.h:
 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//HAL/inc/sys/alt_irq.h:
 
 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//HAL/inc/nios2.h:
+
+DMA_Read.h:

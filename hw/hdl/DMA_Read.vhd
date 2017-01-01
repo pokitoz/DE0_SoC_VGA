@@ -47,6 +47,7 @@ architecture rtl of DMA_Read is
 
         signal dma_auto_flip        : std_logic;
         signal dma_use_constant     : std_logic;
+        signal dma_use_counter      : std_logic;
 
         type states is (IDLE, READ_REQUEST, READ_DATA);
 	signal state_reg, state_next         : states;
@@ -64,18 +65,19 @@ begin
                         if(as_read = '1') then
                                 case as_addr is
                                         when "000"  => 
-                                                as_rddata               <= std_logic_vector(buffer1_base_address);
+                                                as_rddata         <= std_logic_vector(buffer1_base_address);
                                         when "001"  => 
-                                                as_rddata               <= std_logic_vector(buffer2_base_address);
+                                                as_rddata         <= std_logic_vector(buffer2_base_address);
                                         when "010"  => 
-                                                as_rddata(15 downto 0)  <= std_logic_vector(transfer_length);
+                                                as_rddata         <= std_logic_vector(transfer_length);
                                         when "011"  => 
-                                                as_rddata(5)            <= dma_use_constant;
-                                                as_rddata(4)            <= dma_continue;
-                                                as_rddata(3)            <= dma_auto_flip;
-                                                as_rddata(2)            <= dma_start;
-                                                as_rddata(1)            <= buffer_selection;
-                                                as_rddata(0)            <= dma_idle;
+                                                as_rddata(6)      <= dma_use_constant;
+                                                as_rddata(5)      <= dma_use_counter;
+                                                as_rddata(4)      <= dma_continue;
+                                                as_rddata(3)      <= dma_auto_flip;
+                                                as_rddata(2)      <= dma_start;
+                                                as_rddata(1)      <= buffer_selection;
+                                                as_rddata(0)      <= dma_idle;
                                         when others => null;
                                 end case;
                         end if;
@@ -103,14 +105,15 @@ begin
                                         when "001"  =>
                                                 buffer2_base_address    <= unsigned(as_wrdata);             
                                         when "010"  => 
-                                                transfer_length         <= unsigned(as_wrdata(15 downto 0));
+                                                transfer_length         <= unsigned(as_wrdata);
                                         when "011"  => 
                                                 buffer_selection        <= as_wrdata(0);
                                         when "100"  =>
-                                                dma_start               <= as_wrdata(0);
-                                                dma_continue            <= as_wrdata(1);
-                                                dma_auto_flip           <= as_wrdata(2);
-                                                dma_use_constant        <= as_wrdata(3);
+                                                dma_start               <= as_wrdata(2);
+                                                dma_auto_flip           <= as_wrdata(3);
+                                                dma_continue            <= as_wrdata(4);
+                                                dma_use_counter         <= as_wrdata(5);
+                                                dma_use_constant        <= as_wrdata(6);
                                         when others => null;
                                 end case;
                         end if;
@@ -154,7 +157,11 @@ begin
                                         if (dma_use_constant = '0') then
 					        am_data_next    <= am_readdata;
                                         else
-                                                am_data_next    <= std_logic_vector(to_unsigned(counter_reg, am_data_next'length));
+                                                if(dma_use_counter = '1') then
+                                                        am_data_next   <= X"0F0F0F00"; 
+                                                else
+                                                        am_data_next    <= std_logic_vector(to_unsigned(counter_reg, am_data_next'length));
+                                                end if;
                                         end if;
 
 					if (am_waitrequest = '0' or dma_use_constant = '1') then

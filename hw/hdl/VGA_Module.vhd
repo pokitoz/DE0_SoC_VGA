@@ -61,13 +61,13 @@ constant MAX_PIXEL_VALUE   : std_logic_vector(7 downto 0) := X"FF";
 -------------------------------------------------
 signal whole_frame_reg    : integer := 525;
 signal visible_area_v_reg : integer := 480;
-signal front_porch_v_reg  : integer := 10;
+signal front_porch_v_reg  : integer := 13;
 signal sync_pulse_v_reg   : integer := 2;
 signal back_porch_v_reg   : integer := 33;
 
 signal whole_line_reg     : integer := 800;
 signal visible_area_h_reg : integer := 640;
-signal front_porch_h_reg  : integer := 16;
+signal front_porch_h_reg  : integer := 19;
 signal sync_pulse_h_reg   : integer := 96;
 signal back_porch_h_reg   : integer := 48;
 
@@ -235,8 +235,8 @@ begin
                 if rst_n = '0' then
                         ss_ready <= '0';
                 elsif rising_edge(pixel_clk_25MHz) then
-	                  
-                        ss_ready <= '1';
+
+                        ss_ready <= '0';
                         -- If v_pos is in the visible area
                         if(v_pos < visible_area_v_reg) then
                                 -- If h_pos is in the visible area

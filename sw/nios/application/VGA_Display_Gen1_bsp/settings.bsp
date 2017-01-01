@@ -2,8 +2,8 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>hal</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Jan 1, 2017 6:35:21 PM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1483292121065</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>Jan 1, 2017 9:59:00 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1483304340401</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>/home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp</BspGeneratedLocation>
         <BspSettingsFile>settings.bsp</BspSettingsFile>
         <SopcDesignFile>/home/pokitoz/Dropbox/DE0_SoC_VGA/hw/quartus/system.sopcinfo</SopcDesignFile>
@@ -905,7 +905,7 @@
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>msgdma_0_csr</slaveDescriptor>
+                <slaveDescriptor>DMA_Read_0</slaveDescriptor>
                 <addressRange>0x10000820 - 0x1000083F</addressRange>
                 <addressSpan>32</addressSpan>
                 <attributes/>
@@ -913,6 +913,12 @@
         <MemoryMap>
                 <slaveDescriptor>VGA_module_0</slaveDescriptor>
                 <addressRange>0x10000840 - 0x1000085F</addressRange>
+                <addressSpan>32</addressSpan>
+                <attributes/>
+        </MemoryMap>
+        <MemoryMap>
+                <slaveDescriptor>msgdma_0_csr</slaveDescriptor>
+                <addressRange>0x10000860 - 0x1000087F</addressRange>
                 <addressSpan>32</addressSpan>
                 <attributes/>
         </MemoryMap>

@@ -5,7 +5,7 @@ Archive member included to satisfy reference by file (symbol)
 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcpy.o)
                               obj/default/VGA_DMA_display.o (memcpy)
 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic.o)
-                              obj/default/VGA_DMA_display.o (alt_ic_isr_register)
+                              obj/default/VGA_Display.o (alt_ic_isr_register)
 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic_isr_register.o)
                               /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic.o) (alt_iic_isr_register)
 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_entry.o)
@@ -74,6 +74,7 @@ onchip_memory2_0 0x0000000010100020 0x0000000000003fe0
 Linker script and memory map
 
 LOAD /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//obj/HAL/src/crt0.o
+LOAD obj/default/DMA_Read.o
 LOAD obj/default/VGA_DMA_display.o
 LOAD obj/default/VGA_Display.o
 LOAD obj/default/msgDMA.o
@@ -151,7 +152,7 @@ LOAD /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib
                 0x0000000010100150                PROVIDE (__ram_exceptions_end, ABSOLUTE (.))
                 0x0000000010100020                PROVIDE (__flash_exceptions_start, LOADADDR (.exceptions))
 
-.text           0x0000000010100150     0x1bbc
+.text           0x0000000010100150     0x1bd8
                 0x0000000010100150                PROVIDE (stext, ABSOLUTE (.))
  *(.interp)
  *(.hash)
@@ -198,285 +199,290 @@ LOAD /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib
  *(.text .stub .text.* .gnu.linkonce.t.*)
  .text          0x0000000010100150       0x4c /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//obj/HAL/src/crt0.o
                 0x0000000010100150                _start
- .text          0x000000001010019c       0x6c obj/default/VGA_DMA_display.o
-                0x000000001010019c                irq_vsync
- .text.startup  0x0000000010100208       0xdc obj/default/VGA_DMA_display.o
-                0x0000000010100208                main
- .text          0x00000000101002e4       0x70 obj/default/VGA_Display.o
-                0x00000000101002e4                VGA_Display_changeVerticalPorch
-                0x00000000101002f8                VGA_Display_changeHorizontalPorch
-                0x000000001010030c                VGA_Display_changeScreenColor
-                0x0000000010100314                VGA_Display_set_irq
- .text          0x0000000010100354      0x388 obj/default/msgDMA.o
-                0x0000000010100354                msgdma_transfer
-                0x0000000010100448                msgdma_create_mm_to_mm_descriptor_list
-                0x00000000101005a8                msgdma_create_mm_to_st_descriptor_list
- .text          0x00000000101006dc      0x12c /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/libgcc.a(lib2-divmod.o)
-                0x0000000010100748                __divsi3
-                0x000000001010079c                __modsi3
-                0x00000000101007f8                __udivsi3
-                0x0000000010100800                __umodsi3
- .text          0x0000000010100808        0x0 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcpy.o)
- .text.memcpy   0x0000000010100808       0x28 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcpy.o)
-                0x0000000010100808                memcpy
- .text          0x0000000010100830       0x9c /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic.o)
-                0x0000000010100830                alt_ic_isr_register
-                0x0000000010100834                alt_ic_irq_enable
-                0x0000000010100874                alt_ic_irq_disable
-                0x00000000101008b4                alt_ic_irq_enabled
- .text          0x00000000101008cc       0x68 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic_isr_register.o)
-                0x00000000101008cc                alt_iic_isr_register
- .text          0x0000000010100934        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_entry.o)
- .text          0x0000000010100934        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_handler.o)
- .text          0x0000000010100934        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_vars.o)
- .text          0x0000000010100934       0xf8 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_load.o)
-                0x0000000010100934                alt_load
- .text          0x0000000010100a2c       0x2c /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_main.o)
-                0x0000000010100a2c                alt_main
- .text          0x0000000010100a58      0x16c /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_printf.o)
-                0x0000000010100a58                alt_printf
- .text          0x0000000010100bc4       0x48 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_putchar.o)
-                0x0000000010100bc4                alt_putchar
- .text          0x0000000010100c0c       0x38 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_putstr.o)
-                0x0000000010100c0c                alt_putstr
- .text          0x0000000010100c44       0x34 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_sys_init.o)
-                0x0000000010100c44                alt_irq_init
-                0x0000000010100c64                alt_sys_init
- .text          0x0000000010100c78       0x34 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_avalon_jtag_uart_write.o)
-                0x0000000010100c78                altera_avalon_jtag_uart_write
- .text          0x0000000010100cac      0xe4c /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_msgdma.o)
-                0x00000000101011a0                alt_msgdma_construct_standard_st_to_mm_descriptor
-                0x00000000101011d8                alt_msgdma_construct_standard_mm_to_st_descriptor
-                0x0000000010101210                alt_msgdma_construct_standard_mm_to_mm_descriptor
-                0x000000001010124c                alt_msgdma_construct_extended_st_to_mm_descriptor
-                0x00000000101012c4                alt_msgdma_construct_extended_mm_to_st_descriptor
-                0x000000001010133c                alt_msgdma_construct_extended_mm_to_mm_descriptor
-                0x00000000101013cc                alt_msgdma_construct_prefetcher_standard_mm_to_mm_descriptor
-                0x0000000010101418                alt_msgdma_construct_prefetcher_standard_st_to_mm_descriptor
-                0x0000000010101460                alt_msgdma_construct_prefetcher_standard_mm_to_st_descriptor
-                0x00000000101014a8                alt_msgdma_construct_prefetcher_extended_st_to_mm_descriptor
-                0x0000000010101538                alt_msgdma_construct_prefetcher_extended_mm_to_st_descriptor
-                0x00000000101015c8                alt_msgdma_construct_prefetcher_extended_mm_to_mm_descriptor
-                0x0000000010101674                alt_msgdma_prefetcher_add_standard_desc_to_list
-                0x00000000101016c4                alt_msgdma_prefetcher_add_extended_desc_to_list
-                0x0000000010101728                alt_msgdma_prefetcher_set_std_list_own_by_hw_bits
-                0x000000001010175c                alt_msgdma_prefetcher_set_extd_list_own_by_hw_bits
-                0x00000000101017a4                alt_msgdma_start_prefetcher_with_list_addr
-                0x00000000101018ac                alt_msgdma_start_prefetcher_with_std_desc_list
-                0x0000000010101918                alt_msgdma_start_prefetcher_with_extd_desc_list
-                0x0000000010101984                alt_msgdma_open
-                0x00000000101019dc                alt_msgdma_init
-                0x0000000010101ac0                alt_msgdma_register_callback
-                0x0000000010101ad0                alt_msgdma_standard_descriptor_async_transfer
-                0x0000000010101ad8                alt_msgdma_extended_descriptor_async_transfer
-                0x0000000010101ae4                alt_msgdma_standard_descriptor_sync_transfer
-                0x0000000010101aec                alt_msgdma_extended_descriptor_sync_transfer
- .text          0x0000000010101af8       0x78 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_busy_sleep.o)
-                0x0000000010101af8                alt_busy_sleep
- .text          0x0000000010101b70       0x18 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_dcache_flush_all.o)
-                0x0000000010101b70                alt_dcache_flush_all
- .text          0x0000000010101b88       0x78 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_dev_llist_insert.o)
-                0x0000000010101b88                alt_dev_llist_insert
- .text          0x0000000010101c00        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_errno.o)
- .text          0x0000000010101c00        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_exception_entry.o)
- .text          0x0000000010101c00       0x74 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_find_dev.o)
-                0x0000000010101c00                alt_find_dev
- .text          0x0000000010101c74        0xc /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_icache_flush_all.o)
-                0x0000000010101c74                alt_icache_flush_all
- .text          0x0000000010101c80        0x8 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_nios2_qsys_irq.o)
-                0x0000000010101c80                altera_nios2_qsys_irq_init
- .text          0x0000000010101c88       0x38 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_icache_flush.o)
-                0x0000000010101c88                alt_icache_flush
- .text          0x0000000010101cc0        0x0 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-int_errno.o)
- .text          0x0000000010101cc0        0x0 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcmp.o)
- .text.memcmp   0x0000000010101cc0       0x30 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcmp.o)
-                0x0000000010101cc0                memcmp
- .text          0x0000000010101cf0        0x0 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-strlen.o)
- .text.strlen   0x0000000010101cf0       0x1c /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-strlen.o)
-                0x0000000010101cf0                strlen
+ .text          0x000000001010019c       0x18 obj/default/DMA_Read.o
+                0x000000001010019c                DMA_Read_configureDMA
+                0x00000000101001ac                DMA_Read_setFlags
+ .text          0x00000000101001b4       0x6c obj/default/VGA_DMA_display.o
+                0x00000000101001b4                irq_vsync
+ .text.startup  0x0000000010100220       0xe0 obj/default/VGA_DMA_display.o
+                0x0000000010100220                main
+ .text          0x0000000010100300       0x70 obj/default/VGA_Display.o
+                0x0000000010100300                VGA_Display_changeVerticalPorch
+                0x0000000010100314                VGA_Display_changeHorizontalPorch
+                0x0000000010100328                VGA_Display_changeScreenColor
+                0x0000000010100330                VGA_Display_set_irq
+ .text          0x0000000010100370      0x388 obj/default/msgDMA.o
+                0x0000000010100370                msgdma_transfer
+                0x0000000010100464                msgdma_create_mm_to_mm_descriptor_list
+                0x00000000101005c4                msgdma_create_mm_to_st_descriptor_list
+ .text          0x00000000101006f8      0x12c /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/libgcc.a(lib2-divmod.o)
+                0x0000000010100764                __divsi3
+                0x00000000101007b8                __modsi3
+                0x0000000010100814                __udivsi3
+                0x000000001010081c                __umodsi3
+ .text          0x0000000010100824        0x0 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcpy.o)
+ .text.memcpy   0x0000000010100824       0x28 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcpy.o)
+                0x0000000010100824                memcpy
+ .text          0x000000001010084c       0x9c /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic.o)
+                0x000000001010084c                alt_ic_isr_register
+                0x0000000010100850                alt_ic_irq_enable
+                0x0000000010100890                alt_ic_irq_disable
+                0x00000000101008d0                alt_ic_irq_enabled
+ .text          0x00000000101008e8       0x68 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic_isr_register.o)
+                0x00000000101008e8                alt_iic_isr_register
+ .text          0x0000000010100950        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_entry.o)
+ .text          0x0000000010100950        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_handler.o)
+ .text          0x0000000010100950        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_vars.o)
+ .text          0x0000000010100950       0xf8 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_load.o)
+                0x0000000010100950                alt_load
+ .text          0x0000000010100a48       0x2c /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_main.o)
+                0x0000000010100a48                alt_main
+ .text          0x0000000010100a74      0x16c /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_printf.o)
+                0x0000000010100a74                alt_printf
+ .text          0x0000000010100be0       0x48 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_putchar.o)
+                0x0000000010100be0                alt_putchar
+ .text          0x0000000010100c28       0x38 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_putstr.o)
+                0x0000000010100c28                alt_putstr
+ .text          0x0000000010100c60       0x34 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_sys_init.o)
+                0x0000000010100c60                alt_irq_init
+                0x0000000010100c80                alt_sys_init
+ .text          0x0000000010100c94       0x34 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_avalon_jtag_uart_write.o)
+                0x0000000010100c94                altera_avalon_jtag_uart_write
+ .text          0x0000000010100cc8      0xe4c /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_msgdma.o)
+                0x00000000101011bc                alt_msgdma_construct_standard_st_to_mm_descriptor
+                0x00000000101011f4                alt_msgdma_construct_standard_mm_to_st_descriptor
+                0x000000001010122c                alt_msgdma_construct_standard_mm_to_mm_descriptor
+                0x0000000010101268                alt_msgdma_construct_extended_st_to_mm_descriptor
+                0x00000000101012e0                alt_msgdma_construct_extended_mm_to_st_descriptor
+                0x0000000010101358                alt_msgdma_construct_extended_mm_to_mm_descriptor
+                0x00000000101013e8                alt_msgdma_construct_prefetcher_standard_mm_to_mm_descriptor
+                0x0000000010101434                alt_msgdma_construct_prefetcher_standard_st_to_mm_descriptor
+                0x000000001010147c                alt_msgdma_construct_prefetcher_standard_mm_to_st_descriptor
+                0x00000000101014c4                alt_msgdma_construct_prefetcher_extended_st_to_mm_descriptor
+                0x0000000010101554                alt_msgdma_construct_prefetcher_extended_mm_to_st_descriptor
+                0x00000000101015e4                alt_msgdma_construct_prefetcher_extended_mm_to_mm_descriptor
+                0x0000000010101690                alt_msgdma_prefetcher_add_standard_desc_to_list
+                0x00000000101016e0                alt_msgdma_prefetcher_add_extended_desc_to_list
+                0x0000000010101744                alt_msgdma_prefetcher_set_std_list_own_by_hw_bits
+                0x0000000010101778                alt_msgdma_prefetcher_set_extd_list_own_by_hw_bits
+                0x00000000101017c0                alt_msgdma_start_prefetcher_with_list_addr
+                0x00000000101018c8                alt_msgdma_start_prefetcher_with_std_desc_list
+                0x0000000010101934                alt_msgdma_start_prefetcher_with_extd_desc_list
+                0x00000000101019a0                alt_msgdma_open
+                0x00000000101019f8                alt_msgdma_init
+                0x0000000010101adc                alt_msgdma_register_callback
+                0x0000000010101aec                alt_msgdma_standard_descriptor_async_transfer
+                0x0000000010101af4                alt_msgdma_extended_descriptor_async_transfer
+                0x0000000010101b00                alt_msgdma_standard_descriptor_sync_transfer
+                0x0000000010101b08                alt_msgdma_extended_descriptor_sync_transfer
+ .text          0x0000000010101b14       0x78 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_busy_sleep.o)
+                0x0000000010101b14                alt_busy_sleep
+ .text          0x0000000010101b8c       0x18 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_dcache_flush_all.o)
+                0x0000000010101b8c                alt_dcache_flush_all
+ .text          0x0000000010101ba4       0x78 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_dev_llist_insert.o)
+                0x0000000010101ba4                alt_dev_llist_insert
+ .text          0x0000000010101c1c        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_errno.o)
+ .text          0x0000000010101c1c        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_exception_entry.o)
+ .text          0x0000000010101c1c       0x74 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_find_dev.o)
+                0x0000000010101c1c                alt_find_dev
+ .text          0x0000000010101c90        0xc /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_icache_flush_all.o)
+                0x0000000010101c90                alt_icache_flush_all
+ .text          0x0000000010101c9c        0x8 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_nios2_qsys_irq.o)
+                0x0000000010101c9c                altera_nios2_qsys_irq_init
+ .text          0x0000000010101ca4       0x38 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_icache_flush.o)
+                0x0000000010101ca4                alt_icache_flush
+ .text          0x0000000010101cdc        0x0 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-int_errno.o)
+ .text          0x0000000010101cdc        0x0 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcmp.o)
+ .text.memcmp   0x0000000010101cdc       0x30 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcmp.o)
+                0x0000000010101cdc                memcmp
+ .text          0x0000000010101d0c        0x0 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-strlen.o)
+ .text.strlen   0x0000000010101d0c       0x1c /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-strlen.o)
+                0x0000000010101d0c                strlen
  *(.gnu.warning.*)
  *(.fini)
-                0x0000000010101d0c                PROVIDE (__etext, ABSOLUTE (.))
-                0x0000000010101d0c                PROVIDE (_etext, ABSOLUTE (.))
-                0x0000000010101d0c                PROVIDE (etext, ABSOLUTE (.))
+                0x0000000010101d28                PROVIDE (__etext, ABSOLUTE (.))
+                0x0000000010101d28                PROVIDE (_etext, ABSOLUTE (.))
+                0x0000000010101d28                PROVIDE (etext, ABSOLUTE (.))
  *(.eh_frame_hdr)
-                0x0000000010101d0c                . = ALIGN (0x4)
-                0x0000000010101d0c                PROVIDE (__preinit_array_start, ABSOLUTE (.))
+                0x0000000010101d28                . = ALIGN (0x4)
+                0x0000000010101d28                PROVIDE (__preinit_array_start, ABSOLUTE (.))
  *(.preinit_array)
-                0x0000000010101d0c                PROVIDE (__preinit_array_end, ABSOLUTE (.))
-                0x0000000010101d0c                PROVIDE (__init_array_start, ABSOLUTE (.))
+                0x0000000010101d28                PROVIDE (__preinit_array_end, ABSOLUTE (.))
+                0x0000000010101d28                PROVIDE (__init_array_start, ABSOLUTE (.))
  *(.init_array)
-                0x0000000010101d0c                PROVIDE (__init_array_end, ABSOLUTE (.))
-                0x0000000010101d0c                PROVIDE (__fini_array_start, ABSOLUTE (.))
+                0x0000000010101d28                PROVIDE (__init_array_end, ABSOLUTE (.))
+                0x0000000010101d28                PROVIDE (__fini_array_start, ABSOLUTE (.))
  *(.fini_array)
-                0x0000000010101d0c                PROVIDE (__fini_array_end, ABSOLUTE (.))
+                0x0000000010101d28                PROVIDE (__fini_array_end, ABSOLUTE (.))
  *(.eh_frame)
  *(.gcc_except_table .gcc_except_table.*)
  *(.dynamic)
-                0x0000000010101d0c                PROVIDE (__CTOR_LIST__, ABSOLUTE (.))
+                0x0000000010101d28                PROVIDE (__CTOR_LIST__, ABSOLUTE (.))
  *(.ctors)
  *(SORT(.ctors.*))
-                0x0000000010101d0c                PROVIDE (__CTOR_END__, ABSOLUTE (.))
-                0x0000000010101d0c                PROVIDE (__DTOR_LIST__, ABSOLUTE (.))
+                0x0000000010101d28                PROVIDE (__CTOR_END__, ABSOLUTE (.))
+                0x0000000010101d28                PROVIDE (__DTOR_LIST__, ABSOLUTE (.))
  *(.dtors)
  *(SORT(.dtors.*))
-                0x0000000010101d0c                PROVIDE (__DTOR_END__, ABSOLUTE (.))
+                0x0000000010101d28                PROVIDE (__DTOR_END__, ABSOLUTE (.))
  *(.jcr)
-                0x0000000010101d0c                . = ALIGN (0x4)
+                0x0000000010101d28                . = ALIGN (0x4)
 
-.rodata         0x0000000010101d0c      0x438
-                0x0000000010101d0c                PROVIDE (__ram_rodata_start, ABSOLUTE (.))
-                0x0000000010101d0c                . = ALIGN (0x4)
+.rodata         0x0000000010101d28      0x438
+                0x0000000010101d28                PROVIDE (__ram_rodata_start, ABSOLUTE (.))
+                0x0000000010101d28                . = ALIGN (0x4)
  *(.rodata .rodata.* .gnu.linkonce.r.*)
  .rodata.str1.4
-                0x0000000010101d0c       0x55 obj/default/VGA_DMA_display.o
+                0x0000000010101d28       0x55 obj/default/VGA_DMA_display.o
                                          0x58 (size before relaxing)
- *fill*         0x0000000010101d61        0x3 
- .rodata        0x0000000010101d64       0x60 obj/default/VGA_DMA_display.o
+ *fill*         0x0000000010101d7d        0x3 
+ .rodata        0x0000000010101d80       0x60 obj/default/VGA_DMA_display.o
  .rodata.str1.4
-                0x0000000010101dc4      0x1b0 obj/default/msgDMA.o
+                0x0000000010101de0      0x1b0 obj/default/msgDMA.o
  .rodata.str1.4
                 0x0000000000000000       0x28 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_sys_init.o)
  .rodata.str1.4
-                0x0000000010101f74      0x1d0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_msgdma.o)
+                0x0000000010101f90      0x1d0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_msgdma.o)
  *(.rodata1)
-                0x0000000010102144                . = ALIGN (0x4)
-                0x0000000010102144                PROVIDE (__ram_rodata_end, ABSOLUTE (.))
-                0x0000000010101d0c                PROVIDE (__flash_rodata_start, LOADADDR (.rodata))
+                0x0000000010102160                . = ALIGN (0x4)
+                0x0000000010102160                PROVIDE (__ram_rodata_end, ABSOLUTE (.))
+                0x0000000010101d28                PROVIDE (__flash_rodata_start, LOADADDR (.rodata))
 
-.rwdata         0x0000000010102144       0x74 load address 0x00000000101021b8
-                0x0000000010102144                PROVIDE (__ram_rwdata_start, ABSOLUTE (.))
-                0x0000000010102144                . = ALIGN (0x4)
+.rwdata         0x0000000010102160       0x74 load address 0x00000000101021d4
+                0x0000000010102160                PROVIDE (__ram_rwdata_start, ABSOLUTE (.))
+                0x0000000010102160                . = ALIGN (0x4)
  *(.got.plt)
  *(.got)
  *(.data1)
  *(.data .data.* .gnu.linkonce.d.*)
- .data          0x0000000010102144        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//obj/HAL/src/crt0.o
- .data          0x0000000010102144        0x0 obj/default/VGA_DMA_display.o
- .data          0x0000000010102144        0x0 obj/default/VGA_Display.o
- .data          0x0000000010102144        0x0 obj/default/msgDMA.o
- .data          0x0000000010102144        0x0 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/libgcc.a(lib2-divmod.o)
- .data          0x0000000010102144        0x0 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcpy.o)
- .data          0x0000000010102144        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic.o)
- .data          0x0000000010102144        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic_isr_register.o)
- .data          0x0000000010102144        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_entry.o)
- .data          0x0000000010102144        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_handler.o)
- .data          0x0000000010102144        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_vars.o)
- .data          0x0000000010102144        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_load.o)
- .data          0x0000000010102144        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_main.o)
- .data          0x0000000010102144        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_printf.o)
- .data          0x0000000010102144        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_putchar.o)
- .data          0x0000000010102144        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_putstr.o)
- .data          0x0000000010102144       0x60 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_sys_init.o)
- .data          0x00000000101021a4        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_avalon_jtag_uart_write.o)
- .data          0x00000000101021a4        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_msgdma.o)
- .data          0x00000000101021a4        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_busy_sleep.o)
- .data          0x00000000101021a4        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_dcache_flush_all.o)
- .data          0x00000000101021a4        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_dev_llist_insert.o)
- .data          0x00000000101021a4        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_errno.o)
- .data          0x00000000101021a4        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_exception_entry.o)
- .data          0x00000000101021a4        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_find_dev.o)
- .data          0x00000000101021a4        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_icache_flush_all.o)
- .data          0x00000000101021a4        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_nios2_qsys_irq.o)
- .data          0x00000000101021a4        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_icache_flush.o)
- .data          0x00000000101021a4        0x0 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-int_errno.o)
- .data          0x00000000101021a4        0x0 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcmp.o)
- .data          0x00000000101021a4        0x0 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-strlen.o)
-                0x000000001010a1a4                _gp = ABSOLUTE ((. + 0x8000))
-                0x000000001010a1a4                PROVIDE (gp, _gp)
+ .data          0x0000000010102160        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//obj/HAL/src/crt0.o
+ .data          0x0000000010102160        0x0 obj/default/DMA_Read.o
+ .data          0x0000000010102160        0x0 obj/default/VGA_DMA_display.o
+ .data          0x0000000010102160        0x0 obj/default/VGA_Display.o
+ .data          0x0000000010102160        0x0 obj/default/msgDMA.o
+ .data          0x0000000010102160        0x0 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/libgcc.a(lib2-divmod.o)
+ .data          0x0000000010102160        0x0 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcpy.o)
+ .data          0x0000000010102160        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic.o)
+ .data          0x0000000010102160        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic_isr_register.o)
+ .data          0x0000000010102160        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_entry.o)
+ .data          0x0000000010102160        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_handler.o)
+ .data          0x0000000010102160        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_vars.o)
+ .data          0x0000000010102160        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_load.o)
+ .data          0x0000000010102160        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_main.o)
+ .data          0x0000000010102160        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_printf.o)
+ .data          0x0000000010102160        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_putchar.o)
+ .data          0x0000000010102160        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_putstr.o)
+ .data          0x0000000010102160       0x60 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_sys_init.o)
+ .data          0x00000000101021c0        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_avalon_jtag_uart_write.o)
+ .data          0x00000000101021c0        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_msgdma.o)
+ .data          0x00000000101021c0        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_busy_sleep.o)
+ .data          0x00000000101021c0        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_dcache_flush_all.o)
+ .data          0x00000000101021c0        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_dev_llist_insert.o)
+ .data          0x00000000101021c0        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_errno.o)
+ .data          0x00000000101021c0        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_exception_entry.o)
+ .data          0x00000000101021c0        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_find_dev.o)
+ .data          0x00000000101021c0        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_icache_flush_all.o)
+ .data          0x00000000101021c0        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_nios2_qsys_irq.o)
+ .data          0x00000000101021c0        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_icache_flush.o)
+ .data          0x00000000101021c0        0x0 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-int_errno.o)
+ .data          0x00000000101021c0        0x0 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcmp.o)
+ .data          0x00000000101021c0        0x0 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-strlen.o)
+                0x000000001010a1c0                _gp = ABSOLUTE ((. + 0x8000))
+                0x000000001010a1c0                PROVIDE (gp, _gp)
  *(.rwdata .rwdata.*)
  *(.sdata .sdata.* .gnu.linkonce.s.*)
- .sdata         0x00000000101021a4        0x4 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_vars.o)
-                0x00000000101021a4                alt_priority_mask
- .sdata         0x00000000101021a8        0x4 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_sys_init.o)
-                0x00000000101021a8                jtag_uart_0
- .sdata         0x00000000101021ac        0x8 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_msgdma.o)
-                0x00000000101021ac                alt_msgdma_list
- .sdata         0x00000000101021b4        0x4 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_errno.o)
-                0x00000000101021b4                alt_errno
+ .sdata         0x00000000101021c0        0x4 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_vars.o)
+                0x00000000101021c0                alt_priority_mask
+ .sdata         0x00000000101021c4        0x4 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_sys_init.o)
+                0x00000000101021c4                jtag_uart_0
+ .sdata         0x00000000101021c8        0x8 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_msgdma.o)
+                0x00000000101021c8                alt_msgdma_list
+ .sdata         0x00000000101021d0        0x4 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_errno.o)
+                0x00000000101021d0                alt_errno
  *(.sdata2 .sdata2.* .gnu.linkonce.s2.*)
-                0x00000000101021b8                . = ALIGN (0x4)
-                0x00000000101021b8                _edata = ABSOLUTE (.)
-                0x00000000101021b8                PROVIDE (edata, ABSOLUTE (.))
-                0x00000000101021b8                PROVIDE (__ram_rwdata_end, ABSOLUTE (.))
-                0x00000000101021b8                PROVIDE (__flash_rwdata_start, LOADADDR (.rwdata))
+                0x00000000101021d4                . = ALIGN (0x4)
+                0x00000000101021d4                _edata = ABSOLUTE (.)
+                0x00000000101021d4                PROVIDE (edata, ABSOLUTE (.))
+                0x00000000101021d4                PROVIDE (__ram_rwdata_end, ABSOLUTE (.))
+                0x00000000101021d4                PROVIDE (__flash_rwdata_start, LOADADDR (.rwdata))
 
-.bss            0x000000001010222c      0x194
-                0x000000001010222c                __bss_start = ABSOLUTE (.)
-                0x000000001010222c                PROVIDE (__sbss_start, ABSOLUTE (.))
-                0x000000001010222c                PROVIDE (___sbss_start, ABSOLUTE (.))
+.bss            0x0000000010102248      0x198
+                0x0000000010102248                __bss_start = ABSOLUTE (.)
+                0x0000000010102248                PROVIDE (__sbss_start, ABSOLUTE (.))
+                0x0000000010102248                PROVIDE (___sbss_start, ABSOLUTE (.))
  *(.dynsbss)
  *(.sbss .sbss.* .gnu.linkonce.sb.*)
- .sbss          0x000000001010222c        0x8 obj/default/VGA_DMA_display.o
-                0x000000001010222c                next_desc
-                0x0000000010102230                vsync
- .sbss          0x0000000010102234        0x4 obj/default/VGA_DMA_display.o
-                0x0000000010102234                descriptor_number
- .sbss          0x0000000010102238        0x4 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_vars.o)
-                0x0000000010102238                alt_irq_active
- .sbss          0x000000001010223c        0xc /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_main.o)
-                0x000000001010223c                alt_envp
-                0x0000000010102240                alt_argv
-                0x0000000010102244                alt_argc
- .sbss          0x0000000010102248        0x4 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-int_errno.o)
-                0x0000000010102248                errno
+ .sbss          0x0000000010102248        0x8 obj/default/VGA_DMA_display.o
+                0x0000000010102248                next_desc
+                0x000000001010224c                vsync
+ .sbss          0x0000000010102250        0x4 obj/default/VGA_DMA_display.o
+                0x0000000010102250                descriptor_number
+ .sbss          0x0000000010102254        0x4 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_vars.o)
+                0x0000000010102254                alt_irq_active
+ .sbss          0x0000000010102258        0xc /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_main.o)
+                0x0000000010102258                alt_envp
+                0x000000001010225c                alt_argv
+                0x0000000010102260                alt_argc
+ .sbss          0x0000000010102264        0x4 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-int_errno.o)
+                0x0000000010102264                errno
  *(.sbss2 .sbss2.* .gnu.linkonce.sb2.*)
  *(.scommon)
-                0x000000001010224c                PROVIDE (__sbss_end, ABSOLUTE (.))
-                0x000000001010224c                PROVIDE (___sbss_end, ABSOLUTE (.))
+                0x0000000010102268                PROVIDE (__sbss_end, ABSOLUTE (.))
+                0x0000000010102268                PROVIDE (___sbss_end, ABSOLUTE (.))
  *(.dynbss)
  *(.bss .bss.* .gnu.linkonce.b.*)
- .bss           0x000000001010224c        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//obj/HAL/src/crt0.o
- .bss           0x000000001010224c        0x0 obj/default/VGA_DMA_display.o
- .bss           0x000000001010224c        0x0 obj/default/VGA_Display.o
- .bss           0x000000001010224c        0x0 obj/default/msgDMA.o
- .bss           0x000000001010224c        0x0 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/libgcc.a(lib2-divmod.o)
- .bss           0x000000001010224c        0x0 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcpy.o)
- .bss           0x000000001010224c        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic.o)
- .bss           0x000000001010224c        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic_isr_register.o)
- .bss           0x000000001010224c        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_entry.o)
- .bss           0x000000001010224c        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_handler.o)
- .bss           0x000000001010224c        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_vars.o)
- .bss           0x000000001010224c        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_load.o)
- .bss           0x000000001010224c        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_main.o)
- .bss           0x000000001010224c        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_printf.o)
- .bss           0x000000001010224c        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_putchar.o)
- .bss           0x000000001010224c        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_putstr.o)
- .bss           0x000000001010224c        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_sys_init.o)
- .bss           0x000000001010224c        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_avalon_jtag_uart_write.o)
- .bss           0x000000001010224c        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_msgdma.o)
- .bss           0x000000001010224c        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_busy_sleep.o)
- .bss           0x000000001010224c        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_dcache_flush_all.o)
- .bss           0x000000001010224c        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_dev_llist_insert.o)
- .bss           0x000000001010224c        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_errno.o)
- .bss           0x000000001010224c        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_exception_entry.o)
- .bss           0x000000001010224c        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_find_dev.o)
- .bss           0x000000001010224c        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_icache_flush_all.o)
- .bss           0x000000001010224c        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_nios2_qsys_irq.o)
- .bss           0x000000001010224c        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_icache_flush.o)
- .bss           0x000000001010224c        0x0 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-int_errno.o)
- .bss           0x000000001010224c        0x0 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcmp.o)
- .bss           0x000000001010224c        0x0 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-strlen.o)
+ .bss           0x0000000010102268        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//obj/HAL/src/crt0.o
+ .bss           0x0000000010102268        0x0 obj/default/DMA_Read.o
+ .bss           0x0000000010102268        0x0 obj/default/VGA_DMA_display.o
+ .bss           0x0000000010102268        0x0 obj/default/VGA_Display.o
+ .bss           0x0000000010102268        0x0 obj/default/msgDMA.o
+ .bss           0x0000000010102268        0x0 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/libgcc.a(lib2-divmod.o)
+ .bss           0x0000000010102268        0x0 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcpy.o)
+ .bss           0x0000000010102268        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic.o)
+ .bss           0x0000000010102268        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic_isr_register.o)
+ .bss           0x0000000010102268        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_entry.o)
+ .bss           0x0000000010102268        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_handler.o)
+ .bss           0x0000000010102268        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_vars.o)
+ .bss           0x0000000010102268        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_load.o)
+ .bss           0x0000000010102268        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_main.o)
+ .bss           0x0000000010102268        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_printf.o)
+ .bss           0x0000000010102268        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_putchar.o)
+ .bss           0x0000000010102268        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_putstr.o)
+ .bss           0x0000000010102268        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_sys_init.o)
+ .bss           0x0000000010102268        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_avalon_jtag_uart_write.o)
+ .bss           0x0000000010102268        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_msgdma.o)
+ .bss           0x0000000010102268        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_busy_sleep.o)
+ .bss           0x0000000010102268        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_dcache_flush_all.o)
+ .bss           0x0000000010102268        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_dev_llist_insert.o)
+ .bss           0x0000000010102268        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_errno.o)
+ .bss           0x0000000010102268        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_exception_entry.o)
+ .bss           0x0000000010102268        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_find_dev.o)
+ .bss           0x0000000010102268        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_icache_flush_all.o)
+ .bss           0x0000000010102268        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_nios2_qsys_irq.o)
+ .bss           0x0000000010102268        0x0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_icache_flush.o)
+ .bss           0x0000000010102268        0x0 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-int_errno.o)
+ .bss           0x0000000010102268        0x0 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcmp.o)
+ .bss           0x0000000010102268        0x0 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-strlen.o)
  *(COMMON)
- *fill*         0x000000001010224c        0x4 
- COMMON         0x0000000010102250       0x70 obj/default/VGA_DMA_display.o
-                0x0000000010102250                msgdma_dev
-                0x00000000101022b0                msgdma_desc
- COMMON         0x00000000101022c0      0x100 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_handler.o)
-                0x00000000101022c0                alt_irq
-                0x00000000101023c0                . = ALIGN (0x4)
-                0x00000000101023c0                __bss_end = ABSOLUTE (.)
+ *fill*         0x0000000010102268        0x8 
+ COMMON         0x0000000010102270       0x70 obj/default/VGA_DMA_display.o
+                0x0000000010102270                msgdma_dev
+                0x00000000101022d0                msgdma_desc
+ COMMON         0x00000000101022e0      0x100 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_handler.o)
+                0x00000000101022e0                alt_irq
+                0x00000000101023e0                . = ALIGN (0x4)
+                0x00000000101023e0                __bss_end = ABSOLUTE (.)
 
 .onchip_memory2_0
-                0x00000000101023c0        0x0
-                0x00000000101023c0                PROVIDE (_alt_partition_onchip_memory2_0_start, ABSOLUTE (.))
+                0x00000000101023e0        0x0
+                0x00000000101023e0                PROVIDE (_alt_partition_onchip_memory2_0_start, ABSOLUTE (.))
  *(.onchip_memory2_0 .onchip_memory2_0. onchip_memory2_0.*)
-                0x00000000101023c0                . = ALIGN (0x4)
-                0x00000000101023c0                PROVIDE (_alt_partition_onchip_memory2_0_end, ABSOLUTE (.))
-                0x00000000101023c0                _end = ABSOLUTE (.)
-                0x00000000101023c0                end = ABSOLUTE (.)
-                0x00000000101023c0                __alt_stack_base = ABSOLUTE (.)
-                0x00000000101023c0                PROVIDE (_alt_partition_onchip_memory2_0_load_addr, LOADADDR (.onchip_memory2_0))
+                0x00000000101023e0                . = ALIGN (0x4)
+                0x00000000101023e0                PROVIDE (_alt_partition_onchip_memory2_0_end, ABSOLUTE (.))
+                0x00000000101023e0                _end = ABSOLUTE (.)
+                0x00000000101023e0                end = ABSOLUTE (.)
+                0x00000000101023e0                __alt_stack_base = ABSOLUTE (.)
+                0x00000000101023e0                PROVIDE (_alt_partition_onchip_memory2_0_load_addr, LOADADDR (.onchip_memory2_0))
 
 .stab
  *(.stab)
@@ -498,8 +504,9 @@ LOAD /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib
 
 .comment        0x0000000000000000       0x23
  *(.comment)
- .comment       0x0000000000000000       0x23 obj/default/VGA_DMA_display.o
+ .comment       0x0000000000000000       0x23 obj/default/DMA_Read.o
                                          0x24 (size before relaxing)
+ .comment       0x0000000000000000       0x24 obj/default/VGA_DMA_display.o
  .comment       0x0000000000000000       0x24 obj/default/VGA_Display.o
  .comment       0x0000000000000000       0x24 obj/default/msgDMA.o
  .comment       0x0000000000000000       0x24 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/libgcc.a(lib2-divmod.o)
@@ -540,286 +547,294 @@ LOAD /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x0000000000000000      0x400
+.debug_aranges  0x0000000000000000      0x420
  *(.debug_aranges)
  .debug_aranges
                 0x0000000000000000       0x28 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//obj/HAL/src/crt0.o
  .debug_aranges
-                0x0000000000000028       0x28 obj/default/VGA_DMA_display.o
+                0x0000000000000028       0x20 obj/default/DMA_Read.o
  .debug_aranges
-                0x0000000000000050       0x20 obj/default/VGA_Display.o
+                0x0000000000000048       0x28 obj/default/VGA_DMA_display.o
  .debug_aranges
-                0x0000000000000070       0x20 obj/default/msgDMA.o
+                0x0000000000000070       0x20 obj/default/VGA_Display.o
  .debug_aranges
-                0x0000000000000090       0x20 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/libgcc.a(lib2-divmod.o)
+                0x0000000000000090       0x20 obj/default/msgDMA.o
  .debug_aranges
-                0x00000000000000b0       0x20 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcpy.o)
+                0x00000000000000b0       0x20 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/libgcc.a(lib2-divmod.o)
  .debug_aranges
-                0x00000000000000d0       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic.o)
+                0x00000000000000d0       0x20 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcpy.o)
  .debug_aranges
-                0x00000000000000f0       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic_isr_register.o)
+                0x00000000000000f0       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic.o)
  .debug_aranges
-                0x0000000000000110       0x30 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_entry.o)
+                0x0000000000000110       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic_isr_register.o)
  .debug_aranges
-                0x0000000000000140       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_handler.o)
+                0x0000000000000130       0x30 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_entry.o)
  .debug_aranges
-                0x0000000000000160       0x18 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_vars.o)
+                0x0000000000000160       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_handler.o)
  .debug_aranges
-                0x0000000000000178       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_load.o)
+                0x0000000000000180       0x18 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_vars.o)
  .debug_aranges
-                0x0000000000000198       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_main.o)
+                0x0000000000000198       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_load.o)
  .debug_aranges
-                0x00000000000001b8       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_printf.o)
+                0x00000000000001b8       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_main.o)
  .debug_aranges
-                0x00000000000001d8       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_putchar.o)
+                0x00000000000001d8       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_printf.o)
  .debug_aranges
-                0x00000000000001f8       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_putstr.o)
+                0x00000000000001f8       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_putchar.o)
  .debug_aranges
-                0x0000000000000218       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_sys_init.o)
+                0x0000000000000218       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_putstr.o)
  .debug_aranges
-                0x0000000000000238       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_avalon_jtag_uart_write.o)
+                0x0000000000000238       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_sys_init.o)
  .debug_aranges
-                0x0000000000000258       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_msgdma.o)
+                0x0000000000000258       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_avalon_jtag_uart_write.o)
  .debug_aranges
-                0x0000000000000278       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_busy_sleep.o)
+                0x0000000000000278       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_msgdma.o)
  .debug_aranges
-                0x0000000000000298       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_dcache_flush_all.o)
+                0x0000000000000298       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_busy_sleep.o)
  .debug_aranges
-                0x00000000000002b8       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_dev_llist_insert.o)
+                0x00000000000002b8       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_dcache_flush_all.o)
  .debug_aranges
-                0x00000000000002d8       0x18 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_errno.o)
+                0x00000000000002d8       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_dev_llist_insert.o)
  .debug_aranges
-                0x00000000000002f0       0x38 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_exception_entry.o)
+                0x00000000000002f8       0x18 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_errno.o)
  .debug_aranges
-                0x0000000000000328       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_find_dev.o)
+                0x0000000000000310       0x38 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_exception_entry.o)
  .debug_aranges
-                0x0000000000000348       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_icache_flush_all.o)
+                0x0000000000000348       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_find_dev.o)
  .debug_aranges
-                0x0000000000000368       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_nios2_qsys_irq.o)
+                0x0000000000000368       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_icache_flush_all.o)
  .debug_aranges
-                0x0000000000000388       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_icache_flush.o)
+                0x0000000000000388       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_nios2_qsys_irq.o)
  .debug_aranges
-                0x00000000000003a8       0x18 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-int_errno.o)
+                0x00000000000003a8       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_icache_flush.o)
  .debug_aranges
-                0x00000000000003c0       0x20 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcmp.o)
+                0x00000000000003c8       0x18 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-int_errno.o)
  .debug_aranges
-                0x00000000000003e0       0x20 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-strlen.o)
+                0x00000000000003e0       0x20 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcmp.o)
+ .debug_aranges
+                0x0000000000000400       0x20 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-strlen.o)
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x0000000000000000     0x52ae
+.debug_info     0x0000000000000000     0x5357
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x0000000000000000       0x7f /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//obj/HAL/src/crt0.o
- .debug_info    0x000000000000007f      0x5a9 obj/default/VGA_DMA_display.o
- .debug_info    0x0000000000000628      0x240 obj/default/VGA_Display.o
- .debug_info    0x0000000000000868      0x723 obj/default/msgDMA.o
- .debug_info    0x0000000000000f8b      0x234 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/libgcc.a(lib2-divmod.o)
- .debug_info    0x00000000000011bf      0x106 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcpy.o)
- .debug_info    0x00000000000012c5      0x39d /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic.o)
- .debug_info    0x0000000000001662      0x249 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic_isr_register.o)
- .debug_info    0x00000000000018ab       0x88 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_entry.o)
- .debug_info    0x0000000000001933      0x185 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_handler.o)
- .debug_info    0x0000000000001ab8       0x88 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_vars.o)
- .debug_info    0x0000000000001b40      0x1ba /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_load.o)
- .debug_info    0x0000000000001cfa      0x17b /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_main.o)
- .debug_info    0x0000000000001e75      0x153 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_printf.o)
- .debug_info    0x0000000000001fc8      0x138 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_putchar.o)
- .debug_info    0x0000000000002100      0x15d /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_putstr.o)
- .debug_info    0x000000000000225d      0x35a /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_sys_init.o)
- .debug_info    0x00000000000025b7      0x190 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_avalon_jtag_uart_write.o)
- .debug_info    0x0000000000002747     0x1f73 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_msgdma.o)
- .debug_info    0x00000000000046ba       0xd1 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_busy_sleep.o)
- .debug_info    0x000000000000478b       0x9f /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_dcache_flush_all.o)
- .debug_info    0x000000000000482a      0x1a8 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_dev_llist_insert.o)
- .debug_info    0x00000000000049d2       0x9f /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_errno.o)
- .debug_info    0x0000000000004a71       0x8e /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_exception_entry.o)
- .debug_info    0x0000000000004aff      0x356 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_find_dev.o)
- .debug_info    0x0000000000004e55       0xc5 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_icache_flush_all.o)
- .debug_info    0x0000000000004f1a       0x8b /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_nios2_qsys_irq.o)
- .debug_info    0x0000000000004fa5       0xd7 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_icache_flush.o)
- .debug_info    0x000000000000507c       0x83 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-int_errno.o)
- .debug_info    0x00000000000050ff       0xed /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcmp.o)
- .debug_info    0x00000000000051ec       0xc2 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-strlen.o)
+ .debug_info    0x000000000000007f       0xea obj/default/DMA_Read.o
+ .debug_info    0x0000000000000169      0x568 obj/default/VGA_DMA_display.o
+ .debug_info    0x00000000000006d1      0x240 obj/default/VGA_Display.o
+ .debug_info    0x0000000000000911      0x723 obj/default/msgDMA.o
+ .debug_info    0x0000000000001034      0x234 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/libgcc.a(lib2-divmod.o)
+ .debug_info    0x0000000000001268      0x106 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcpy.o)
+ .debug_info    0x000000000000136e      0x39d /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic.o)
+ .debug_info    0x000000000000170b      0x249 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic_isr_register.o)
+ .debug_info    0x0000000000001954       0x88 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_entry.o)
+ .debug_info    0x00000000000019dc      0x185 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_handler.o)
+ .debug_info    0x0000000000001b61       0x88 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_vars.o)
+ .debug_info    0x0000000000001be9      0x1ba /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_load.o)
+ .debug_info    0x0000000000001da3      0x17b /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_main.o)
+ .debug_info    0x0000000000001f1e      0x153 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_printf.o)
+ .debug_info    0x0000000000002071      0x138 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_putchar.o)
+ .debug_info    0x00000000000021a9      0x15d /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_putstr.o)
+ .debug_info    0x0000000000002306      0x35a /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_sys_init.o)
+ .debug_info    0x0000000000002660      0x190 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_avalon_jtag_uart_write.o)
+ .debug_info    0x00000000000027f0     0x1f73 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_msgdma.o)
+ .debug_info    0x0000000000004763       0xd1 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_busy_sleep.o)
+ .debug_info    0x0000000000004834       0x9f /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_dcache_flush_all.o)
+ .debug_info    0x00000000000048d3      0x1a8 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_dev_llist_insert.o)
+ .debug_info    0x0000000000004a7b       0x9f /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_errno.o)
+ .debug_info    0x0000000000004b1a       0x8e /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_exception_entry.o)
+ .debug_info    0x0000000000004ba8      0x356 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_find_dev.o)
+ .debug_info    0x0000000000004efe       0xc5 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_icache_flush_all.o)
+ .debug_info    0x0000000000004fc3       0x8b /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_nios2_qsys_irq.o)
+ .debug_info    0x000000000000504e       0xd7 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_icache_flush.o)
+ .debug_info    0x0000000000005125       0x83 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-int_errno.o)
+ .debug_info    0x00000000000051a8       0xed /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcmp.o)
+ .debug_info    0x0000000000005295       0xc2 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-strlen.o)
 
-.debug_abbrev   0x0000000000000000     0x1b39
+.debug_abbrev   0x0000000000000000     0x1bb3
  *(.debug_abbrev)
  .debug_abbrev  0x0000000000000000       0x12 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//obj/HAL/src/crt0.o
- .debug_abbrev  0x0000000000000012      0x1b3 obj/default/VGA_DMA_display.o
- .debug_abbrev  0x00000000000001c5       0xea obj/default/VGA_Display.o
- .debug_abbrev  0x00000000000002af      0x181 obj/default/msgDMA.o
- .debug_abbrev  0x0000000000000430       0xd9 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/libgcc.a(lib2-divmod.o)
- .debug_abbrev  0x0000000000000509       0xa4 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcpy.o)
- .debug_abbrev  0x00000000000005ad      0x17d /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic.o)
- .debug_abbrev  0x000000000000072a      0x1a6 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic_isr_register.o)
- .debug_abbrev  0x00000000000008d0       0x12 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_entry.o)
- .debug_abbrev  0x00000000000008e2      0x122 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_handler.o)
- .debug_abbrev  0x0000000000000a04       0x40 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_vars.o)
- .debug_abbrev  0x0000000000000a44       0xd8 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_load.o)
- .debug_abbrev  0x0000000000000b1c      0x120 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_main.o)
- .debug_abbrev  0x0000000000000c3c       0xde /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_printf.o)
- .debug_abbrev  0x0000000000000d1a       0xd4 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_putchar.o)
- .debug_abbrev  0x0000000000000dee       0xe2 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_putstr.o)
- .debug_abbrev  0x0000000000000ed0      0x149 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_sys_init.o)
- .debug_abbrev  0x0000000000001019       0xd5 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_avalon_jtag_uart_write.o)
- .debug_abbrev  0x00000000000010ee      0x412 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_msgdma.o)
- .debug_abbrev  0x0000000000001500       0x8d /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_busy_sleep.o)
- .debug_abbrev  0x000000000000158d       0x5a /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_dcache_flush_all.o)
- .debug_abbrev  0x00000000000015e7      0x11c /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_dev_llist_insert.o)
- .debug_abbrev  0x0000000000001703       0x5a /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_errno.o)
- .debug_abbrev  0x000000000000175d       0x12 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_exception_entry.o)
- .debug_abbrev  0x000000000000176f      0x12e /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_find_dev.o)
- .debug_abbrev  0x000000000000189d       0x8a /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_icache_flush_all.o)
- .debug_abbrev  0x0000000000001927       0x42 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_nios2_qsys_irq.o)
- .debug_abbrev  0x0000000000001969       0x9b /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_icache_flush.o)
- .debug_abbrev  0x0000000000001a04       0x37 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-int_errno.o)
- .debug_abbrev  0x0000000000001a3b       0x7f /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcmp.o)
- .debug_abbrev  0x0000000000001aba       0x7f /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-strlen.o)
+ .debug_abbrev  0x0000000000000012       0x6d obj/default/DMA_Read.o
+ .debug_abbrev  0x000000000000007f      0x1c0 obj/default/VGA_DMA_display.o
+ .debug_abbrev  0x000000000000023f       0xea obj/default/VGA_Display.o
+ .debug_abbrev  0x0000000000000329      0x181 obj/default/msgDMA.o
+ .debug_abbrev  0x00000000000004aa       0xd9 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/libgcc.a(lib2-divmod.o)
+ .debug_abbrev  0x0000000000000583       0xa4 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcpy.o)
+ .debug_abbrev  0x0000000000000627      0x17d /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic.o)
+ .debug_abbrev  0x00000000000007a4      0x1a6 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic_isr_register.o)
+ .debug_abbrev  0x000000000000094a       0x12 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_entry.o)
+ .debug_abbrev  0x000000000000095c      0x122 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_handler.o)
+ .debug_abbrev  0x0000000000000a7e       0x40 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_vars.o)
+ .debug_abbrev  0x0000000000000abe       0xd8 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_load.o)
+ .debug_abbrev  0x0000000000000b96      0x120 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_main.o)
+ .debug_abbrev  0x0000000000000cb6       0xde /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_printf.o)
+ .debug_abbrev  0x0000000000000d94       0xd4 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_putchar.o)
+ .debug_abbrev  0x0000000000000e68       0xe2 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_putstr.o)
+ .debug_abbrev  0x0000000000000f4a      0x149 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_sys_init.o)
+ .debug_abbrev  0x0000000000001093       0xd5 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_avalon_jtag_uart_write.o)
+ .debug_abbrev  0x0000000000001168      0x412 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_msgdma.o)
+ .debug_abbrev  0x000000000000157a       0x8d /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_busy_sleep.o)
+ .debug_abbrev  0x0000000000001607       0x5a /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_dcache_flush_all.o)
+ .debug_abbrev  0x0000000000001661      0x11c /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_dev_llist_insert.o)
+ .debug_abbrev  0x000000000000177d       0x5a /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_errno.o)
+ .debug_abbrev  0x00000000000017d7       0x12 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_exception_entry.o)
+ .debug_abbrev  0x00000000000017e9      0x12e /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_find_dev.o)
+ .debug_abbrev  0x0000000000001917       0x8a /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_icache_flush_all.o)
+ .debug_abbrev  0x00000000000019a1       0x42 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_nios2_qsys_irq.o)
+ .debug_abbrev  0x00000000000019e3       0x9b /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_icache_flush.o)
+ .debug_abbrev  0x0000000000001a7e       0x37 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-int_errno.o)
+ .debug_abbrev  0x0000000000001ab5       0x7f /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcmp.o)
+ .debug_abbrev  0x0000000000001b34       0x7f /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-strlen.o)
 
-.debug_line     0x0000000000000000     0x2078
+.debug_line     0x0000000000000000     0x2120
  *(.debug_line)
  .debug_line    0x0000000000000000       0x72 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//obj/HAL/src/crt0.o
- .debug_line    0x0000000000000072      0x1f9 obj/default/VGA_DMA_display.o
- .debug_line    0x000000000000026b      0x113 obj/default/VGA_Display.o
- .debug_line    0x000000000000037e      0x28c obj/default/msgDMA.o
- .debug_line    0x000000000000060a       0xc4 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/libgcc.a(lib2-divmod.o)
- .debug_line    0x00000000000006ce      0x15b /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcpy.o)
- .debug_line    0x0000000000000829       0xf1 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic.o)
- .debug_line    0x000000000000091a       0xd6 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic_isr_register.o)
- .debug_line    0x00000000000009f0       0x6b /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_entry.o)
- .debug_line    0x0000000000000a5b       0xa5 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_handler.o)
- .debug_line    0x0000000000000b00       0x50 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_vars.o)
- .debug_line    0x0000000000000b50       0xa6 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_load.o)
- .debug_line    0x0000000000000bf6       0xbd /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_main.o)
- .debug_line    0x0000000000000cb3      0x118 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_printf.o)
- .debug_line    0x0000000000000dcb       0x55 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_putchar.o)
- .debug_line    0x0000000000000e20      0x115 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_putstr.o)
- .debug_line    0x0000000000000f35      0x117 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_sys_init.o)
- .debug_line    0x000000000000104c       0xf0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_avalon_jtag_uart_write.o)
- .debug_line    0x000000000000113c      0x66c /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_msgdma.o)
- .debug_line    0x00000000000017a8       0xc0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_busy_sleep.o)
- .debug_line    0x0000000000001868       0x5a /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_dcache_flush_all.o)
- .debug_line    0x00000000000018c2       0xd8 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_dev_llist_insert.o)
- .debug_line    0x000000000000199a       0x51 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_errno.o)
- .debug_line    0x00000000000019eb       0xab /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_exception_entry.o)
- .debug_line    0x0000000000001a96      0x17c /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_find_dev.o)
- .debug_line    0x0000000000001c12       0x87 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_icache_flush_all.o)
- .debug_line    0x0000000000001c99       0x50 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_nios2_qsys_irq.o)
- .debug_line    0x0000000000001ce9       0x7d /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_icache_flush.o)
- .debug_line    0x0000000000001d66       0x5c /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-int_errno.o)
- .debug_line    0x0000000000001dc2      0x15d /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcmp.o)
- .debug_line    0x0000000000001f1f      0x159 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-strlen.o)
+ .debug_line    0x0000000000000072       0xa2 obj/default/DMA_Read.o
+ .debug_line    0x0000000000000114      0x1ff obj/default/VGA_DMA_display.o
+ .debug_line    0x0000000000000313      0x113 obj/default/VGA_Display.o
+ .debug_line    0x0000000000000426      0x28c obj/default/msgDMA.o
+ .debug_line    0x00000000000006b2       0xc4 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/libgcc.a(lib2-divmod.o)
+ .debug_line    0x0000000000000776      0x15b /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcpy.o)
+ .debug_line    0x00000000000008d1       0xf1 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic.o)
+ .debug_line    0x00000000000009c2       0xd6 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic_isr_register.o)
+ .debug_line    0x0000000000000a98       0x6b /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_entry.o)
+ .debug_line    0x0000000000000b03       0xa5 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_handler.o)
+ .debug_line    0x0000000000000ba8       0x50 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_vars.o)
+ .debug_line    0x0000000000000bf8       0xa6 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_load.o)
+ .debug_line    0x0000000000000c9e       0xbd /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_main.o)
+ .debug_line    0x0000000000000d5b      0x118 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_printf.o)
+ .debug_line    0x0000000000000e73       0x55 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_putchar.o)
+ .debug_line    0x0000000000000ec8      0x115 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_putstr.o)
+ .debug_line    0x0000000000000fdd      0x117 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_sys_init.o)
+ .debug_line    0x00000000000010f4       0xf0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_avalon_jtag_uart_write.o)
+ .debug_line    0x00000000000011e4      0x66c /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_msgdma.o)
+ .debug_line    0x0000000000001850       0xc0 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_busy_sleep.o)
+ .debug_line    0x0000000000001910       0x5a /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_dcache_flush_all.o)
+ .debug_line    0x000000000000196a       0xd8 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_dev_llist_insert.o)
+ .debug_line    0x0000000000001a42       0x51 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_errno.o)
+ .debug_line    0x0000000000001a93       0xab /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_exception_entry.o)
+ .debug_line    0x0000000000001b3e      0x17c /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_find_dev.o)
+ .debug_line    0x0000000000001cba       0x87 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_icache_flush_all.o)
+ .debug_line    0x0000000000001d41       0x50 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_nios2_qsys_irq.o)
+ .debug_line    0x0000000000001d91       0x7d /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_icache_flush.o)
+ .debug_line    0x0000000000001e0e       0x5c /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-int_errno.o)
+ .debug_line    0x0000000000001e6a      0x15d /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcmp.o)
+ .debug_line    0x0000000000001fc7      0x159 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-strlen.o)
 
-.debug_frame    0x0000000000000000      0x848
+.debug_frame    0x0000000000000000      0x878
  *(.debug_frame)
- .debug_frame   0x0000000000000000       0x44 obj/default/VGA_DMA_display.o
- .debug_frame   0x0000000000000044       0x5c obj/default/VGA_Display.o
- .debug_frame   0x00000000000000a0       0xdc obj/default/msgDMA.o
- .debug_frame   0x000000000000017c       0x8c /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/libgcc.a(lib2-divmod.o)
- .debug_frame   0x0000000000000208       0x20 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcpy.o)
- .debug_frame   0x0000000000000228       0x50 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic.o)
- .debug_frame   0x0000000000000278       0x30 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic_isr_register.o)
- .debug_frame   0x00000000000002a8       0x34 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_handler.o)
- .debug_frame   0x00000000000002dc       0x30 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_load.o)
- .debug_frame   0x000000000000030c       0x2c /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_main.o)
- .debug_frame   0x0000000000000338       0x54 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_printf.o)
- .debug_frame   0x000000000000038c       0x30 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_putchar.o)
- .debug_frame   0x00000000000003bc       0x30 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_putstr.o)
- .debug_frame   0x00000000000003ec       0x3c /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_sys_init.o)
- .debug_frame   0x0000000000000428       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_avalon_jtag_uart_write.o)
- .debug_frame   0x0000000000000448      0x2a8 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_msgdma.o)
- .debug_frame   0x00000000000006f0       0x30 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_busy_sleep.o)
- .debug_frame   0x0000000000000720       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_dcache_flush_all.o)
- .debug_frame   0x0000000000000740       0x2c /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_dev_llist_insert.o)
- .debug_frame   0x000000000000076c       0x3c /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_find_dev.o)
- .debug_frame   0x00000000000007a8       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_icache_flush_all.o)
- .debug_frame   0x00000000000007c8       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_nios2_qsys_irq.o)
- .debug_frame   0x00000000000007e8       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_icache_flush.o)
- .debug_frame   0x0000000000000808       0x20 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcmp.o)
- .debug_frame   0x0000000000000828       0x20 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-strlen.o)
+ .debug_frame   0x0000000000000000       0x30 obj/default/DMA_Read.o
+ .debug_frame   0x0000000000000030       0x44 obj/default/VGA_DMA_display.o
+ .debug_frame   0x0000000000000074       0x5c obj/default/VGA_Display.o
+ .debug_frame   0x00000000000000d0       0xdc obj/default/msgDMA.o
+ .debug_frame   0x00000000000001ac       0x8c /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/libgcc.a(lib2-divmod.o)
+ .debug_frame   0x0000000000000238       0x20 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcpy.o)
+ .debug_frame   0x0000000000000258       0x50 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic.o)
+ .debug_frame   0x00000000000002a8       0x30 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic_isr_register.o)
+ .debug_frame   0x00000000000002d8       0x34 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_handler.o)
+ .debug_frame   0x000000000000030c       0x30 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_load.o)
+ .debug_frame   0x000000000000033c       0x2c /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_main.o)
+ .debug_frame   0x0000000000000368       0x54 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_printf.o)
+ .debug_frame   0x00000000000003bc       0x30 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_putchar.o)
+ .debug_frame   0x00000000000003ec       0x30 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_putstr.o)
+ .debug_frame   0x000000000000041c       0x3c /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_sys_init.o)
+ .debug_frame   0x0000000000000458       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_avalon_jtag_uart_write.o)
+ .debug_frame   0x0000000000000478      0x2a8 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_msgdma.o)
+ .debug_frame   0x0000000000000720       0x30 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_busy_sleep.o)
+ .debug_frame   0x0000000000000750       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_dcache_flush_all.o)
+ .debug_frame   0x0000000000000770       0x2c /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_dev_llist_insert.o)
+ .debug_frame   0x000000000000079c       0x3c /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_find_dev.o)
+ .debug_frame   0x00000000000007d8       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_icache_flush_all.o)
+ .debug_frame   0x00000000000007f8       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_nios2_qsys_irq.o)
+ .debug_frame   0x0000000000000818       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_icache_flush.o)
+ .debug_frame   0x0000000000000838       0x20 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcmp.o)
+ .debug_frame   0x0000000000000858       0x20 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-strlen.o)
 
-.debug_str      0x0000000000000000     0x1839
+.debug_str      0x0000000000000000     0x1894
  *(.debug_str)
- .debug_str     0x0000000000000000      0x401 obj/default/VGA_DMA_display.o
-                                        0x47c (size before relaxing)
- .debug_str     0x0000000000000401       0x9b obj/default/VGA_Display.o
+ .debug_str     0x0000000000000000      0x136 obj/default/DMA_Read.o
+                                        0x168 (size before relaxing)
+ .debug_str     0x0000000000000136      0x2c5 obj/default/VGA_DMA_display.o
+                                        0x443 (size before relaxing)
+ .debug_str     0x00000000000003fb       0xce obj/default/VGA_Display.o
                                         0x215 (size before relaxing)
- .debug_str     0x000000000000049c      0x11b obj/default/msgDMA.o
+ .debug_str     0x00000000000004c9      0x149 obj/default/msgDMA.o
                                         0x4e7 (size before relaxing)
- .debug_str     0x00000000000005b7      0x16c /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/libgcc.a(lib2-divmod.o)
+ .debug_str     0x0000000000000612      0x16c /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/libgcc.a(lib2-divmod.o)
                                         0x1b7 (size before relaxing)
- .debug_str     0x0000000000000723      0x133 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcpy.o)
+ .debug_str     0x000000000000077e      0x133 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcpy.o)
                                         0x1cc (size before relaxing)
- .debug_str     0x0000000000000856      0x121 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic.o)
+ .debug_str     0x00000000000008b1      0x121 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic.o)
                                         0x244 (size before relaxing)
- .debug_str     0x0000000000000977       0x37 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic_isr_register.o)
+ .debug_str     0x00000000000009d2       0x37 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic_isr_register.o)
                                         0x1fe (size before relaxing)
- .debug_str     0x00000000000009ae       0x3a /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_handler.o)
+ .debug_str     0x0000000000000a09       0x3a /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_handler.o)
                                         0x188 (size before relaxing)
- .debug_str     0x00000000000009e8       0x17 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_vars.o)
+ .debug_str     0x0000000000000a43       0x17 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_vars.o)
                                         0x137 (size before relaxing)
- .debug_str     0x00000000000009ff      0x113 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_load.o)
+ .debug_str     0x0000000000000a5a      0x113 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_load.o)
                                         0x22d (size before relaxing)
- .debug_str     0x0000000000000b12       0x5e /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_main.o)
+ .debug_str     0x0000000000000b6d       0x5e /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_main.o)
                                         0x1a6 (size before relaxing)
- .debug_str     0x0000000000000b70       0x59 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_printf.o)
+ .debug_str     0x0000000000000bcb       0x59 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_printf.o)
                                         0x103 (size before relaxing)
- .debug_str     0x0000000000000bc9       0x60 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_putchar.o)
+ .debug_str     0x0000000000000c24       0x60 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_putchar.o)
                                         0x17e (size before relaxing)
- .debug_str     0x0000000000000c29       0x1c /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_putstr.o)
+ .debug_str     0x0000000000000c84       0x1c /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_putstr.o)
                                         0x18a (size before relaxing)
- .debug_str     0x0000000000000c45       0x8a /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_sys_init.o)
+ .debug_str     0x0000000000000ca0       0x8a /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_sys_init.o)
                                         0x3d4 (size before relaxing)
- .debug_str     0x0000000000000ccf       0x2c /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_avalon_jtag_uart_write.o)
+ .debug_str     0x0000000000000d2a       0x2c /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_avalon_jtag_uart_write.o)
                                         0x206 (size before relaxing)
- .debug_str     0x0000000000000cfb      0x8d8 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_msgdma.o)
+ .debug_str     0x0000000000000d56      0x8d8 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_msgdma.o)
                                         0xd96 (size before relaxing)
- .debug_str     0x00000000000015d3       0x33 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_busy_sleep.o)
+ .debug_str     0x000000000000162e       0x33 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_busy_sleep.o)
                                         0x15c (size before relaxing)
- .debug_str     0x0000000000001606       0x1f /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_dcache_flush_all.o)
+ .debug_str     0x0000000000001661       0x1f /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_dcache_flush_all.o)
                                         0x146 (size before relaxing)
- .debug_str     0x0000000000001625       0x36 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_dev_llist_insert.o)
+ .debug_str     0x0000000000001680       0x36 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_dev_llist_insert.o)
                                         0x1bd (size before relaxing)
- .debug_str     0x000000000000165b       0x14 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_errno.o)
+ .debug_str     0x00000000000016b6       0x14 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_errno.o)
                                         0x136 (size before relaxing)
- .debug_str     0x000000000000166f       0x25 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_find_dev.o)
+ .debug_str     0x00000000000016ca       0x25 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_find_dev.o)
                                         0x1f2 (size before relaxing)
- .debug_str     0x0000000000001694       0x30 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_icache_flush_all.o)
+ .debug_str     0x00000000000016ef       0x30 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_icache_flush_all.o)
                                         0x15f (size before relaxing)
- .debug_str     0x00000000000016c4       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_nios2_qsys_irq.o)
+ .debug_str     0x000000000000171f       0x20 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_nios2_qsys_irq.o)
                                         0x14d (size before relaxing)
- .debug_str     0x00000000000016e4       0x1b /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_icache_flush.o)
+ .debug_str     0x000000000000173f       0x1b /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_icache_flush.o)
                                         0x14c (size before relaxing)
- .debug_str     0x00000000000016ff       0xc6 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-int_errno.o)
+ .debug_str     0x000000000000175a       0xc6 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-int_errno.o)
                                         0x1b1 (size before relaxing)
- .debug_str     0x00000000000017c5       0x3a /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcmp.o)
+ .debug_str     0x0000000000001820       0x3a /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcmp.o)
                                         0x1b8 (size before relaxing)
- .debug_str     0x00000000000017ff       0x3a /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-strlen.o)
+ .debug_str     0x000000000000185a       0x3a /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-strlen.o)
                                         0x1be (size before relaxing)
 
-.debug_loc      0x0000000000000000     0x221a
+.debug_loc      0x0000000000000000     0x222e
  *(.debug_loc)
- .debug_loc     0x0000000000000000       0x42 obj/default/VGA_DMA_display.o
- .debug_loc     0x0000000000000042      0x179 obj/default/VGA_Display.o
- .debug_loc     0x00000000000001bb      0x403 obj/default/msgDMA.o
- .debug_loc     0x00000000000005be      0x273 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/libgcc.a(lib2-divmod.o)
- .debug_loc     0x0000000000000831      0x11b /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcpy.o)
- .debug_loc     0x000000000000094c      0x129 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic.o)
- .debug_loc     0x0000000000000a75      0x193 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic_isr_register.o)
- .debug_loc     0x0000000000000c08       0x98 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_handler.o)
- .debug_loc     0x0000000000000ca0      0x1c6 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_printf.o)
- .debug_loc     0x0000000000000e66       0x2c /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_putchar.o)
- .debug_loc     0x0000000000000e92       0x37 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_putstr.o)
- .debug_loc     0x0000000000000ec9       0x21 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_sys_init.o)
- .debug_loc     0x0000000000000eea       0x8b /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_avalon_jtag_uart_write.o)
- .debug_loc     0x0000000000000f75     0x1037 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_msgdma.o)
- .debug_loc     0x0000000000001fac       0x75 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_busy_sleep.o)
- .debug_loc     0x0000000000002021       0x1f /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_dcache_flush_all.o)
- .debug_loc     0x0000000000002040       0x58 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_dev_llist_insert.o)
- .debug_loc     0x0000000000002098       0x7e /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_find_dev.o)
- .debug_loc     0x0000000000002116       0x52 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_icache_flush.o)
- .debug_loc     0x0000000000002168       0x94 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcmp.o)
- .debug_loc     0x00000000000021fc       0x1e /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-strlen.o)
+ .debug_loc     0x0000000000000000       0x56 obj/default/VGA_DMA_display.o
+ .debug_loc     0x0000000000000056      0x179 obj/default/VGA_Display.o
+ .debug_loc     0x00000000000001cf      0x403 obj/default/msgDMA.o
+ .debug_loc     0x00000000000005d2      0x273 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/libgcc.a(lib2-divmod.o)
+ .debug_loc     0x0000000000000845      0x11b /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcpy.o)
+ .debug_loc     0x0000000000000960      0x129 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic.o)
+ .debug_loc     0x0000000000000a89      0x193 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_iic_isr_register.o)
+ .debug_loc     0x0000000000000c1c       0x98 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_irq_handler.o)
+ .debug_loc     0x0000000000000cb4      0x1c6 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_printf.o)
+ .debug_loc     0x0000000000000e7a       0x2c /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_putchar.o)
+ .debug_loc     0x0000000000000ea6       0x37 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_putstr.o)
+ .debug_loc     0x0000000000000edd       0x21 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_sys_init.o)
+ .debug_loc     0x0000000000000efe       0x8b /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_avalon_jtag_uart_write.o)
+ .debug_loc     0x0000000000000f89     0x1037 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(altera_msgdma.o)
+ .debug_loc     0x0000000000001fc0       0x75 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_busy_sleep.o)
+ .debug_loc     0x0000000000002035       0x1f /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_dcache_flush_all.o)
+ .debug_loc     0x0000000000002054       0x58 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_dev_llist_insert.o)
+ .debug_loc     0x00000000000020ac       0x7e /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_find_dev.o)
+ .debug_loc     0x000000000000212a       0x52 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_icache_flush.o)
+ .debug_loc     0x000000000000217c       0x94 /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-memcmp.o)
+ .debug_loc     0x0000000000002210       0x1e /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib/gcc/nios2-elf/4.9.2/../../../../../H-x86_64-pc-linux-gnu/nios2-elf/lib/libsmallc.a(lib_a-strlen.o)
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -845,8 +860,8 @@ LOAD /home/pokitoz/altera/15.1/nios2eds/bin/gnu/H-x86_64-pc-linux-gnu/bin/../lib
                 0x0000000000000030       0x30 /home/pokitoz/Dropbox/DE0_SoC_VGA/sw/nios/application/VGA_Display_Gen1_bsp//libhal_bsp.a(alt_busy_sleep.o)
                 0x0000000010104000                __alt_data_end = 0x10104000
                 0x0000000010104000                PROVIDE (__alt_stack_pointer, __alt_data_end)
-                0x00000000101023c0                PROVIDE (__alt_stack_limit, __alt_stack_base)
-                0x00000000101023c0                PROVIDE (__alt_heap_start, end)
+                0x00000000101023e0                PROVIDE (__alt_stack_limit, __alt_stack_base)
+                0x00000000101023e0                PROVIDE (__alt_heap_start, end)
                 0x0000000010104000                PROVIDE (__alt_heap_limit, 0x10104000)
 OUTPUT(VGA_Display_Gen1.elf elf32-littlenios2)
 

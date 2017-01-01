@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_qsys_0' in SOPC Builder design 'system'
  * SOPC Builder design path: /home/pokitoz/Dropbox/DE0_SoC_VGA/hw/quartus/system.sopcinfo
  *
- * Generated: Sun Jan 01 14:42:57 CET 2017
+ * Generated: Sun Jan 01 20:19:08 CET 2017
  */
 
 /*
@@ -123,6 +123,20 @@
 
 
 /*
+ * DMA_Read_0 configuration
+ *
+ */
+
+#define ALT_MODULE_CLASS_DMA_Read_0 DMA_Read
+#define DMA_READ_0_BASE 0x10000820
+#define DMA_READ_0_IRQ -1
+#define DMA_READ_0_IRQ_INTERRUPT_CONTROLLER_ID -1
+#define DMA_READ_0_NAME "/dev/DMA_Read_0"
+#define DMA_READ_0_SPAN 32
+#define DMA_READ_0_TYPE "DMA_Read"
+
+
+/*
  * Define for each module class mastered by the CPU
  *
  */
@@ -131,6 +145,7 @@
 #define __ALTERA_AVALON_ONCHIP_MEMORY2
 #define __ALTERA_MSGDMA
 #define __ALTERA_NIOS2_QSYS
+#define __DMA_READ
 #define __HPS_BRIDGE_AVALON
 #define __VGA_MODULE
 
@@ -233,7 +248,7 @@
  */
 
 #define ALT_MODULE_CLASS_msgdma_0_csr altera_msgdma
-#define MSGDMA_0_CSR_BASE 0x10000820
+#define MSGDMA_0_CSR_BASE 0x10000860
 #define MSGDMA_0_CSR_BURST_ENABLE 1
 #define MSGDMA_0_CSR_BURST_WRAPPING_SUPPORT 0
 #define MSGDMA_0_CSR_CHANNEL_ENABLE 0
