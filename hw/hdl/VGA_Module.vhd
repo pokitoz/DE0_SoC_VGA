@@ -11,7 +11,7 @@ entity vga_module is
                 vga_irq         : out std_logic;
 
                 -- Avalon Stream Source Signals
-                ss_data         : in std_logic_vector(23 downto 0);
+                ss_data         : in std_logic_vector(31 downto 0);
                 ss_ready        : out std_logic;
                 ss_valid        : in std_logic;
 
@@ -212,9 +212,15 @@ begin
                 elsif rising_edge(pixel_clk_25MHz) then
                         if (en_display = '1') then
                                 if(source_fifo = '1') then
-                                        vga_r <= ss_data(23 downto 16);
-                                        vga_g <= ss_data(15 downto 8);
-                                        vga_b <= ss_data(7 downto 0);
+                                        if(ss_valid = '1') then
+                                                vga_r <= ss_data(23 downto 16);
+                                                vga_g <= ss_data(15 downto 8);
+                                                vga_b <= ss_data(7 downto 0);
+                                        else
+                                                vga_r <= MAX_PIXEL_VALUE;
+                                                vga_g <= MIN_PIXEL_VALUE;
+                                                vga_b <= MIN_PIXEL_VALUE;
+                                        end if;
                                 else
                                         vga_r <= vga_red_reg;
                                         vga_g <= vga_green_reg;
@@ -242,10 +248,10 @@ begin
                                 -- If h_pos is in the visible area
                                 if(h_pos < visible_area_h_reg) then
                                         -- Set that new pixels can come
-                                        ss_ready <= '1';
+                                        ss_ready <= '0';
                                 -- If h_pos is ready to start a new line
-                                elsif  (h_pos = whole_line_reg-1) then
-                                        ss_ready <= '1';
+                                --elsif  (h_pos = whole_line_reg-1) then
+                                --        ss_ready <= '1';
                                 end if;
                         end if;
                 end if;

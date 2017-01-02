@@ -33,7 +33,7 @@ entity DMA_Read is
 end entity DMA_Read;
 
 architecture rtl of DMA_Read is
-        constant default_color      : std_logic_vector(31 downto 0) := X"00ff0f00";    
+        signal default_color        : std_logic_vector(31 downto 0) := X"00ff0f00";    
 
         signal buffer1_base_address : unsigned(31 downto 0);
         signal buffer2_base_address : unsigned(31 downto 0);
@@ -89,14 +89,15 @@ begin
         as_write_process: process(system_clk, rst_n) is
         begin
                 if rst_n = '0' then
-                        buffer1_base_address <= (others => '0');
-                        buffer2_base_address <= (others => '0');
-                        buffer_selection <= '0';
-                        transfer_length <= (others => '0');
-                        dma_start <= '0';
-                        dma_auto_flip <= '0';
-                        dma_continue <= '0';
-                        dma_use_constant <= '0';
+                        buffer1_base_address    <= (others => '0');
+                        buffer2_base_address    <= (others => '0');
+                        buffer_selection        <= '0';
+                        transfer_length         <= (others => '0');
+                        dma_start               <= '0';
+                        dma_auto_flip           <= '0';
+                        dma_continue            <= '0';
+                        dma_use_constant        <= '0';
+                        default_color           <= X"00FF00FF";
                 elsif rising_edge(system_clk) then
                         if(as_write = '1') then
                                 case as_addr is
@@ -114,6 +115,8 @@ begin
                                                 dma_continue            <= as_wrdata(4);
                                                 dma_use_counter         <= as_wrdata(5);
                                                 dma_use_constant        <= as_wrdata(6);
+                                        when "101"  =>
+                                                default_color           <= as_wrdata;
                                         when others => null;
                                 end case;
                         end if;
@@ -162,13 +165,13 @@ begin
                                         
                                 
                                         -- If we are not sending constant value to the FIFO, take the incomming value
-                                        if (dma_use_constant = '0') 
+                                        if (dma_use_constant = '0') then
                                                 -- Ask the Avalon Bus to read
-					        am_read        <= '1';					        
+					        am_read         <= '1';					        
                                                 am_data_next    <= am_readdata;
                                         else
                                                 if(dma_use_counter = '1') then
-                                                        am_data_next   <= X"0F0F0F00"; 
+                                                        am_data_next   <= default_color; 
                                                 else
                                                         am_data_next    <= std_logic_vector(to_unsigned(counter_reg, am_data_next'length));
                                                 end if;

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="system" kind="system" version="1.0" fabric="QSYS">
  <!-- Format version 15.1 185 (Future versions may contain additional information.) -->
- <!-- 2017.01.01.21:50:05 -->
+ <!-- 2017.01.02.15:00:53 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1483303804</value>
+  <value>1483365651</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -1249,7 +1249,7 @@ parameters are a RESULT of the module parameters. -->
    <port>
     <name>ss_data</name>
     <direction>Input</direction>
-    <width>24</width>
+    <width>32</width>
     <role>data</role>
    </port>
    <port>

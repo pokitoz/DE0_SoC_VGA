@@ -29,14 +29,14 @@ void irq_vsync(void* context, alt_u32 id) {
 	// Send one descriptor at a time
 	// Generate on the fly
 
-	alt_msgdma_construct_standard_mm_to_st_descriptor(&msgdma_dev,
-			&msgdma_desc, VGA_DISPLAY_ADDRESS_DST_IMAGE, 640, 0);
+	//alt_msgdma_construct_standard_mm_to_st_descriptor(&msgdma_dev,
+	//		&msgdma_desc, VGA_DISPLAY_ADDRESS_DST_IMAGE, 640, 0);
 
-	next_desc++;
+	//	next_desc++;
 	vsync++;
-	if (next_desc == descriptor_number) {
-		next_desc = 0;
-	}
+	//	if (next_desc == descriptor_number) {
+	//		next_desc = 0;
+	//	}
 
 	//alt_msgdma_standard_descriptor_async_transfer(&msgdma_dev, &msgdma_desc);
 
@@ -61,27 +61,34 @@ int main(void) {
 	MSGDMA_0_CSR_IRQ);
 
 
-//	alt_ic_isr_register(VGA_MODULE_0_IRQ_INTERRUPT_CONTROLLER_ID,
-//	VGA_MODULE_0_IRQ, (void*) irq_vsync, 0, 0);
+	alt_ic_isr_register(VGA_MODULE_0_IRQ_INTERRUPT_CONTROLLER_ID,
+	VGA_MODULE_0_IRQ, (void*) irq_vsync, 0, 0);
 
 	// Enable the interrupts
-//	alt_ic_irq_enable(VGA_MODULE_0_IRQ_INTERRUPT_CONTROLLER_ID,
-//	VGA_MODULE_0_IRQ);
+	alt_ic_irq_enable(VGA_MODULE_0_IRQ_INTERRUPT_CONTROLLER_ID,
+	VGA_MODULE_0_IRQ);
+
 	int ki = 0;
-	for(ki = 0; ki < 640*480*3; ki++){
-		IOWR(HPS_0_BRIDGES_BASE, 4*ki, 0x00);
+//	for(ki = 0; ki < 640*480*3; ki++){
+//		IOWR(HPS_0_BRIDGES_BASE, 4*ki, 0x00);
+//	}
+
+	alt_u32 test[1024];
+	for(ki = 0; ki < 1024; ki++){
+		test[ki] = 0xFF000000;
 	}
 
-
-	DMA_Read_configureDMA(0x10000820, HPS_0_BRIDGES_BASE, HPS_0_BRIDGES_BASE, 640*480*3);
-	DMA_Read_setFlags(0x10000820, DMA_READ_BIT_DMA_CONSTANT | DMA_READ_BIT_CONSTANT |  DMA_READ_BIT_START | DMA_READ_BIT_CONTINUE);
+	// (480pixel*3byte)/4 get # of words to be transfered per line
+	DMA_Read_configureDMA(0x10000820, (alt_u32) test, (alt_u32) test, (640*480*3) / 4);
+	IOWR_32DIRECT(0x10000820, DMA_READ_CONSTANT_REG, 0x00FF00FF);
+	DMA_Read_setFlags(0x10000820, DMA_READ_BIT_START | DMA_READ_BIT_CONTINUE);
 
 	volatile int kk = 0;
 	//msgdma_transfer(&msgdma_dev, msgdma_desc, descriptor_number);
 	while (1) {
-		alt_printf("Next: 0x%x,\n", next_desc);
+		alt_printf("Next: 0x%x,\n", vsync);
 		//usleep(100000);
-		for(kk = 0; kk < 1000000; kk++){
+		for(kk = 0; kk < 10000000; kk++){
 		}
 	}
 
