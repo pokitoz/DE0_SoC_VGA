@@ -100,7 +100,7 @@ begin
                 elsif rising_edge(system_clk) then
                         if(as_write = '1') then
                                 case as_addr is
-                                        when "000"  => 
+                                        when "000"  =>
                                                 buffer1_base_address    <= unsigned(as_wrdata);
                                         when "001"  =>
                                                 buffer2_base_address    <= unsigned(as_wrdata);             
@@ -126,6 +126,8 @@ begin
                                         am_readdata, am_waitrequest, transfer_length, dma_use_constant) is
                 variable new_address : unsigned(31 downto 0);
         begin
+                -- Initialise all the signals by default value
+                -- In case we are not touching them in the states
 		state_next   <= state_reg;
 		counter_next <= counter_reg;
                 am_data_next <= (others => '1');
@@ -138,14 +140,18 @@ begin
                 asts_data    <= (others => '1');
 
 		case state_reg is
+                        -- Wait until software start the DMA
 			when IDLE =>
 				if (dma_start = '1') then
 					state_next <= READ_REQUEST;
 				end if;
 
 			when READ_REQUEST =>
+                                -- If the FIFO is ready to receive data
 				if (asts_ready = '1') then
-                                        -- Increment the address
+                                        -- Increment the address depending on the value of the counter
+                                        -- Need to multiply by 4 since one word is 4 bytes
+                                        -- Make the selection between buffer 1 and buffer 2
                                         if(buffer_selection = '0') then
                                                 new_address    := buffer1_base_address + 4*counter_reg;
                                         else
@@ -153,9 +159,13 @@ begin
                                         end if;
 
 					am_addr        <= std_logic_vector(new_address);
-					am_read        <= '1';
-                                        if (dma_use_constant = '0') then
-					        am_data_next    <= am_readdata;
+                                        
+                                
+                                        -- If we are not sending constant value to the FIFO, take the incomming value
+                                        if (dma_use_constant = '0') 
+                                                -- Ask the Avalon Bus to read
+					        am_read        <= '1';					        
+                                                am_data_next    <= am_readdata;
                                         else
                                                 if(dma_use_counter = '1') then
                                                         am_data_next   <= X"0F0F0F00"; 
@@ -164,21 +174,31 @@ begin
                                                 end if;
                                         end if;
 
+                                        -- Wait until request has been accepted (or go into next state if we are sending constants)
 					if (am_waitrequest = '0' or dma_use_constant = '1') then
 						state_next <= READ_DATA;
 					end if;
 				end if;
 			when READ_DATA =>
+                                -- Set that the stream data is valid
 				asts_valid   <= '1';
+                                -- Output the correct data
 				asts_data    <= am_data_reg;
 
+                                -- If the counter is less than the requested number of word we want to send
+                                -- continue
 				if (counter_reg < transfer_length) then
 					state_next   <= READ_REQUEST;
 					counter_next <= counter_reg + 1;
 				else
+                                        -- If the counter is equal to the size of word we transfer
+                                        -- The transfer is over. Set the counter to 0
+                                
+                                        -- If the continue bit is set to 0, goto IDLE
                                         if(dma_continue = '0') then
 					        state_next   <= IDLE;
                                         else
+                                                -- If the continue bit is set to 1, restart with the same parameters
                                                 state_next   <= READ_REQUEST;
                                         end if;
 					counter_next <= 0;
