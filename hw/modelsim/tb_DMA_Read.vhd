@@ -15,7 +15,7 @@ architecture RTL of tb_DMA_Read is
         constant CLK_LOW_PERIOD  : time := 25 ns;
 
         signal clk   : std_logic := '0';
-        signal reset : std_logic := '0';
+        signal reset_n  : std_logic := '0';
 
         signal sim_finished : boolean := false;
 
@@ -110,7 +110,46 @@ architecture RTL of tb_DMA_Read is
 
         end procedure read_avalon;
 
-    
+        
+        signal asts_ready       : std_logic;
+        signal asts_valid       : std_logic;
+        signal asts_data        : std_logic_vector(31 downto 0);
+
+        signal am_addr          : std_logic_vector(31 downto 0);
+        signal am_byteenable    : std_logic_vector(3 downto 0);
+        signal am_read          : std_logic;
+        signal am_readdata      : std_logic_vector(31 downto 0);
+        signal am_waitrequest   : std_logic;
+
+        component DMA_Read is
+        port(
+
+                -- FIFO signals source
+                asts_ready           : in  std_logic;
+                asts_data            : out std_logic_vector(31 downto 0);
+                asts_valid           : out std_logic;
+
+                -- Avalon Slave signals
+                as_wrdata          : in  std_logic_vector(31 downto 0);
+                as_write           : in  std_logic;
+                as_addr            : in  std_logic_vector(2 downto 0);
+                as_read            : in  std_logic;
+                as_rddata          : out std_logic_vector(31 downto 0);
+
+                -- Avalon 32-bit Master Interface (Read DMA)
+                am_addr            : out std_logic_vector(31 downto 0);
+                am_byteenable      : out std_logic_vector(3 downto 0);
+                am_read            : out std_logic;
+                am_readdata        : in  std_logic_vector(31 downto 0);
+                am_waitrequest     : in  std_logic;
+
+                system_clk         : in  std_logic;
+                rst_n              : in  std_logic
+
+        );
+        end component DMA_Read;
+
+
 begin
 
         clk_generation : process
@@ -129,15 +168,15 @@ begin
         begin
 
                 -- ---------------------------------------------------------------------
-                -- reset system --------------------------------------------------------
+                -- reset_n  system --------------------------------------------------------
                 -- ---------------------------------------------------------------------
-                report "RESET";
-                reset <= '1';
+                report "reset_n ";
+                reset_n  <= '0';
                 wait until rising_edge(clk);
                 wait for 0.1 * CLK_PERIOD;
-                reset <= '0';
+                reset_n  <= '1';
                 wait until rising_edge(clk);
-                report "RESET is done";
+                report "reset_n  is done";
 
                 -- ---------------------------------------------------------------------
                 -- Write        --------------------------------------------------------
