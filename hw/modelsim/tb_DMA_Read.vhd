@@ -7,6 +7,9 @@ end tb_DMA_Read;
 
 architecture RTL of tb_DMA_Read is
 
+        constant DATA_SIZE      : integer := 32;
+        constant ADDR_SIZE      : integer := 3;
+
         constant CLK_PERIOD      : time := 50 ns;
         constant CLK_HIGH_PERIOD : time := 25 ns;
         constant CLK_LOW_PERIOD  : time := 25 ns;
@@ -16,7 +19,18 @@ architecture RTL of tb_DMA_Read is
 
         signal sim_finished : boolean := false;
 
-        signal addr_dma   : std_logic_vector(1 downto 0);
+        constant REG_BUFFER_1_ADDR      : std_logic_vector(ADDR_SIZE-1 downto 0) := "000";        
+        constant REG_BUFFER_2_ADDR      : std_logic_vector(ADDR_SIZE-1 downto 0) := "001";        
+        constant REG_TRANSFER_SIZE      : std_logic_vector(ADDR_SIZE-1 downto 0) := "010";        
+        constant REG_BUFFER_SELECT      : std_logic_vector(ADDR_SIZE-1 downto 0) := "011";        
+        constant REG_CONFIGURATION      : std_logic_vector(ADDR_SIZE-1 downto 0) := "100";        
+        constant REG_BUFFER_COLOR       : std_logic_vector(ADDR_SIZE-1 downto 0) := "101";        
+
+        constant BUFFER_1_ADDR          : std_logic_vector(DATA_SIZE-1 downto 0) := X"01234560";
+        constant BUFFER_2_ADDR          : std_logic_vector(DATA_SIZE-1 downto 0) := X"01234560";
+        constant TRANSFER_SIZE          : std_logic_vector(DATA_SIZE-1 downto 0) := X"00000100";
+
+        signal addr_dma   : std_logic_vector(2 downto 0);
         signal read_dma   : std_logic;
         signal write_dma  : std_logic;
         signal rddata_dma : std_logic_vector(31 downto 0);
@@ -62,12 +76,12 @@ architecture RTL of tb_DMA_Read is
                 return hex(1 to hexlen);
         end hstr;
 
-        procedure write_avalon( constant addr            : in  std_logic_vector(1 downto 0);
-                                constant value           : in  std_logic_vector(31 downto 0);
-                                signal addr_controller   : out std_logic_vector(1 downto 0);
+        procedure write_avalon( constant addr            : in  std_logic_vector(ADDR_SIZE-1 downto 0);
+                                constant value           : in  std_logic_vector(DATA_SIZE-1 downto 0);
+                                signal addr_controller   : out std_logic_vector(ADDR_SIZE-1 downto 0);
                                 signal read_controller   : out std_logic;
                                 signal write_controller  : out std_logic;
-                                signal wrdata_controller : out std_logic_vector(31 downto 0)) is
+                                signal wrdata_controller : out std_logic_vector(DATA_SIZE-1 downto 0)) is
         begin
                 addr_controller   <= addr;
                 read_controller   <= '0';
@@ -82,8 +96,8 @@ architecture RTL of tb_DMA_Read is
         end procedure write_avalon;
 
   
-        procedure read_avalon(  constant addr           : in  std_logic_vector(1 downto 0);
-                                signal addr_controller  : out std_logic_vector(1 downto 0);
+        procedure read_avalon(  constant addr           : in  std_logic_vector(ADDR_SIZE-1 downto 0);
+                                signal addr_controller  : out std_logic_vector(ADDR_SIZE-1 downto 0);
                                 signal read_controller  : out std_logic;
                                 signal write_controller : out std_logic) is
         begin
@@ -125,7 +139,25 @@ begin
                 wait until rising_edge(clk);
                 report "RESET is done";
 
-	        
+                -- ---------------------------------------------------------------------
+                -- Write        --------------------------------------------------------
+                -- ---------------------------------------------------------------------
+                report "Writing into registers";
+                report "Init Reg" & hstr(REG_BUFFER_1_ADDR) & "to " & hstr(BUFFER_1_ADDR);
+                write_avalon(REG_BUFFER_1_ADDR, BUFFER_1_ADDR, addr_dma, read_dma, write_dma, wrdata_dma);
+                report "Init Reg" & hstr(REG_BUFFER_2_ADDR) & "to " & hstr(BUFFER_2_ADDR);
+                write_avalon(REG_BUFFER_2_ADDR, BUFFER_1_ADDR, addr_dma, read_dma, write_dma, wrdata_dma);
+                report "Init Reg" & hstr(REG_TRANSFER_SIZE) & "to " & hstr(TRANSFER_SIZE);
+                write_avalon(REG_TRANSFER_SIZE, TRANSFER_SIZE, addr_dma, read_dma, write_dma, wrdata_dma);
+                wait until rising_edge(clk);
+
+                -- ---------------------------------------------------------------------
+                -- Read         --------------------------------------------------------
+                -- ---------------------------------------------------------------------
+                report "Reading into registers";
+                read_avalon(REG_BUFFER_1_ADDR, addr_dma, read_dma, write_dma);
+                assert read_dma = BUFFER_1_ADDR report "BUFFER_1_ADDR is not correct" severity error;
+
                 sim_finished <= true;
                 wait;
         end process;
