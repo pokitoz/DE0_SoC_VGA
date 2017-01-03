@@ -125,7 +125,6 @@ begin
                 wait until rising_edge(clk);
                 report "RESET is done";
 
-                -- Change the pattern to 3 and change image size
 	        
                 sim_finished <= true;
                 wait;
