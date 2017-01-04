@@ -193,9 +193,14 @@ begin
                 end if;
         end process;
 
+
         sim: process
         begin
 
+		asts_ready <= '0';
+		am_waitrequest <= '0';
+		am_readdata <= (others => '0');
+		
                 -- ---------------------------------------------------------------------
                 -- reset_n  system --------------------------------------------------------
                 -- ---------------------------------------------------------------------
@@ -211,20 +216,38 @@ begin
                 -- Write        --------------------------------------------------------
                 -- ---------------------------------------------------------------------
                 report "Writing into registers";
-                report "Init Reg" & hstr(REG_BUFFER_1_ADDR) & "to " & hstr(BUFFER_1_ADDR);
+                report "Init Reg " & hstr(REG_BUFFER_1_ADDR) & " to 0x" & hstr(BUFFER_1_ADDR);
                 write_avalon(REG_BUFFER_1_ADDR, BUFFER_1_ADDR, addr_dma, read_dma, write_dma, wrdata_dma);
-                report "Init Reg" & hstr(REG_BUFFER_2_ADDR) & "to " & hstr(BUFFER_2_ADDR);
+                report "Init Reg " & hstr(REG_BUFFER_2_ADDR) & " to 0x" & hstr(BUFFER_2_ADDR);
                 write_avalon(REG_BUFFER_2_ADDR, BUFFER_1_ADDR, addr_dma, read_dma, write_dma, wrdata_dma);
-                report "Init Reg" & hstr(REG_TRANSFER_SIZE) & "to " & hstr(TRANSFER_SIZE);
+                report "Init Reg " & hstr(REG_TRANSFER_SIZE) & " to 0x" & hstr(TRANSFER_SIZE);
                 write_avalon(REG_TRANSFER_SIZE, TRANSFER_SIZE, addr_dma, read_dma, write_dma, wrdata_dma);
                 wait until rising_edge(clk);
 
+
+		asts_ready <= '1';
+		am_waitrequest <= '0';
                 -- ---------------------------------------------------------------------
                 -- Read         --------------------------------------------------------
                 -- ---------------------------------------------------------------------
                 report "Reading into registers";
                 read_avalon(REG_BUFFER_1_ADDR, addr_dma, read_dma, write_dma);
                 assert (rddata_dma = BUFFER_1_ADDR) report "BUFFER_1_ADDR is not correct" severity error;
+		read_avalon(REG_CONFIGURATION, addr_dma, read_dma, write_dma);
+                assert (rddata_dma(31 downto 16) = X"0000") report "Counter byte is not 0" severity error;
+		assert (rddata_dma(8 downto 7) = "01") report "FSM is not in IDLE state" severity error;
+		assert (rddata_dma(0) = '1') report "DMA is not IDLE" severity error;
+
+                report "Start DMA";
+                -- dma_start   (2);
+                -- dma_auto_flip    (3);
+                -- dma_continue     (4);
+                -- dma_use_counter  (5);
+                -- dma_use_constant (6);
+		write_avalon(REG_CONFIGURATION, X"000000" & "01000100", addr_dma, read_dma, write_dma, wrdata_dma);
+		wait for 10000*CLK_PERIOD;
+		write_avalon(REG_CONFIGURATION, X"000000" & "00000100", addr_dma, read_dma, write_dma, wrdata_dma);
+		wait for 10000*CLK_PERIOD;
 
                 sim_finished <= true;
                 wait;
