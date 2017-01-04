@@ -30,11 +30,7 @@ architecture RTL of tb_DMA_Read is
         constant BUFFER_2_ADDR          : std_logic_vector(DATA_SIZE-1 downto 0) := X"01234560";
         constant TRANSFER_SIZE          : std_logic_vector(DATA_SIZE-1 downto 0) := X"00000100";
 
-        signal addr_dma   : std_logic_vector(2 downto 0);
-        signal read_dma   : std_logic;
-        signal write_dma  : std_logic;
-        signal rddata_dma : std_logic_vector(31 downto 0);
-        signal wrdata_dma : std_logic_vector(31 downto 0);
+        
 
         -- converts a std_logic_vector into a hex string.
         function hstr(slv : std_logic_vector) return string is
@@ -121,6 +117,13 @@ architecture RTL of tb_DMA_Read is
         signal am_readdata      : std_logic_vector(31 downto 0);
         signal am_waitrequest   : std_logic;
 
+        signal wrdata_dma       : std_logic_vector(31 downto 0);
+        signal write_dma        : std_logic;
+	signal addr_dma         : std_logic_vector(2 downto 0);        
+	signal read_dma         : std_logic;
+        signal rddata_dma       : std_logic_vector(31 downto 0);
+	
+
         component DMA_Read is
         port(
 
@@ -152,7 +155,33 @@ architecture RTL of tb_DMA_Read is
 
 begin
 
-        clk_generation : process
+        DMA_R1: DMA_Read port map(
+
+                -- FIFO signals source
+                asts_ready           => asts_ready,
+                asts_data            => asts_data,
+                asts_valid           => asts_valid,
+
+                -- Avalon Slave signals
+                as_wrdata          => wrdata_dma,
+                as_write           => write_dma,
+                as_addr            => addr_dma,
+                as_read            => read_dma,
+                as_rddata          => rddata_dma,
+
+                -- Avalon 32-bit Master Interface (Read DMA)
+                am_addr            => am_addr,
+                am_byteenable      => am_byteenable,
+                am_read            => am_read,
+                am_readdata        => am_readdata,
+                am_waitrequest     => am_waitrequest,
+
+                system_clk         => clk,
+                rst_n              => reset_n
+
+        );
+
+        clk_generation: process
         begin
                 if not sim_finished then
                         clk <= '1';
@@ -164,7 +193,7 @@ begin
                 end if;
         end process;
 
-        sim : process
+        sim: process
         begin
 
                 -- ---------------------------------------------------------------------
@@ -195,7 +224,7 @@ begin
                 -- ---------------------------------------------------------------------
                 report "Reading into registers";
                 read_avalon(REG_BUFFER_1_ADDR, addr_dma, read_dma, write_dma);
-                assert read_dma = BUFFER_1_ADDR report "BUFFER_1_ADDR is not correct" severity error;
+                assert (rddata_dma = BUFFER_1_ADDR) report "BUFFER_1_ADDR is not correct" severity error;
 
                 sim_finished <= true;
                 wait;
