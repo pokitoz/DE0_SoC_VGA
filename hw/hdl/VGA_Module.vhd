@@ -248,7 +248,7 @@ begin
                                 -- If h_pos is in the visible area
                                 if(h_pos < visible_area_h_reg) then
                                         -- Set that new pixels can come
-                                        ss_ready <= '0';
+                                        ss_ready <= '1';
                                 -- If h_pos is ready to start a new line
                                 --elsif  (h_pos = whole_line_reg-1) then
                                 --        ss_ready <= '1';

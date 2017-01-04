@@ -41,7 +41,7 @@ architecture rtl of DMA_Read is
 
         signal transfer_length      : unsigned(31 downto 0);
         
-        signal dma_idle             : std_logic;        
+
         signal dma_start            : std_logic;
         signal dma_continue         : std_logic;
 
@@ -53,6 +53,7 @@ architecture rtl of DMA_Read is
 	signal state_reg, state_next         : states;
 	signal counter_reg, counter_next     : integer;
         signal am_data_reg, am_data_next     : std_logic_vector(31 downto 0);
+        signal dma_idle_reg, dma_idle_next   : std_logic;        
 begin 
 
 
@@ -70,14 +71,29 @@ begin
                                                 as_rddata         <= std_logic_vector(buffer2_base_address);
                                         when "010"  => 
                                                 as_rddata         <= std_logic_vector(transfer_length);
-                                        when "011"  => 
+					when "011"  => 
+						null;
+                                        when "100"  => 
+
+                                                as_rddata(31 downto 16) <= std_logic_vector(to_unsigned(counter_reg, 16));
+        
+                                                if(state_reg = IDLE) then
+                                                        as_rddata(8 downto 7)      <= "01";
+                                                elsif (state_reg = READ_REQUEST)then
+                                                        as_rddata(8 downto 7)      <= "10";
+                                                else
+                                                        as_rddata(8 downto 7)      <= "11";
+                                                end if;
+
                                                 as_rddata(6)      <= dma_use_constant;
                                                 as_rddata(5)      <= dma_use_counter;
                                                 as_rddata(4)      <= dma_continue;
                                                 as_rddata(3)      <= dma_auto_flip;
                                                 as_rddata(2)      <= dma_start;
                                                 as_rddata(1)      <= buffer_selection;
-                                                as_rddata(0)      <= dma_idle;
+                                                as_rddata(0)      <= dma_idle_reg;
+                                        when "110"  => 
+                                                as_rddata         <= default_color;
                                         when others => null;
                                 end case;
                         end if;
@@ -91,13 +107,17 @@ begin
                 if rst_n = '0' then
                         buffer1_base_address    <= (others => '0');
                         buffer2_base_address    <= (others => '0');
-                        buffer_selection        <= '0';
                         transfer_length         <= (others => '0');
-                        dma_start               <= '0';
-                        dma_auto_flip           <= '0';
-                        dma_continue            <= '0';
+
                         dma_use_constant        <= '0';
+			dma_use_counter		<= '0';
+                        dma_continue            <= '0';
+                        dma_auto_flip           <= '0';
+                        dma_start               <= '0';
+                        buffer_selection        <= '0';
+
                         default_color           <= X"00FF00FF";
+
                 elsif rising_edge(system_clk) then
                         if(as_write = '1') then
                                 case as_addr is
@@ -120,6 +140,13 @@ begin
                                         when others => null;
                                 end case;
                         end if;
+
+
+                        if(dma_start = '1') then
+                                if(dma_idle_reg = '0') then
+                                        dma_start       <= '0';
+                                end if;
+                        end if;
                 end if;
         end process;
 
@@ -131,22 +158,24 @@ begin
         begin
                 -- Initialise all the signals by default value
                 -- In case we are not touching them in the states
-		state_next   <= state_reg;
-		counter_next <= counter_reg;
-                am_data_next <= (others => '1');
+		state_next              <= state_reg;
+		counter_next            <= counter_reg;
+                am_data_next            <= (others => '1');
 		
-                am_addr    <= (others => '0');
-		am_read       <= '0';
-		am_byteenable <= "1111";
+                am_addr                 <= (others => '0');
+		am_read                 <= '0';
+		am_byteenable           <= "1111";
               
-                asts_valid   <= '0';
-                asts_data    <= (others => '1');
+                asts_valid              <= '0';
+                asts_data               <= (others => '1');
+                dma_idle_next           <= '0';
 
 		case state_reg is
                         -- Wait until software start the DMA
 			when IDLE =>
+                                dma_idle_next   <= '1';
 				if (dma_start = '1') then
-					state_next <= READ_REQUEST;
+					state_next              <= READ_REQUEST;
 				end if;
 
 			when READ_REQUEST =>
@@ -156,12 +185,12 @@ begin
                                         -- Need to multiply by 4 since one word is 4 bytes
                                         -- Make the selection between buffer 1 and buffer 2
                                         if(buffer_selection = '0') then
-                                                new_address    := buffer1_base_address + 4*counter_reg;
+                                                new_address     := buffer1_base_address + 4*counter_reg;
                                         else
-                                                new_address    := buffer2_base_address + 4*counter_reg;
+                                                new_address     := buffer2_base_address + 4*counter_reg;
                                         end if;
 
-					am_addr        <= std_logic_vector(new_address);
+				        am_addr <= std_logic_vector(new_address);
                                         
                                 
                                         -- If we are not sending constant value to the FIFO, take the incomming value
@@ -170,8 +199,8 @@ begin
 					        am_read         <= '1';					        
                                                 am_data_next    <= am_readdata;
                                         else
-                                                if(dma_use_counter = '1') then
-                                                        am_data_next   <= default_color; 
+                                                if(dma_use_counter = '0') then
+                                                        am_data_next    <= default_color; 
                                                 else
                                                         am_data_next    <= std_logic_vector(to_unsigned(counter_reg, am_data_next'length));
                                                 end if;
@@ -179,7 +208,7 @@ begin
 
                                         -- Wait until request has been accepted (or go into next state if we are sending constants)
 					if (am_waitrequest = '0' or dma_use_constant = '1') then
-						state_next <= READ_DATA;
+						state_next      <= READ_DATA;
 					end if;
 				end if;
 			when READ_DATA =>
@@ -214,11 +243,13 @@ begin
 		if rst_n = '0' then
 			state_reg       <= IDLE;
 			counter_reg     <= 0;
-                        am_data_reg <= (others => '0');
+                        am_data_reg     <= (others => '0');
+                        dma_idle_reg    <= '1';
 		elsif rising_edge(system_clk) then
 			state_reg     <= state_next;
 			counter_reg   <= counter_next;
 			am_data_reg   <= am_data_next;
+                        dma_idle_reg  <= dma_idle_next;
 		end if;
 	end process fsm_register_process;
 
