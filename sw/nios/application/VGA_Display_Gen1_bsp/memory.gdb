@@ -3,7 +3,7 @@
 # Machine generated for CPU 'nios2_qsys_0' in SOPC Builder design 'system'
 # SOPC Builder design path: /home/pokitoz/Dropbox/DE0_SoC_VGA/hw/quartus/system.sopcinfo
 #
-# Generated: Sun Jan 01 14:42:57 CET 2017
+# Generated: Wed Jan 04 19:27:46 CET 2017
 
 # DO NOT MODIFY THIS FILE
 #
@@ -47,4 +47,4 @@
 # by allowing GDB to cache memory contents on the host.
 
 # onchip_memory2_0
-memory 0x10100000 0x10104000 cache
+memory 0x10100000 0x10120000 cache

@@ -17,17 +17,24 @@
 #define DMA_READ_CONFIGURATION_REG		(4 * 4)
 #define DMA_READ_CONSTANT_REG			(5 * 4)
 
+#define DMA_READ_CURRENT_CONFIG_REG		(3 * 4)
+
 #define DMA_READ_BIT_IDLE			(1<<0)
 #define DMA_READ_BIT_BUFFER			(1<<1)
 #define DMA_READ_BIT_START 		    (1<<2)
-#define DMA_READ_BIT_CONTINUE    	(1<<3)
-#define DMA_READ_BIT_AUTO_FLIP	    (1<<4)
+#define DMA_READ_BIT_AUTO_FLIP	    (1<<3)
+#define DMA_READ_BIT_CONTINUE    	(1<<4)
 #define DMA_READ_BIT_CONSTANT	    (1<<5)
 #define DMA_READ_BIT_DMA_CONSTANT	(1<<6)
+#define DMA_READ_BIT_STATE      	(3<<7)
+#define DMA_READ_COUNTER_READ		(0xFFFF0000)
+
+
 
 void DMA_Read_configureDMA(alt_u32 base, alt_u32 buffer1_addr,
 		alt_u32 buffer2_addr, alt_u32 transfer_size);
 
 void DMA_Read_setFlags(alt_u32 base, alt_u32 flags);
+void DMA_Read_status(alt_u32 base);
 
 #endif /* DMA_READ_H_ */

@@ -10,7 +10,7 @@
 #include "sys/alt_irq.h"
 #include "DMA_Read.h"
 
-#define VGA_DISPLAY_ADDRESS_DST_IMAGE (void*)(HPS_0_BRIDGES_BASE + 16384)
+#define VGA_DISPLAY_ADDRESS_DST_IMAGE (void*)(HPS_0_BRIDGES_BASE)
 
 volatile alt_u32 vsync = 0;
 volatile alt_u32 next_desc = 0;
@@ -33,7 +33,9 @@ void irq_vsync(void* context, alt_u32 id) {
 	//		&msgdma_desc, VGA_DISPLAY_ADDRESS_DST_IMAGE, 640, 0);
 
 	//	next_desc++;
-	vsync++;
+	vsync += 1;
+	//IOWR_32DIRECT(DMA_READ_0_BASE, DMA_READ_CONSTANT_REG, vsync);
+
 	//	if (next_desc == descriptor_number) {
 	//		next_desc = 0;
 	//	}
@@ -60,7 +62,6 @@ int main(void) {
 	alt_msgdma_init(&msgdma_dev, MSGDMA_0_CSR_IRQ_INTERRUPT_CONTROLLER_ID,
 	MSGDMA_0_CSR_IRQ);
 
-
 	alt_ic_isr_register(VGA_MODULE_0_IRQ_INTERRUPT_CONTROLLER_ID,
 	VGA_MODULE_0_IRQ, (void*) irq_vsync, 0, 0);
 
@@ -72,24 +73,36 @@ int main(void) {
 //	for(ki = 0; ki < 640*480*3; ki++){
 //		IOWR(HPS_0_BRIDGES_BASE, 4*ki, 0x00);
 //	}
+	DMA_Read_status(DMA_READ_0_BASE);
 
-	alt_u32 test[1024];
-	for(ki = 0; ki < 1024; ki++){
-		test[ki] = 0xFF000000;
+	alt_u32 test[64];
+	for (ki = 0; ki < 32; ki++) {
+		test[ki] = (0x1 << ki);
 	}
 
-	// (480pixel*3byte)/4 get # of words to be transfered per line
-	DMA_Read_configureDMA(0x10000820, (alt_u32) test, (alt_u32) test, (640*480*3) / 4);
-	IOWR_32DIRECT(0x10000820, DMA_READ_CONSTANT_REG, 0x00FF00FF);
-	DMA_Read_setFlags(0x10000820, DMA_READ_BIT_START | DMA_READ_BIT_CONTINUE);
+	for (ki = 32; ki < 64; ki++) {
+		test[ki] = 0;
+	}
+
+	// (640pixel*4byte)/4 get # of words to be transfered per line
+	DMA_Read_configureDMA(DMA_READ_0_BASE, (alt_u32) HPS_0_BRIDGES_BASE, (alt_u32) HPS_0_BRIDGES_BASE, 640);
+
+	IOWR_32DIRECT(DMA_READ_0_BASE, DMA_READ_CONSTANT_REG, 0xFF);
+
+	//DMA_Read_setFlags(DMA_READ_0_BASE, 0b01000100);
+	DMA_Read_setFlags(DMA_READ_0_BASE, DMA_READ_BIT_START | DMA_READ_BIT_CONTINUE);
+	DMA_Read_status(DMA_READ_0_BASE);
 
 	volatile int kk = 0;
 	//msgdma_transfer(&msgdma_dev, msgdma_desc, descriptor_number);
 	while (1) {
 		alt_printf("Next: 0x%x,\n", vsync);
 		//usleep(100000);
-		for(kk = 0; kk < 10000000; kk++){
+		for (kk = 0; kk < 10000000; kk++) {
 		}
+
+		DMA_Read_status(DMA_READ_0_BASE);
+
 	}
 
 	return 0;

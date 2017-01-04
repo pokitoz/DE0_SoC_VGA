@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_qsys_0' in SOPC Builder design 'system'
  * SOPC Builder design path: /home/pokitoz/Dropbox/DE0_SoC_VGA/hw/quartus/system.sopcinfo
  *
- * Generated: Sun Jan 01 14:42:57 CET 2017
+ * Generated: Wed Jan 04 19:27:46 CET 2017
  */
 
 /*
@@ -66,7 +66,7 @@
  */
 
 #define ONCHIP_MEMORY2_0_REGION_BASE 0x10100020
-#define ONCHIP_MEMORY2_0_REGION_SPAN 16352
+#define ONCHIP_MEMORY2_0_REGION_SPAN 131040
 #define RESET_REGION_BASE 0x10100000
 #define RESET_REGION_SPAN 32
 

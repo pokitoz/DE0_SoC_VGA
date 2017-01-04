@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="system" kind="system" version="1.0" fabric="QSYS">
  <!-- Format version 15.1 185 (Future versions may contain additional information.) -->
- <!-- 2017.01.02.15:00:53 -->
+ <!-- 2017.01.04.18:23:23 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1483365651</value>
+  <value>1483550602</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -1007,7 +1007,7 @@ parameters are a RESULT of the module parameters. -->
     <slaveName>s1</slaveName>
     <name>onchip_memory2_0.s1</name>
     <baseAddress>269484032</baseAddress>
-    <span>16384</span>
+    <span>131072</span>
    </memoryBlock>
    <memoryBlock>
     <isBridge>true</isBridge>
@@ -1852,7 +1852,7 @@ parameters are a RESULT of the module parameters. -->
 the requested settings for a module instance. -->
   <assignment>
    <name>embeddedsw.CMacro.BURSTCOUNT_WIDTH</name>
-   <value>1</value>
+   <value>8</value>
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.BYTEENABLE_WIDTH</name>
@@ -1872,11 +1872,11 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.MAX_BURST_BYTES</name>
-   <value>4</value>
+   <value>512</value>
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.MAX_BURST_WORDS</name>
-   <value>1</value>
+   <value>128</value>
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.SLAVE_ADDRESS_SHIFT</name>
@@ -1956,7 +1956,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="BURSTCOUNT_WIDTH">
    <type>int</type>
-   <value>1</value>
+   <value>8</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -1964,7 +1964,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="MAX_BURST_WORDS">
    <type>int</type>
-   <value>1</value>
+   <value>128</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -1972,7 +1972,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="MAX_BURST_BYTES">
    <type>int</type>
-   <value>4</value>
+   <value>512</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -1996,7 +1996,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="MASTER_ADDRESS_DEF">
    <type>java.math.BigInteger</type>
-   <value>0</value>
+   <value>805306368</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -2218,7 +2218,7 @@ parameters are a RESULT of the module parameters. -->
    </parameter>
    <parameter name="bridgedAddressOffset">
     <type>java.math.BigInteger</type>
-    <value>0</value>
+    <value>805306368</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>false</visible>
@@ -2517,7 +2517,7 @@ parameters are a RESULT of the module parameters. -->
    <port>
     <name>avs_s0_burstcount</name>
     <direction>Input</direction>
-    <width>1</width>
+    <width>8</width>
     <role>burstcount</role>
    </port>
   </interface>
@@ -2834,7 +2834,7 @@ parameters are a RESULT of the module parameters. -->
    <port>
     <name>avm_m0_burstcount</name>
     <direction>Output</direction>
-    <width>1</width>
+    <width>8</width>
     <role>burstcount</role>
    </port>
    <memoryBlock>
@@ -3230,7 +3230,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="FIFO_DEPTH">
    <type>int</type>
-   <value>8192</value>
+   <value>16384</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -75941,7 +75941,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="AUTO_MM_READ_ADDRESS_MAP">
    <type>com.altera.entityinterfaces.moduleext.AddressMap</type>
-   <value><![CDATA[<address-map><slave name='hps_0_bridges.f2h_sdram0_data' start='0x0' end='0x40000' /><slave name='onchip_memory2_0.s1' start='0x10100000' end='0x10104000' /></address-map>]]></value>
+   <value><![CDATA[<address-map><slave name='hps_0_bridges.f2h_sdram0_data' start='0x0' end='0x40000' /><slave name='onchip_memory2_0.s1' start='0x10100000' end='0x10120000' /></address-map>]]></value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -76346,7 +76346,7 @@ parameters are a RESULT of the module parameters. -->
     <slaveName>s1</slaveName>
     <name>onchip_memory2_0.s1</name>
     <baseAddress>269484032</baseAddress>
-    <span>16384</span>
+    <span>131072</span>
    </memoryBlock>
    <memoryBlock>
     <isBridge>true</isBridge>
@@ -78573,7 +78573,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="instSlaveMapParam">
    <type>java.lang.String</type>
-   <value><![CDATA[<address-map><slave name='jtag_uart_0.avalon_jtag_slave' start='0x10000800' end='0x10000808' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x10001800' end='0x10002000' /><slave name='onchip_memory2_0.s1' start='0x10100000' end='0x10104000' /></address-map>]]></value>
+   <value><![CDATA[<address-map><slave name='jtag_uart_0.avalon_jtag_slave' start='0x10000800' end='0x10000808' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x10001800' end='0x10002000' /><slave name='onchip_memory2_0.s1' start='0x10100000' end='0x10120000' /></address-map>]]></value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -78583,7 +78583,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="dataSlaveMapParam">
    <type>java.lang.String</type>
-   <value><![CDATA[<address-map><slave name='hps_0_bridges.f2h_sdram0_data' start='0x0' end='0x40000' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x10000800' end='0x10000808' /><slave name='msgdma_0.descriptor_slave' start='0x10000810' end='0x10000820' /><slave name='DMA_Read_0.as' start='0x10000820' end='0x10000840' /><slave name='VGA_module_0.vga_as' start='0x10000840' end='0x10000860' /><slave name='msgdma_0.csr' start='0x10000860' end='0x10000880' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x10001800' end='0x10002000' /><slave name='onchip_memory2_0.s1' start='0x10100000' end='0x10104000' /></address-map>]]></value>
+   <value><![CDATA[<address-map><slave name='hps_0_bridges.f2h_sdram0_data' start='0x0' end='0x40000' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x10000800' end='0x10000808' /><slave name='msgdma_0.descriptor_slave' start='0x10000810' end='0x10000820' /><slave name='DMA_Read_0.as' start='0x10000820' end='0x10000840' /><slave name='VGA_module_0.vga_as' start='0x10000840' end='0x10000860' /><slave name='msgdma_0.csr' start='0x10000860' end='0x10000880' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x10001800' end='0x10002000' /><slave name='onchip_memory2_0.s1' start='0x10100000' end='0x10120000' /></address-map>]]></value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -79213,7 +79213,7 @@ parameters are a RESULT of the module parameters. -->
     <slaveName>s1</slaveName>
     <name>onchip_memory2_0.s1</name>
     <baseAddress>269484032</baseAddress>
-    <span>16384</span>
+    <span>131072</span>
    </memoryBlock>
    <memoryBlock>
     <isBridge>false</isBridge>
@@ -79554,7 +79554,7 @@ parameters are a RESULT of the module parameters. -->
     <slaveName>s1</slaveName>
     <name>onchip_memory2_0.s1</name>
     <baseAddress>269484032</baseAddress>
-    <span>16384</span>
+    <span>131072</span>
    </memoryBlock>
   </interface>
   <interface name="d_irq" kind="interrupt_receiver" version="15.1">
@@ -80249,7 +80249,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.SIZE_VALUE</name>
-   <value>16384</value>
+   <value>131072</value>
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.WRITABLE</name>
@@ -80349,7 +80349,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="memorySize">
    <type>long</type>
-   <value>16384</value>
+   <value>131072</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -80480,7 +80480,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="derived_set_addr_width">
    <type>int</type>
-   <value>12</value>
+   <value>15</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -80609,7 +80609,7 @@ parameters are a RESULT of the module parameters. -->
    </parameter>
    <parameter name="addressSpan">
     <type>java.math.BigInteger</type>
-    <value>16384</value>
+    <value>131072</value>
     <derived>true</derived>
     <enabled>true</enabled>
     <visible>false</visible>
@@ -80697,7 +80697,7 @@ parameters are a RESULT of the module parameters. -->
    </parameter>
    <parameter name="explicitAddressSpan">
     <type>java.math.BigInteger</type>
-    <value>16384</value>
+    <value>131072</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>true</visible>
@@ -80908,7 +80908,7 @@ parameters are a RESULT of the module parameters. -->
    <port>
     <name>address</name>
     <direction>Input</direction>
-    <width>12</width>
+    <width>15</width>
     <role>address</role>
    </port>
    <port>
@@ -94421,6 +94421,33 @@ parameters are a RESULT of the module parameters. -->
   <endConnectionPoint>reset1</endConnectionPoint>
  </connection>
  <connection
+   name="nios2_qsys_0.jtag_debug_module_reset/dc_fifo_0.in_clk_reset"
+   kind="reset"
+   version="15.1"
+   start="nios2_qsys_0.jtag_debug_module_reset"
+   end="dc_fifo_0.in_clk_reset">
+  <parameter name="deviceFamily">
+   <type>java.lang.String</type>
+   <value>UNKNOWN</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="generateLegacySim">
+   <type>boolean</type>
+   <value>false</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <startModule>nios2_qsys_0</startModule>
+  <startConnectionPoint>jtag_debug_module_reset</startConnectionPoint>
+  <endModule>dc_fifo_0</endModule>
+  <endConnectionPoint>in_clk_reset</endConnectionPoint>
+ </connection>
+ <connection
    name="nios2_qsys_0.jtag_debug_module_reset/jtag_uart_0.reset"
    kind="reset"
    version="15.1"
@@ -94473,6 +94500,33 @@ parameters are a RESULT of the module parameters. -->
   <startConnectionPoint>jtag_debug_module_reset</startConnectionPoint>
   <endModule>nios2_qsys_0</endModule>
   <endConnectionPoint>reset_n</endConnectionPoint>
+ </connection>
+ <connection
+   name="nios2_qsys_0.jtag_debug_module_reset/VGA_module_0.vga_reset_sink"
+   kind="reset"
+   version="15.1"
+   start="nios2_qsys_0.jtag_debug_module_reset"
+   end="VGA_module_0.vga_reset_sink">
+  <parameter name="deviceFamily">
+   <type>java.lang.String</type>
+   <value>UNKNOWN</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="generateLegacySim">
+   <type>boolean</type>
+   <value>false</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <startModule>nios2_qsys_0</startModule>
+  <startConnectionPoint>jtag_debug_module_reset</startConnectionPoint>
+  <endModule>VGA_module_0</endModule>
+  <endConnectionPoint>vga_reset_sink</endConnectionPoint>
  </connection>
  <plugin>
   <instanceCount>1</instanceCount>
@@ -94963,7 +95017,7 @@ parameters are a RESULT of the module parameters. -->
   <version>15.1</version>
  </plugin>
  <plugin>
-  <instanceCount>54</instanceCount>
+  <instanceCount>56</instanceCount>
   <name>reset</name>
   <type>com.altera.entityinterfaces.IElementClass</type>
   <subtype>com.altera.entityinterfaces.IConnection</subtype>

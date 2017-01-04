@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_qsys_0' in SOPC Builder design 'system'
  * SOPC Builder design path: /home/pokitoz/Dropbox/DE0_SoC_VGA/hw/quartus/system.sopcinfo
  *
- * Generated: Sun Jan 01 20:19:08 CET 2017
+ * Generated: Wed Jan 04 19:27:46 CET 2017
  */
 
 /*
@@ -341,8 +341,8 @@
 #define ONCHIP_MEMORY2_0_READ_DURING_WRITE_MODE "DONT_CARE"
 #define ONCHIP_MEMORY2_0_SINGLE_CLOCK_OP 0
 #define ONCHIP_MEMORY2_0_SIZE_MULTIPLE 1
-#define ONCHIP_MEMORY2_0_SIZE_VALUE 16384
-#define ONCHIP_MEMORY2_0_SPAN 16384
+#define ONCHIP_MEMORY2_0_SIZE_VALUE 131072
+#define ONCHIP_MEMORY2_0_SPAN 131072
 #define ONCHIP_MEMORY2_0_TYPE "altera_avalon_onchip_memory2"
 #define ONCHIP_MEMORY2_0_WRITABLE 1
 

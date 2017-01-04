@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_qsys_0' in SOPC Builder design 'system'
  * SOPC Builder design path: /home/pokitoz/Dropbox/DE0_SoC_VGA/hw/quartus/system.sopcinfo
  *
- * Generated: Sun Jan 01 14:42:57 CET 2017
+ * Generated: Wed Jan 04 19:27:46 CET 2017
  */
 
 /*
@@ -51,7 +51,7 @@
 MEMORY
 {
     reset : ORIGIN = 0x10100000, LENGTH = 32
-    onchip_memory2_0 : ORIGIN = 0x10100020, LENGTH = 16352
+    onchip_memory2_0 : ORIGIN = 0x10100020, LENGTH = 131040
 }
 
 /* Define symbols for each memory base-address */
@@ -367,7 +367,7 @@ SECTIONS
 /*
  * Don't override this, override the __alt_stack_* symbols instead.
  */
-__alt_data_end = 0x10104000;
+__alt_data_end = 0x10120000;
 
 /*
  * The next two symbols define the location of the default stack.  You can
@@ -383,4 +383,4 @@ PROVIDE( __alt_stack_limit   = __alt_stack_base );
  * Override this symbol to put the heap in a different memory.
  */
 PROVIDE( __alt_heap_start    = end );
-PROVIDE( __alt_heap_limit    = 0x10104000 );
+PROVIDE( __alt_heap_limit    = 0x10120000 );
